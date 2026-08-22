@@ -1,12 +1,15 @@
+@import url("https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400..900;1,400..900&family=Public+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap");
+
 @import "tailwindcss";
 
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap");
-
 @theme {
-  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+  --font-sans: "Public Sans", system-ui, -apple-system, sans-serif;
+  --font-serif: "Alegreya", "Iowan Old Style", serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
   --color-penke-blue:      #2563EB;
   --color-penke-blue-dark: #1D4ED8;
   --color-penke-teal:      #0E8F79;
+  --color-penke-teal-dark: #0B6F5E;
   --color-penke-dark:      #0F172A;
   --color-penke-dark-2:    #1E293B;
 }
@@ -31,26 +34,112 @@ body {
 .penke-light-50 { color: #F1F5F9; }
 .penke-light-10 { color: #E2E8F0; }
 
-/* Window Frame Style for Desktop App Screenshots */
-.desktop-window {
-  border-radius: 12px;
+/* ── Certificate frame: replaces generic OS-window chrome ─────────────── */
+.cert-frame {
+  position: relative;
+  border-radius: 4px;
   overflow: hidden;
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.15), 0 10px 20px -5px rgba(0, 0, 0, 0.08);
   background: #ffffff;
+  border: 1px solid rgba(15, 23, 42, 0.14);
+  box-shadow: 0 30px 60px -20px rgba(15, 23, 42, 0.35), 0 0 0 5px rgba(15, 23, 42, 0.04);
+}
+.cert-frame::before {
+  content: "";
+  position: absolute;
+  inset: 7px;
+  border: 1px solid rgba(14, 143, 121, 0.45);
+  pointer-events: none;
+  z-index: 20;
+}
+.cert-frame-dark {
+  position: relative;
+  border-radius: 4px;
+  overflow: hidden;
+  background: var(--color-penke-dark);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: 0 30px 70px -20px rgba(15, 23, 42, 0.65);
+}
+.cert-frame-dark::before {
+  content: "";
+  position: absolute;
+  inset: 7px;
+  border: 1px solid rgba(14, 143, 121, 0.5);
+  pointer-events: none;
+  z-index: 20;
+}
+.corner-mark {
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  color: var(--color-penke-teal);
+  z-index: 21;
+  opacity: 0.85;
+}
+.corner-mark.tl { top: 12px; left: 12px; }
+.corner-mark.tr { top: 12px; right: 12px; transform: scaleX(-1); }
+.corner-mark.bl { bottom: 12px; left: 12px; transform: scaleY(-1); }
+.corner-mark.br { bottom: 12px; right: 12px; transform: scale(-1, -1); }
+
+/* ── Security ribbon: single authored corner accent, hero only ────────── */
+.security-ribbon {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 190px;
+  height: 190px;
+  overflow: hidden;
+  pointer-events: none;
+}
+.security-ribbon::before,
+.security-ribbon::after {
+  content: "";
+  position: absolute;
+  top: 26px;
+  right: -84px;
+  width: 280px;
+  height: 30px;
+  transform: rotate(45deg);
+}
+.security-ribbon::before {
+  background: var(--color-penke-teal);
+}
+.security-ribbon::after {
+  background: repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.4) 0 2px, transparent 2px 13px);
 }
 
-.desktop-window-dark {
-  border-radius: 12px;
+/* ── Guilloché engraved-line texture, used once as hero/CTA ground ────── */
+.guilloche-ground {
+  position: absolute;
+  inset: 0;
   overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.6);
-  background: #0F172A;
+  pointer-events: none;
+}
+
+/* ── Ledger-tab controls (capturas section) ────────────────────────────── */
+.ledger-tab {
+  font-family: var(--font-sans);
+  letter-spacing: 0.06em;
+  border-bottom: 2px solid transparent;
+  color: #94a3b8;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+.ledger-tab[aria-selected="true"] {
+  color: #ffffff;
+  border-bottom-color: var(--color-penke-teal);
+}
+
+/* ── Clause numeral: ghost figure marking each numbered item ──────────── */
+.clause-numeral {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  color: var(--color-penke-blue);
+  opacity: 0.35;
+  line-height: 1;
 }
 
 /* Focus ring for accessibility */
 .focus-visible {
-  outline: 2px solid var(--color-penke-blue);
+  outline: 2px solid var(--color-penke-teal);
   outline-offset: 2px;
 }
 
@@ -88,9 +177,17 @@ body {
   transform: translateY(0);
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
 /* Focus states for interactive elements */
 .btn:focus-visible, a:focus-visible, button:focus-visible {
-  outline: 2px solid var(--color-penke-blue);
+  outline: 2px solid var(--color-penke-teal);
   outline-offset: 2px;
 }
 
