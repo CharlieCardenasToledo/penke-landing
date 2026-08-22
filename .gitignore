@@ -1,0 +1,28 @@
+# Dependencies
+node_modules
+
+# Build output
+dist
+.astro
+
+# Logs
+*.log
+npm-debug.log*
+
+# Local tool caches (auto-provisioned per-AI-tool copies of the impeccable skill)
+.agent/
+.agents/
+.codex/
+.gemini/
+.opencode/
+.rtfm/
+
+# Local-machine-only Impeccable state (absolute paths, session cache, consent flag)
+.impeccable/config.local.json
+.impeccable/hook.cache.json
+
+# Editor
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store

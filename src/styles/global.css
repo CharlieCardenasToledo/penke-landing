@@ -1,0 +1,111 @@
+@import "tailwindcss";
+
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap");
+
+@theme {
+  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+  --color-penke-blue:      #2563EB;
+  --color-penke-blue-dark: #1D4ED8;
+  --color-penke-teal:      #0E8F79;
+  --color-penke-dark:      #0F172A;
+  --color-penke-dark-2:    #1E293B;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: #ffffff;
+  color: var(--color-penke-dark);
+}
+
+/* Primary color utilities from project tokens */
+.penke-blue { color: var(--color-penke-blue); }
+.penke-blue-dark { color: var(--color-penke-blue-dark); }
+.penke-teal { color: var(--color-penke-teal); }
+.penke-dark { color: var(--color-penke-dark); }
+.penke-light-100 { color: #F8FAFC; }
+.penke-light-50 { color: #F1F5F9; }
+.penke-light-10 { color: #E2E8F0; }
+
+/* Window Frame Style for Desktop App Screenshots */
+.desktop-window {
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.15), 0 10px 20px -5px rgba(0, 0, 0, 0.08);
+  background: #ffffff;
+}
+
+.desktop-window-dark {
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.6);
+  background: #0F172A;
+}
+
+/* Focus ring for accessibility */
+.focus-visible {
+  outline: 2px solid var(--color-penke-blue);
+  outline-offset: 2px;
+}
+
+/* Skip link for keyboard navigation */
+.skip-link {
+  position: absolute;
+  left: -999px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  transition: none;
+}
+
+.skip-link:focus {
+  position: absolute;
+  left: 1rem;
+  top: 1rem;
+  width: auto;
+  height: auto;
+  padding: 0.5rem 1rem;
+  background: var(--color-penke-blue);
+  color: #ffffff;
+  z-index: 100;
+}
+
+/* Scroll reveal class */
+.reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Focus states for interactive elements */
+.btn:focus-visible, a:focus-visible, button:focus-visible {
+  outline: 2px solid var(--color-penke-blue);
+  outline-offset: 2px;
+}
+
+/* Disabled state */
+button:disabled, [role="button"]:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Input styles */
+.input-field {
+  @apply w-full px-3 py-2 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-penke-blue focus:border-transparent transition-colors;
+}
+
+/* Badge style */
+.badge {
+  @apply inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold;
+}

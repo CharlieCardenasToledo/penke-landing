@@ -1,0 +1,23 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "gray-on-color",
+        "value": "*",
+        "files": [
+          "src/pages/index.astro"
+        ],
+        "createdAt": "2026-08-22T22:15:59.307Z",
+        "reason": "false positive confirmed: linea 78 es text-slate-900 (base body, sobre bg-white) junto a selection:bg-blue-100/selection:text-blue-900 (par oscuro-sobre-claro de alto contraste que solo aplica al seleccionar texto); el scanner los empareja por adyacencia en el string de clases, no porque se rendericen juntos"
+      },
+      {
+        "rule": "overused-font",
+        "value": "inter",
+        "createdAt": "2026-08-22T22:18:55.143Z",
+        "reason": "Inter ya era la tipografia de marca de Penke antes de esta sesion (PRODUCT.md/global.css); no se pidio cambiar la fuente en este alcance de trabajo, es una eleccion de marca intencional de un solo tipo de letra, no un descuido"
+      }
+    ]
+  }
+}
