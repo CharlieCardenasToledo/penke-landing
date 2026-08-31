@@ -54,6 +54,10 @@ const bentoFeatures = [
 
 const faqs = [
   {
+    q: "¿Penké es lo mismo que la firma electrónica (FirmaEC) del MINTEL?",
+    a: "No exactamente. Penké es una aplicación independiente que usa por dentro la librería oficial FirmaDigital del MINTEL para el proceso criptográfico, pero con una interfaz más simple y sin pasos técnicos aparte. Tu certificado de firma electrónica ecuatoriana (.p12 o Token USB) funciona igual que en la app oficial — Penké solo cambia cómo se usa, no quién lo emite ni lo valida."
+  },
+  {
     q: "¿Por qué no tengo que instalar Java por mi cuenta?",
     a: "Penké ya trae todo lo que necesita incluido. Descargas un solo instalador, lo abres, y queda listo para firmar — sin pasos adicionales ni programas sueltos que buscar."
   },
@@ -80,14 +84,21 @@ const faqs = [
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Penké — Firma digital de PDFs en Ecuador sin complicaciones</title>
-  <meta name="description" content="Aplicación de escritorio gratuita para firmar, verificar y validar PDFs con tu certificado digital ecuatoriano (.p12 o Token USB). Sin pasos técnicos ni programas adicionales. 100% gratuita y de código abierto." />
-  <meta property="og:title" content="Penké — Firma digital de PDFs en Ecuador sin complicaciones" />
-  <meta property="og:description" content="Adiós a las instalaciones complicadas. Firma documentos PDF con tu certificado digital ecuatoriano en segundos." />
-  <meta property="og:image" content="/screenshots/home.jpg" />
+  <title>Penké — Firma electrónica y digital de PDF en Ecuador, gratis</title>
+  <meta name="description" content="Descarga Penké gratis: firma electrónica y digital de documentos PDF en Ecuador con tu certificado (.p12 o Token USB). Verifica firmas y valida certificados sin instalar Java. 100% gratuita y de código abierto." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://penke.ec/" />
+  <meta property="og:title" content="Penké — Firma electrónica y digital de PDF en Ecuador, gratis" />
+  <meta property="og:description" content="Adiós a las instalaciones complicadas. Firma, verifica y valida PDFs con tu certificado digital o firma electrónica ecuatoriana en segundos." />
+  <meta property="og:image" content="https://penke.ec/screenshots/home.jpg" />
+  <meta property="og:url" content="https://penke.ec/" />
+  <meta property="og:site_name" content="Penké" />
   <meta property="og:type" content="website" />
   <meta property="og:locale" content="es_EC" />
   <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Penké — Firma electrónica y digital de PDF en Ecuador, gratis" />
+  <meta name="twitter:description" content="Firma, verifica y valida PDFs con tu certificado digital ecuatoriano. Gratis, local y de código abierto." />
+  <meta name="twitter:image" content="https://penke.ec/screenshots/home.jpg" />
   <meta name="theme-color" content="#0F172A" />
   <meta name="author" content="Charlie Cárdenas Toledo" />
   <link rel="icon" type="image/png" href="/brand/penke-app-icon.png" />
@@ -95,13 +106,29 @@ const faqs = [
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
     name: "Penké",
+    alternateName: ["Firma electrónica Ecuador", "Firma digital PDF Ecuador"],
+    url: "https://penke.ec/",
+    image: "https://penke.ec/screenshots/home.jpg",
     applicationCategory: "BusinessApplication",
+    applicationSubCategory: "Firma electrónica y digital de documentos",
     operatingSystem: "Windows",
-    description: "Aplicación gratuita y de código abierto para firmar, verificar y validar PDFs con certificados digitales ecuatorianos.",
+    inLanguage: "es-EC",
+    description: "Aplicación gratuita y de código abierto para firmar electrónicamente, verificar y validar PDFs con certificados digitales ecuatorianos (.p12 o Token USB).",
+    keywords: "firma electrónica Ecuador, firma digital Ecuador, descargar firma electrónica, firmar PDF Ecuador, certificado digital Ecuador, Token USB firma, FirmaEC",
     offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
     downloadUrl: "https://github.com/CharlieCardenasToledo/penke-ec/releases",
     softwareHelp: "https://github.com/CharlieCardenasToledo/penke-ec",
+    author: { "@type": "Person", name: "Charlie Cárdenas Toledo" },
     license: "https://opensource.org/license/mit/"
+  })}></script>
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map((f) => ({
+      "@type": "Question",
+      name: f.q,
+      acceptedAnswer: { "@type": "Answer", text: f.a },
+    })),
   })}></script>
   <noscript>
     <style>.reveal { opacity: 1 !important; transform: none !important; }</style>
@@ -540,11 +567,13 @@ const faqs = [
       <div class="reveal">
         {faqs.map((item, i) => (
           <div class="faq-item border-b border-slate-200">
-            <button id={`faq-button-${i}`} aria-expanded="false" aria-controls={`faq-answer-${i}`} class="faq-btn w-full flex items-start gap-4 py-5 text-left font-bold text-slate-900 hover:text-penke-teal transition-colors text-sm cursor-pointer">
-              <span class="clause-numeral text-2xl select-none shrink-0">{`0${i + 1}`}</span>
-              <span class="flex-1 pt-1">{item.q}</span>
-              <span class="faq-icon text-slate-400 text-lg font-light shrink-0">+</span>
-            </button>
+            <h3 class="contents">
+              <button id={`faq-button-${i}`} aria-expanded="false" aria-controls={`faq-answer-${i}`} class="faq-btn w-full flex items-start gap-4 py-5 text-left font-bold text-slate-900 hover:text-penke-teal transition-colors text-sm cursor-pointer">
+                <span class="clause-numeral text-2xl select-none shrink-0">{`0${i + 1}`}</span>
+                <span class="flex-1 pt-1">{item.q}</span>
+                <span class="faq-icon text-slate-400 text-lg font-light shrink-0">+</span>
+              </button>
+            </h3>
             <div id={`faq-answer-${i}`} role="region" aria-labelledby={`faq-button-${i}`} class="faq-answer overflow-hidden max-h-0 transition-all duration-300 pl-10">
               <p class="pb-5 text-xs sm:text-sm text-slate-600 leading-relaxed max-w-[68ch]">{item.a}</p>
             </div>
