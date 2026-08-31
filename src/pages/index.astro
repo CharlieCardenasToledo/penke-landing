@@ -1,12 +1,29 @@
 ---
 import "../styles/global.css";
 
+// Iconos lucide reales (mismos que Sidebar.tsx / FirmarPage.tsx / VerificarPage.tsx /
+// ValidarPage.tsx) — usados dentro de los mocks de pantalla, nunca glifos Unicode.
+const svgAttrs = 'xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"';
+const iconHome = `<svg ${svgAttrs}><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>`;
+const iconPenLine = `<svg ${svgAttrs}><path d="M12 20h9"/><path d="M16.376 3.622a1 1 0 0 1 3.002 3.002L7.368 18.635a2 2 0 0 1-.855.506l-2.872.838a.5.5 0 0 1-.62-.62l.838-2.872a2 2 0 0 1 .506-.854z"/></svg>`;
+const iconShieldCheck = `<svg ${svgAttrs}><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>`;
+const iconBadgeCheck = `<svg ${svgAttrs}><path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"/><path d="m9 12 2 2 4-4"/></svg>`;
+const iconKeyRound = `<svg ${svgAttrs}><path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z"/><circle cx="16.5" cy="7.5" r=".5" fill="currentColor"/></svg>`;
+const iconUpload = (size: number) => `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m17 8-5-5-5 5"/><path d="M5 21h14a2 2 0 0 0 2-2v-2a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v2a2 2 0 0 0 2 2z"/></svg>`;
+const iconFileText = (size: number) => `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></svg>`;
+const iconCursor = `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"><path d="m4 4 7.07 17 2.51-7.39L21 11.07z" fill="#1e293b" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+const iconFolder = (size: number) => `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg>`;
+const iconCheckCircle2 = (size: number) => `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.801 10A10 10 0 1 1 17 3.335"/><path d="m9 11 3 3L22 4"/></svg>`;
+const iconShieldCheckSized = (size: number) => `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>`;
+const iconShieldAlert = (size: number) => `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg>`;
+const iconShieldX = (size: number) => `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m14.5 9-5 5"/><path d="m9.5 9 5 5"/></svg>`;
+const iconHelpCircle = (size: number) => `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>`;
+
 const bentoFeatures = [
   {
     num: "01",
-    title: "Arrastra el PDF, coloca tu firma y firma",
-    desc: "Sin repetir tu certificado cada vez que abres la app ni navegar carpeta por carpeta buscando el archivo. Tu perfil de firma queda guardado — arrastra el PDF desde donde esté y listo.",
-    image: "/screenshots/home.jpg",
+    title: "Tu perfil de firma queda guardado",
+    desc: "Sin repetir tu certificado cada vez que abres la app ni navegar carpeta por carpeta buscando el archivo. Arrastra el PDF desde donde esté y listo.",
     colSpan: "md:col-span-2",
   },
   {
@@ -18,7 +35,7 @@ const bentoFeatures = [
   {
     num: "03",
     title: "Soporte Token USB",
-    desc: "Conecta tu token físico de firma (Security Data, BCE, Consejo de la Judicatura, ANF) y Penké lo reconoce solo, sin drivers adicionales.",
+    desc: "Conecta tu token físico de firma (Security Data, BCE, Consejo de la Judicatura, ANF) y Penké lo detecta. Solo necesitas el driver oficial de tu proveedor.",
     colSpan: "md:col-span-1",
   },
   {
@@ -42,11 +59,11 @@ const faqs = [
   },
   {
     q: "¿Es compatible con mis certificados de Banco Central, Judicatura o Security Data?",
-    a: "Sí. Penké reconoce automáticamente los certificados emitidos por las entidades acreditadas en Ecuador y confirma que sigan vigentes antes de dejarte firmar."
+    a: "Sí. Penké reconoce certificados emitidos por entidades acreditadas en Ecuador y comprueba su vigencia antes de firmar. Para tokens USB, debes tener instalado el driver oficial de tu proveedor."
   },
   {
     q: "¿Mis documentos o mi contraseña se envían a algún servidor?",
-    a: "Absolutamente no. Todo el proceso de firma, validación y verificación ocurre dentro de tu computadora. Ningún PDF ni tu clave privada (.p12) sale de tu equipo."
+    a: "Tus PDFs, tu certificado y tu clave privada permanecen en tu computadora. La aplicación puede consultar servicios oficiales para comprobar el estado de revocación o vigencia del certificado, pero nunca envía tu documento ni tu clave privada."
   },
   {
     q: "¿Tiene algún costo o límite de uso?",
@@ -54,7 +71,7 @@ const faqs = [
   },
   {
     q: "¿Cómo revisa Penké que mi certificado sea válido?",
-    a: "Penké confirma que tu certificado esté vigente, que te pertenezca a ti (o a tu empresa) y que la entidad que lo emitió esté acreditada en Ecuador — todo antes de dejarte firmar."
+    a: "Penké revisa la vigencia, la identidad del titular y la entidad emisora. Cuando corresponde, consulta el estado de revocación del certificado antes de dejarte firmar."
   }
 ];
 ---
@@ -68,34 +85,29 @@ const faqs = [
   <meta property="og:title" content="Penké — Firma digital de PDFs en Ecuador sin complicaciones" />
   <meta property="og:description" content="Adiós a las instalaciones complicadas. Firma documentos PDF con tu certificado digital ecuatoriano en segundos." />
   <meta property="og:image" content="/screenshots/home.jpg" />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="es_EC" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#0F172A" />
+  <meta name="author" content="Charlie Cárdenas Toledo" />
   <link rel="icon" type="image/png" href="/brand/penke-app-icon.png" />
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    name: "Penké",
+    applicationCategory: "BusinessApplication",
+    operatingSystem: "Windows",
+    description: "Aplicación gratuita y de código abierto para firmar, verificar y validar PDFs con certificados digitales ecuatorianos.",
+    offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+    downloadUrl: "https://github.com/CharlieCardenasToledo/penke-ec/releases",
+    softwareHelp: "https://github.com/CharlieCardenasToledo/penke-ec",
+    license: "https://opensource.org/license/mit/"
+  })}></script>
   <noscript>
     <style>.reveal { opacity: 1 !important; transform: none !important; }</style>
   </noscript>
 </head>
 <body class="bg-white text-slate-900 antialiased selection:bg-blue-100 selection:text-blue-900">
-<!--
-THESIS: Firmar con Penké se siente como recibir un certificado real, no
-como llenar un formulario web — la página misma es el documento.
-OWN-WORLD: grabado tipo guilloché en teal sobre campos sólidos de azul
-marino (nunca papel/crema), sello circular con el isotipo, marcas de
-registro de imprenta en las esquinas de cada marco, serif Alegreya para
-titulares, Public Sans para cuerpo, JetBrains Mono para datos verificables.
-STORY: un profesional ecuatoriano cansado de recargar su certificado y
-buscar PDFs carpeta por carpeta en la app oficial ve que Penké tiene el
-peso de algo oficial, entiende que solo debe arrastrar y firmar, y
-descarga sin dudar.
-FIRST VIEWPORT: campo azul marino a pantalla completa, sello centrado
-sobre el titular en Alegreya que demuestra el mecanismo (arrastrar,
-colocar firma, firmar), cinta de seguridad teal en la esquina superior
-derecha, CTA teal, mockup en marco de certificado debajo.
-FORM: Certificado de autenticidad — candidato 3 de la lista propia,
-seed key c4864dca; raise donado por el especimen tipográfico (jerarquía
-por escala) y por el título Saul Bass (campos de color comprometidos).
-FINISH: unreviewed and undocumented is unfinished; this build ends with
-the finish review, the verdict, DESIGN.md, and every shipping raster
-carrying its provenance.
--->
 
   <!-- Reusable SVG defs: guilloché engraving pattern + seal emblem -->
   <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -123,27 +135,27 @@ carrying its provenance.
   <!-- ═══════════════════════════════ HEADER ═══════════════════════════════ -->
   <header id="navbar" class="fixed top-0 left-0 right-0 z-50 border-b border-transparent transition-all duration-200">
     <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between gap-6">
-      <a href="#" class="flex items-center gap-2.5 font-bold text-slate-900 group">
+      <a href="#" class="flex items-center gap-2.5 font-bold group">
         <div class="w-8 h-8 rounded-full bg-penke-dark flex items-center justify-center text-white shadow-md shadow-slate-900/20 group-hover:scale-105 transition-transform">
           <svg width="18" height="18" viewBox="0 0 512 512" fill="none" stroke-linecap="round" stroke-linejoin="round">
             <path d="M142 430V128C142 84 172 58 222 58H260C348 58 402 105 402 176C402 248 347 294 260 294H142V430C190 408 232 398 272 402C307 406 335 421 362 447" stroke="white" stroke-width="44"/>
             <path d="M318 186L350 218L418 142" stroke="#0E8F79" stroke-width="38"/>
           </svg>
         </div>
-        <span class="font-serif text-xl tracking-tight">Penké</span>
-        <span class="text-[10px] font-semibold text-slate-600 bg-slate-100 px-2 py-0.5 rounded-full border border-slate-200 uppercase tracking-wider">Open Source</span>
+        <span id="navbar-wordmark" class="font-serif text-xl tracking-tight">Penké</span>
+        <span class="text-[10px] font-semibold text-slate-700 bg-slate-100 px-2 py-0.5 rounded-full border border-slate-200 uppercase tracking-wider">Open Source</span>
       </a>
 
-      <nav class="hidden md:flex items-center gap-6 text-[13px] font-semibold text-slate-600 uppercase tracking-wide">
-        <a href="#caracteristicas" class="hover:text-slate-900 transition-colors">Funciones</a>
-        <a href="#capturas" class="hover:text-slate-900 transition-colors">Vista previa</a>
-        <a href="#arquitectura" class="hover:text-slate-900 transition-colors">Privacidad</a>
-        <a href="#faq" class="hover:text-slate-900 transition-colors">FAQ</a>
+      <nav class="hidden md:flex items-center gap-6 text-[13px] font-semibold uppercase tracking-wide">
+        <a href="#caracteristicas" class="navbar-link transition-colors">Funciones</a>
+        <a href="#capturas" class="navbar-link transition-colors">Vista previa</a>
+        <a href="#arquitectura" class="navbar-link transition-colors">Privacidad</a>
+        <a href="#faq" class="navbar-link transition-colors">FAQ</a>
       </nav>
 
       <div class="flex items-center gap-2">
-        <a href="https://github.com/CharlieCardenasToledo/penke-ec" target="_blank" rel="noopener"
-          class="hidden sm:inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-slate-200 text-slate-700 text-xs font-semibold hover:bg-slate-50 transition-colors">
+        <a href="https://github.com/CharlieCardenasToledo/penke-ec" target="_blank" rel="noopener noreferrer"
+          class="navbar-ghost-btn hidden sm:inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border text-xs font-semibold transition-colors">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
             <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
           </svg>
@@ -154,7 +166,7 @@ carrying its provenance.
           Obtener Penké
         </a>
         <button id="mobile-menu-btn" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="mobile-menu"
-          class="md:hidden inline-flex items-center justify-center w-11 h-11 -mr-1 rounded-lg text-slate-600 hover:bg-slate-100 transition-colors">
+          class="navbar-menu-btn md:hidden inline-flex items-center justify-center w-11 h-11 -mr-1 rounded-lg hover:bg-white/10 transition-colors">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
             <line x1="4" y1="7" x2="20" y2="7"/>
             <line x1="4" y1="12" x2="20" y2="12"/>
@@ -175,6 +187,8 @@ carrying its provenance.
   </header>
 
   <!-- ═══════════════════════════════ HERO ════════════════════════════════ -->
+  <a class="skip-link" href="#contenido">Saltar al contenido</a>
+  <main id="contenido">
   <section class="relative pt-32 pb-20 md:pt-40 md:pb-28 bg-penke-dark text-white overflow-hidden">
     <div class="guilloche-ground text-penke-teal">
       <svg width="100%" height="100%"><rect width="100%" height="100%" fill="url(#guilloche)"/></svg>
@@ -205,7 +219,7 @@ carrying its provenance.
             </svg>
             Descargar Penké gratis
           </a>
-          <p class="text-xs text-slate-400 font-medium">Disponible para Windows. macOS y Linux, muy pronto.</p>
+          <p class="text-xs text-slate-400 font-medium">Disponible para Windows — macOS y Linux, muy pronto.</p>
         </div>
 
         <div class="pt-4 border-t border-white/10 max-w-lg mx-auto flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-[11px] text-slate-400 font-semibold uppercase tracking-wide">
@@ -214,11 +228,11 @@ carrying its provenance.
           <span>•</span>
           <span class="text-slate-200">Security Data</span>
           <span>•</span>
-          <span class="text-slate-200">Consejo Judicatura</span>
+          <span class="text-slate-200">Consejo de la Judicatura</span>
         </div>
       </div>
 
-      <!-- DESKTOP SCREENSHOT — certificate-frame mockup -->
+      <!-- INTERACTIVE PRODUCT MOCKUP -->
       <div class="mt-14 max-w-5xl mx-auto reveal">
         <div class="cert-frame-dark">
           <svg class="corner-mark tl" viewBox="0 0 20 20" aria-hidden="true"><path d="M2 10H8M10 2V8" stroke="currentColor" stroke-width="1.4" fill="none"/><circle cx="10" cy="10" r="2.6" fill="none" stroke="currentColor" stroke-width="1"/></svg>
@@ -227,10 +241,28 @@ carrying its provenance.
           <svg class="corner-mark br" viewBox="0 0 20 20" aria-hidden="true"><path d="M2 10H8M10 2V8" stroke="currentColor" stroke-width="1.4" fill="none"/><circle cx="10" cy="10" r="2.6" fill="none" stroke="currentColor" stroke-width="1"/></svg>
           <div class="bg-slate-950 px-5 py-2.5 border-b border-white/10 flex items-center justify-between select-none">
             <span class="font-serif text-xs tracking-[0.15em] text-slate-300 uppercase">Penké</span>
-            <span class="font-mono text-[10px] text-slate-500 tracking-wide">100% local</span>
+            <span class="font-mono text-[10px] text-penke-teal tracking-wide">perfil listo · local</span>
           </div>
-          <div class="aspect-[1376/768] overflow-hidden">
-            <img src="/screenshots/home.jpg" alt="Interfaz principal de Penké" class="w-full h-full object-cover object-top" loading="eager" />
+          <div class="app-mock-window" aria-label="Réplica visual de la pantalla Inicio de Penké">
+            <aside class="app-mock-sidebar">
+              <div class="app-mock-brand"><img src="/brand/penke-imagotipo-white.svg" alt="Penké" /><small>v1.0.0</small></div>
+              <div class="app-mock-side-item active"><span set:html={iconHome} /><span>Inicio</span></div>
+              <div class="app-mock-side-item"><span set:html={iconPenLine} /><span>Firmar documento</span></div>
+              <div class="app-mock-side-item"><span set:html={iconShieldCheck} /><span>Comprobar firma</span></div>
+              <div class="app-mock-side-item"><span set:html={iconBadgeCheck} /><span>Comprobar certificado</span></div>
+              <div class="app-mock-side-bottom">Compatible con certificados digitales acreditados en Ecuador</div>
+            </aside>
+            <div class="app-mock-main app-mock-home">
+              <div class="app-mock-heading"><span><b>Inicio</b><small>Firma, comprueba y valida tus documentos digitales.</small></span><button type="button" tabindex="-1">Todos los perfiles</button></div>
+              <div class="app-mock-card">
+                <div class="app-mock-card-heading"><b>Firma rápida</b><small>Elige un perfil y selecciona el PDF que quieres firmar.</small></div>
+                <span class="app-mock-label">Perfil de firma</span>
+                <div class="app-mock-profile-chip">Juan Pérez Mendoza <em>Vigente</em></div>
+                <div class="app-mock-dropzone"><span set:html={iconUpload(20)} /><b>Arrastra un PDF o haz clic para seleccionarlo</b><small>Solo archivos PDF</small></div>
+                <div class="app-mock-path"><span set:html={iconFolder(11)} />Documentos/Penké Firmas</div>
+                <button class="app-mock-primary" type="button" tabindex="-1">Seleccionar documento y firmar <b>→</b></button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -243,9 +275,9 @@ carrying its provenance.
     <div class="max-w-6xl mx-auto px-6">
 
       <div class="max-w-2xl mb-14 reveal">
-        <p class="font-serif text-3xl sm:text-4xl font-semibold text-slate-900 tracking-tight leading-snug">
-          Sin configuraciones complejas. Solo abre, arrastra y firma.
-        </p>
+        <h2 class="font-serif text-3xl sm:text-4xl font-semibold text-slate-900 tracking-tight leading-snug">
+          Sin configuraciones complejas ni pasos de más.
+        </h2>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-px bg-slate-200 border border-slate-200 reveal">
@@ -255,11 +287,6 @@ carrying its provenance.
             <span class="clause-numeral text-4xl select-none">{f.num}</span>
             <h3 class="text-lg font-bold text-slate-900">{f.title}</h3>
             <p class="text-slate-600 text-sm leading-relaxed max-w-[50ch]">{f.desc}</p>
-            {f.image && (
-              <div class="mt-3 w-full sm:w-96 rounded-sm overflow-hidden border border-slate-200 shadow-sm">
-                <img src={f.image} alt="Arrastra un PDF y firma con tu perfil guardado" class="w-full h-auto object-cover" loading="lazy" />
-              </div>
-            )}
           </div>
         ))}
 
@@ -276,39 +303,171 @@ carrying its provenance.
     <div class="relative max-w-6xl mx-auto px-6">
 
       <div class="text-center max-w-2xl mx-auto mb-10 reveal">
-        <p class="font-serif text-3xl font-semibold tracking-tight">Así se ve firmar con Penké</p>
+        <h2 class="font-serif text-3xl font-semibold tracking-tight">Así se ve firmar con Penké</h2>
+        <p class="text-slate-400 text-sm mt-2">Réplica de la interfaz real — mismos colores, iconos y textos que la app de escritorio.</p>
       </div>
 
       <div class="flex justify-center gap-6 mb-8 flex-wrap text-xs font-bold" id="screen-tabs" role="tablist">
-        <button data-tab="home" role="tab" aria-selected="true" class="ledger-tab pb-2 cursor-pointer">Firma rápida</button>
-        <button data-tab="firmar" role="tab" aria-selected="false" class="ledger-tab pb-2 cursor-pointer">Mis firmas</button>
-        <button data-tab="verificar" role="tab" aria-selected="false" class="ledger-tab pb-2 cursor-pointer">Verificador de PDF</button>
-        <button data-tab="validar" role="tab" aria-selected="false" class="ledger-tab pb-2 cursor-pointer">Validador de certificado</button>
+        <button data-tab="home" role="tab" aria-selected="true" class="ledger-tab pb-2 cursor-pointer">Inicio</button>
+        <button data-tab="firmar" role="tab" aria-selected="false" class="ledger-tab pb-2 cursor-pointer">Firmar documento</button>
+        <button data-tab="verificar" role="tab" aria-selected="false" class="ledger-tab pb-2 cursor-pointer">Comprobar firma</button>
+        <button data-tab="validar" role="tab" aria-selected="false" class="ledger-tab pb-2 cursor-pointer">Comprobar certificado</button>
       </div>
 
       <div class="max-w-5xl mx-auto reveal">
-        <div class="cert-frame-dark">
-          <svg class="corner-mark tl" viewBox="0 0 20 20" aria-hidden="true"><path d="M2 10H8M10 2V8" stroke="currentColor" stroke-width="1.4" fill="none"/><circle cx="10" cy="10" r="2.6" fill="none" stroke="currentColor" stroke-width="1"/></svg>
-          <svg class="corner-mark tr" viewBox="0 0 20 20" aria-hidden="true"><path d="M2 10H8M10 2V8" stroke="currentColor" stroke-width="1.4" fill="none"/><circle cx="10" cy="10" r="2.6" fill="none" stroke="currentColor" stroke-width="1"/></svg>
-          <svg class="corner-mark bl" viewBox="0 0 20 20" aria-hidden="true"><path d="M2 10H8M10 2V8" stroke="currentColor" stroke-width="1.4" fill="none"/><circle cx="10" cy="10" r="2.6" fill="none" stroke="currentColor" stroke-width="1"/></svg>
-          <svg class="corner-mark br" viewBox="0 0 20 20" aria-hidden="true"><path d="M2 10H8M10 2V8" stroke="currentColor" stroke-width="1.4" fill="none"/><circle cx="10" cy="10" r="2.6" fill="none" stroke="currentColor" stroke-width="1"/></svg>
+        <div class="rounded-lg overflow-hidden border border-white/10 shadow-2xl shadow-black/40">
           <div class="bg-slate-950 px-5 py-2.5 border-b border-white/10 flex items-center justify-between">
-            <span class="font-serif text-xs tracking-[0.15em] text-slate-300 uppercase">Penké</span>
-            <span id="tab-title-display" class="font-mono text-[10px] text-slate-500 tracking-wide">Firma rápida</span>
+            <img src="/brand/penke-imagotipo-white.svg" alt="Penké" class="h-4 w-auto" />
+            <span id="tab-title-display" class="font-mono text-[10px] text-slate-500 tracking-wide">Inicio</span>
           </div>
 
-          <div class="aspect-[1376/768] overflow-hidden bg-slate-900">
-            <div data-panel="home" class="screen-panel h-full">
-              <img src="/screenshots/home.jpg" alt="Firma rápida" class="w-full h-full object-cover object-top" />
-            </div>
-            <div data-panel="firmar" class="screen-panel hidden h-full">
-              <img src="/screenshots/firmar.jpg" alt="Mis firmas" class="w-full h-full object-cover object-top" />
-            </div>
-            <div data-panel="verificar" class="screen-panel hidden h-full">
-              <img src="/screenshots/verificar.jpg" alt="Verificador de firmas PDF" class="w-full h-full object-cover object-top" />
-            </div>
-            <div data-panel="validar" class="screen-panel hidden h-full">
-              <img src="/screenshots/validar.jpg" alt="Validador de certificados .p12" class="w-full h-full object-cover object-top" />
+          <div class="aspect-[1376/768] overflow-hidden bg-white grid grid-cols-[56px_1fr] sm:grid-cols-[190px_1fr]" style="font-family: var(--font-app);">
+            <aside class="bg-[#0f172a] text-white p-2 sm:p-4 flex flex-col gap-1 text-[11px]">
+              <div data-screen-link="home" class="app-mock-side-item active justify-center sm:justify-start"><span set:html={iconHome} /><span class="hidden sm:inline">Inicio</span></div>
+              <div data-screen-link="firmar" class="app-mock-side-item justify-center sm:justify-start"><span set:html={iconPenLine} /><span class="hidden sm:inline">Firmar documento</span></div>
+              <div data-screen-link="verificar" class="app-mock-side-item justify-center sm:justify-start"><span set:html={iconShieldCheck} /><span class="hidden sm:inline">Comprobar firma</span></div>
+              <div data-screen-link="validar" class="app-mock-side-item justify-center sm:justify-start"><span set:html={iconBadgeCheck} /><span class="hidden sm:inline">Comprobar certificado</span></div>
+            </aside>
+
+            <div class="relative overflow-y-auto bg-slate-50">
+              <!-- Inicio · recreación de HomePage.tsx -->
+              <div data-panel="home" class="screen-panel h-full p-5 sm:p-8">
+                <div class="max-w-md">
+                  <p class="text-base sm:text-lg font-bold text-slate-800">Inicio</p>
+                  <p class="text-xs text-slate-500 mb-4">Firma, comprueba y valida tus documentos digitales.</p>
+                  <div data-sign-demo class="relative bg-white rounded-xl border border-slate-200 p-4 sm:p-5 space-y-3 overflow-visible">
+                    <p class="text-sm font-semibold text-slate-800">Firma rápida</p>
+                    <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl border border-blue-400 bg-blue-50 text-blue-700 text-xs font-medium">
+                      <span>Juan Pérez Mendoza</span>
+                      <span class="inline-flex items-center gap-1 text-green-700 text-[11px] font-semibold"><span set:html={iconCheckCircle2(11)} />Vigente</span>
+                    </div>
+
+                    <div class="relative">
+                      <!-- "arrastra el PDF" — chip que el cursor arrastra hasta la dropzone -->
+                      <div class="sign-demo-flying-file absolute -top-3 left-4 z-20 flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-white border border-slate-200 shadow-md text-[10px] font-semibold text-slate-600" aria-hidden="true">
+                        <span class="text-red-400 flex-shrink-0" set:html={iconFileText(12)} />CONTRATO_SERVICIOS.pdf
+                      </div>
+
+                      <div data-drop-state="empty" class="rounded-xl border-2 border-dashed border-slate-200 bg-slate-50 px-4 py-4 text-center">
+                        <span class="text-slate-300 flex justify-center mb-1.5" set:html={iconUpload(18)} />
+                        <p class="text-xs font-medium text-slate-600">Arrastra un PDF o haz clic para seleccionarlo</p>
+                      </div>
+                      <div data-drop-state="filled" class="hidden rounded-xl border-2 border-dashed border-blue-300 bg-blue-50/50 px-4 py-4 text-left">
+                        <p class="text-[11px] text-blue-600 font-medium mb-0.5">Archivo seleccionado</p>
+                        <p class="text-xs text-slate-700 font-mono truncate">CONTRATO_SERVICIOS.pdf</p>
+                      </div>
+                    </div>
+
+                    <button type="button" tabindex="-1" data-sign-btn class="sign-demo-btn w-full py-2.5 rounded-xl bg-blue-600 text-white text-xs font-semibold">
+                      <span data-btn-state="idle">Seleccionar documento y firmar →</span>
+                      <span data-btn-state="ready" class="hidden">Continuar a firmar →</span>
+                    </button>
+
+                    <div class="sign-demo-toast absolute bottom-3 right-3 flex items-center gap-2 px-3 py-2 rounded-xl border bg-green-900 border-green-700 text-green-100 text-[11px] font-medium shadow-xl" role="status">
+                      <span class="flex-shrink-0" set:html={iconCheckCircle2(14)} /><span>Documento firmado y guardado</span>
+                    </div>
+
+                    <!-- Cursor que simula la interacción real: agarra el PDF, lo suelta en la
+                         dropzone y luego hace clic en el botón de firmar. -->
+                    <div class="sign-demo-cursor absolute z-30" aria-hidden="true" set:html={iconCursor} />
+                  </div>
+                </div>
+              </div>
+
+              <!-- Firmar documento · recreación de FirmarPage.tsx (vista de perfiles) -->
+              <div data-panel="firmar" class="screen-panel hidden h-full p-5 sm:p-8">
+                <div class="max-w-md">
+                  <div class="flex items-center justify-between mb-4">
+                    <div>
+                      <p class="text-base sm:text-lg font-bold text-slate-800">Mis firmas</p>
+                      <p class="text-xs text-slate-400">Selecciona un perfil para comenzar</p>
+                    </div>
+                    <span class="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-blue-600 text-white text-[11px] font-semibold">+ Nuevo perfil</span>
+                  </div>
+                  <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-4">
+                    <div class="flex items-start gap-3 mb-3">
+                      <div class="w-8 h-8 rounded-xl bg-blue-50 flex items-center justify-center text-blue-600 flex-shrink-0" set:html={iconKeyRound} />
+                      <div class="flex-1 min-w-0">
+                        <p class="text-sm font-bold text-slate-800">Aprobación de contratos</p>
+                        <p class="text-xs text-slate-400">Juan Pérez Mendoza</p>
+                      </div>
+                    </div>
+                    <div class="flex items-center gap-1.5">
+                      <div class="w-2 h-2 rounded-full bg-green-500"></div>
+                      <p class="text-xs text-slate-400">Válido · 2027-03-10</p>
+                    </div>
+                    <div class="-mx-4 -mb-4 mt-3 border-t border-slate-50 bg-slate-50/50 px-4 py-2.5 flex items-center justify-between">
+                      <p class="text-xs text-slate-400">Seleccionar para firmar</p>
+                      <span class="text-slate-300">→</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Comprobar firma · recreación de VerificarPage.tsx -->
+              <div data-panel="verificar" class="screen-panel hidden h-full p-5 sm:p-8">
+                <div class="max-w-md">
+                  <p class="text-base sm:text-lg font-bold text-slate-800 mb-3">Verificar firmas</p>
+                  <div class="rounded-xl px-4 py-3 flex items-center gap-3 border bg-green-50 border-green-200 mb-3">
+                    <span class="text-green-600 flex-shrink-0" set:html={iconCheckCircle2(26)} />
+                    <div>
+                      <p class="text-sm font-bold text-green-800">Documento íntegro y válido</p>
+                      <p class="text-xs text-slate-500">1 firma encontrada</p>
+                    </div>
+                  </div>
+                  <div class="bg-white rounded-xl border border-slate-100 shadow-sm overflow-hidden">
+                    <table class="w-full text-xs">
+                      <thead>
+                        <tr class="border-b border-slate-100 text-[10px] text-slate-400 uppercase tracking-wide">
+                          <th class="text-left px-3 py-2 font-medium">Firmante</th>
+                          <th class="text-left px-3 py-2 font-medium">Fecha</th>
+                          <th class="text-left px-3 py-2 font-medium">Estado</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td class="px-3 py-2.5">
+                            <p class="font-semibold text-slate-800">Juan Pérez Mendoza</p>
+                            <p class="text-[10px] text-slate-400">1723456789 · BCE</p>
+                          </td>
+                          <td class="px-3 py-2.5 text-slate-500 whitespace-nowrap">31 ago 2026</td>
+                          <td class="px-3 py-2.5"><span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-green-100 text-green-700">Válida</span></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Comprobar certificado · recreación de ValidarPage.tsx, con los 4 estados reales -->
+              <div data-panel="validar" class="screen-panel hidden h-full p-5 sm:p-8">
+                <div class="max-w-md">
+                  <p class="text-base sm:text-lg font-bold text-slate-800 mb-3">Validar certificado</p>
+                  <div class="flex gap-1.5 mb-3 flex-wrap" id="cert-state-tabs" role="group" aria-label="Ejemplo de estados de certificado">
+                    <button type="button" data-cert-state="valid" aria-pressed="true" class="cert-state-btn active px-2.5 py-1 rounded-lg text-[11px] font-semibold border transition-colors">Válido</button>
+                    <button type="button" data-cert-state="expired" aria-pressed="false" class="cert-state-btn px-2.5 py-1 rounded-lg text-[11px] font-semibold border transition-colors">Caducado</button>
+                    <button type="button" data-cert-state="revoked" aria-pressed="false" class="cert-state-btn px-2.5 py-1 rounded-lg text-[11px] font-semibold border transition-colors">Revocado</button>
+                    <button type="button" data-cert-state="unknown" aria-pressed="false" class="cert-state-btn px-2.5 py-1 rounded-lg text-[11px] font-semibold border transition-colors">Sin verificar</button>
+                  </div>
+
+                  <div data-cert-banner="valid" class="cert-banner rounded-xl px-4 py-4 border flex items-center gap-3 bg-green-50 border-green-200">
+                    <span class="text-green-600 flex-shrink-0" set:html={iconShieldCheckSized(30)} />
+                    <div><p class="text-sm font-bold text-green-800">Válido</p><p class="text-xs text-slate-500">Vence en 214 días (31 mar 2027)</p></div>
+                  </div>
+                  <div data-cert-banner="expired" class="cert-banner hidden rounded-xl px-4 py-4 border flex items-center gap-3 bg-yellow-50 border-yellow-200">
+                    <span class="text-yellow-500 flex-shrink-0" set:html={iconShieldAlert(30)} />
+                    <div><p class="text-sm font-bold text-yellow-800">Caducado</p><p class="text-xs text-slate-600">Venció el 15 ene 2025. Renueva con tu entidad emisora.</p></div>
+                  </div>
+                  <div data-cert-banner="revoked" class="cert-banner hidden rounded-xl px-4 py-4 border flex items-center gap-3 bg-red-50 border-red-200">
+                    <span class="text-red-600 flex-shrink-0" set:html={iconShieldX(30)} />
+                    <div><p class="text-sm font-bold text-red-800">Revocado</p><p class="text-xs text-slate-600">No debe usarse para firmar documentos.</p></div>
+                  </div>
+                  <div data-cert-banner="unknown" class="cert-banner hidden rounded-xl px-4 py-4 border flex items-center gap-3 bg-slate-50 border-slate-200">
+                    <span class="text-slate-500 flex-shrink-0" set:html={iconHelpCircle(30)} />
+                    <div><p class="text-sm font-bold text-slate-700">Sin verificar</p><p class="text-xs text-slate-500">Selecciona un certificado y su contraseña.</p></div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -332,7 +491,7 @@ carrying its provenance.
             Tus archivos y tu clave privada nunca salen de tu computadora
           </h2>
           <p class="text-slate-600 text-sm sm:text-base leading-relaxed mb-8 max-w-[62ch]">
-            Todo el proceso de firma ocurre dentro de tu equipo. Ni tu documento ni tu contraseña se envían a ningún servidor, ni siquiera al nuestro.
+            Tus documentos, certificado y clave privada permanecen en tu equipo. Solo las consultas necesarias para comprobar el estado del certificado pueden salir a servicios oficiales.
           </p>
         </div>
 
@@ -376,18 +535,18 @@ carrying its provenance.
     <div class="max-w-3xl mx-auto px-6">
 
       <div class="text-center mb-12 reveal">
-        <p class="font-serif text-3xl font-semibold text-slate-900">Preguntas frecuentes</p>
+        <h2 class="font-serif text-3xl font-semibold text-slate-900">Preguntas frecuentes</h2>
       </div>
 
       <div class="reveal">
         {faqs.map((item, i) => (
           <div class="faq-item border-b border-slate-200">
-            <button class="faq-btn w-full flex items-start gap-4 py-5 text-left font-bold text-slate-900 hover:text-penke-teal transition-colors text-sm cursor-pointer">
+            <button id={`faq-button-${i}`} aria-expanded="false" aria-controls={`faq-answer-${i}`} class="faq-btn w-full flex items-start gap-4 py-5 text-left font-bold text-slate-900 hover:text-penke-teal transition-colors text-sm cursor-pointer">
               <span class="clause-numeral text-2xl select-none shrink-0">{`0${i + 1}`}</span>
               <span class="flex-1 pt-1">{item.q}</span>
               <span class="faq-icon text-slate-400 text-lg font-light shrink-0">+</span>
             </button>
-            <div class="faq-answer overflow-hidden max-h-0 transition-all duration-300 pl-10">
+            <div id={`faq-answer-${i}`} role="region" aria-labelledby={`faq-button-${i}`} class="faq-answer overflow-hidden max-h-0 transition-all duration-300 pl-10">
               <p class="pb-5 text-xs sm:text-sm text-slate-600 leading-relaxed max-w-[68ch]">{item.a}</p>
             </div>
           </div>
@@ -421,11 +580,13 @@ carrying its provenance.
           </svg>
           Descargar Penké gratis
         </a>
-        <p class="text-xs text-slate-400">Disponible para Windows. macOS y Linux, muy pronto.</p>
+        <p class="text-xs text-slate-400">Disponible para Windows — macOS y Linux, muy pronto.</p>
       </div>
 
     </div>
   </section>
+
+  </main>
 
   <!-- AVISO LEGAL DE INDEPENDENCIA -->
   <div class="bg-slate-950 py-8 border-t border-slate-800 text-center text-xs text-slate-400">
@@ -442,10 +603,10 @@ carrying its provenance.
   <!-- FOOTER -->
   <footer class="bg-slate-950 py-6 border-t border-slate-900 text-xs text-slate-400">
     <div class="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-2">
-      <div class="py-2">© 2025 Charlie Cárdenas Toledo — Penké Open Source</div>
+      <div class="py-2">© {new Date().getFullYear()} Charlie Cárdenas Toledo — Penké Open Source</div>
       <div class="flex gap-4">
-        <a href="https://github.com/CharlieCardenasToledo/penke-ec" target="_blank" class="py-2 hover:text-slate-200">GitHub</a>
-        <a href="https://github.com/CharlieCardenasToledo/penke-ec/blob/main/LICENSE" target="_blank" class="py-2 hover:text-slate-200">Licencia MIT</a>
+        <a href="https://github.com/CharlieCardenasToledo/penke-ec" target="_blank" rel="noopener noreferrer" class="py-2 hover:text-slate-200">GitHub</a>
+        <a href="https://github.com/CharlieCardenasToledo/penke-ec/blob/main/LICENSE" target="_blank" rel="noopener noreferrer" class="py-2 hover:text-slate-200">Licencia MIT</a>
       </div>
     </div>
   </footer>
@@ -456,10 +617,10 @@ carrying its provenance.
     const navbar = document.getElementById("navbar");
     window.addEventListener("scroll", () => {
       if (window.scrollY > 20) {
-        navbar?.classList.add("bg-white/95", "backdrop-blur-md", "border-slate-200", "shadow-sm");
+        navbar?.classList.add("bg-white/95", "backdrop-blur-md", "border-slate-200", "shadow-sm", "scrolled");
         navbar?.classList.remove("border-transparent");
       } else {
-        navbar?.classList.remove("bg-white/95", "backdrop-blur-md", "border-slate-200", "shadow-sm");
+        navbar?.classList.remove("bg-white/95", "backdrop-blur-md", "border-slate-200", "shadow-sm", "scrolled");
         navbar?.classList.add("border-transparent");
       }
     }, { passive: true });
@@ -470,6 +631,7 @@ carrying its provenance.
     mobileMenuBtn?.addEventListener("click", () => {
       const isOpen = mobileMenu?.classList.toggle("hidden") === false;
       mobileMenuBtn.setAttribute("aria-expanded", String(isOpen));
+      mobileMenuBtn.setAttribute("aria-label", isOpen ? "Cerrar menú" : "Abrir menú");
     });
     mobileMenu?.querySelectorAll("a").forEach(link => {
       link.addEventListener("click", () => mobileMenu.classList.add("hidden"));
@@ -477,10 +639,10 @@ carrying its provenance.
 
     // Tabs Controller
     const tabTitleMap: Record<string, string> = {
-      home: "Firma rápida",
-      firmar: "Mis firmas",
-      verificar: "Verificador de firmas",
-      validar: "Validador de certificado",
+      home: "Inicio",
+      firmar: "Firmar documento",
+      verificar: "Comprobar firma",
+      validar: "Comprobar certificado",
     };
 
     const tabTitleDisplay = document.getElementById("tab-title-display");
@@ -498,6 +660,28 @@ carrying its provenance.
 
         document.querySelectorAll(".screen-panel").forEach(p => p.classList.add("hidden"));
         document.querySelector(`[data-panel="${tabKey}"]`)?.classList.remove("hidden");
+
+        document.querySelectorAll("[data-screen-link]").forEach(link => link.classList.remove("active"));
+        document.querySelector(`[data-screen-link="${tabKey}"]`)?.classList.add("active");
+      });
+    });
+
+    // Selector de estados de certificado (Comprobar certificado) — refleja
+    // exactamente los 4 estados de ValidarPage.badge(): válido, caducado,
+    // revocado, sin verificar.
+    document.querySelectorAll(".cert-state-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const state = btn.getAttribute("data-cert-state") || "valid";
+
+        document.querySelectorAll(".cert-state-btn").forEach(b => {
+          b.classList.remove("active");
+          b.setAttribute("aria-pressed", "false");
+        });
+        btn.classList.add("active");
+        btn.setAttribute("aria-pressed", "true");
+
+        document.querySelectorAll(".cert-banner").forEach(b => b.classList.add("hidden"));
+        document.querySelector(`[data-cert-banner="${state}"]`)?.classList.remove("hidden");
       });
     });
 
@@ -509,6 +693,7 @@ carrying its provenance.
 
       btn?.addEventListener("click", () => {
         const isOpen = item.classList.toggle("open");
+        btn?.setAttribute("aria-expanded", String(isOpen));
         if (answer) {
           answer.style.maxHeight = isOpen ? answer.scrollHeight + "px" : "0";
         }
@@ -517,6 +702,58 @@ carrying its provenance.
         }
       });
     });
+
+    // Firma rápida animada — un cursor agarra el PDF, lo arrastra hasta la
+    // dropzone y hace clic en "firmar", igual que el flujo real de
+    // HomePage.tsx (perfil ya elegido → dropzone → botón → guardado).
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!reduceMotion) {
+      document.querySelectorAll("[data-sign-demo]").forEach(root => {
+        const flyingFile = root.querySelector(".sign-demo-flying-file");
+        const cursor     = root.querySelector(".sign-demo-cursor");
+        const dropEmpty  = root.querySelector('[data-drop-state="empty"]');
+        const dropFilled = root.querySelector('[data-drop-state="filled"]');
+        const btnIdle    = root.querySelector('[data-btn-state="idle"]');
+        const btnReady   = root.querySelector('[data-btn-state="ready"]');
+        const btnEl      = root.querySelector("[data-sign-btn]");
+        const toast      = root.querySelector(".sign-demo-toast");
+
+        const steps = [
+          () => { // 0 — reposo: dropzone vacía, botón inicial, cursor y toast ocultos
+            flyingFile?.classList.remove("play");
+            cursor?.classList.remove("play");
+            dropEmpty?.classList.remove("hidden");
+            dropFilled?.classList.add("hidden");
+            btnIdle?.classList.remove("hidden");
+            btnReady?.classList.add("hidden");
+            toast?.classList.remove("show");
+            btnEl?.classList.remove("press");
+          },
+          () => { // 1 — el cursor "agarra" el PDF y lo arrastra hacia la dropzone
+            cursor?.classList.add("play");
+            flyingFile?.classList.add("play");
+          },
+          () => { // 2 — se suelta: dropzone pasa a "archivo seleccionado"
+            dropEmpty?.classList.add("hidden");
+            dropFilled?.classList.remove("hidden");
+            btnIdle?.classList.add("hidden");
+            btnReady?.classList.remove("hidden");
+          },
+          () => { btnEl?.classList.add("press"); toast?.classList.add("show"); }, // 3 — el cursor hace clic + confirmación
+          () => btnEl?.classList.remove("press"), // 4 — suelta el clic
+        ];
+        // Los tiempos 2/3/4 están calculados sobre la curva de sign-demo-cursor-path
+        // (2.8s de duración): "suelta" ≈ 48%, "clic" ≈ 88%.
+        const timings = [0, 300, 1644, 2764, 2914];
+        const cycleMs = 5600;
+
+        function playCycle() {
+          timings.forEach((delay, i) => setTimeout(() => steps[i](), delay));
+        }
+        playCycle();
+        setInterval(playCycle, cycleMs);
+      });
+    }
 
     // Reveal elements on scroll
     const observer = new IntersectionObserver((entries) => {

@@ -6,6 +6,11 @@
   --font-sans: "Public Sans", system-ui, -apple-system, sans-serif;
   --font-serif: "Alegreya", "Iowan Old Style", serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  /* Fuente real del producto — SOLO para texto dentro de mocks que replican
+     una pantalla real de Penké. Alegreya/JetBrains Mono son exclusivos del
+     copy de marketing propio (hero, CTA, comparación); nunca aparecen
+     dentro de una "réplica visual" de la app. */
+  --font-app: "Segoe UI Variable", "Segoe UI", system-ui, sans-serif;
   --color-penke-blue:      #2563EB;
   --color-penke-blue-dark: #1D4ED8;
   --color-penke-teal:      #0E8F79;
@@ -67,6 +72,28 @@ body {
   pointer-events: none;
   z-index: 20;
 }
+
+/* Réplica de pantalla: sidebar + tarjeta de Inicio, usando el layout real
+   de Sidebar.tsx/HomePage.tsx. Tipografía var(--font-app), nunca serif/mono
+   decorativa — esto no es marketing, es un mock de la interfaz real. */
+.app-mock-window { display: grid; grid-template-columns: 170px 1fr; min-height: 360px; background: #f8fafc; color: #0f172a; font-family: var(--font-app); }
+.app-mock-sidebar { padding: 24px 14px; background: #0f172a; color: #fff; border-right: 1px solid #1e293b; display: flex; flex-direction: column; gap: 8px; font-size: 11px; }
+.app-mock-brand { display: flex; align-items: baseline; gap: 8px; margin: 0 8px 22px; }
+.app-mock-brand img { height: 18px; width: auto; display: block; }
+.app-mock-brand small { color: #64748b; font-size: 10px; }
+.app-mock-dot { display: inline-block; width: 9px; height: 9px; margin-right: 7px; border-radius: 50%; background: var(--color-penke-teal); }
+.app-mock-side-item { padding: 10px; color: #cbd5e1; display:flex; gap:10px; align-items:center; border-radius:8px; font-weight: 500; }.app-mock-side-item svg { flex-shrink: 0; }.app-mock-side-item.active { color: #fff; background: #2563eb; box-shadow: 0 4px 10px rgba(37,99,235,.25); font-weight: 700; }
+.app-mock-side-bottom { margin-top: auto; padding: 14px 8px 0; color: #94a3b8; border-top: 1px solid rgba(255,255,255,.1); line-height:1.45; }
+.app-mock-main { display: flex; flex-direction: column; min-width: 0; }
+.app-mock-heading { display:flex; justify-content:space-between; align-items:flex-start; gap:16px; padding: 25px 30px 18px; }.app-mock-heading span { display:grid; gap:6px; }.app-mock-heading b { font-size:20px; }.app-mock-heading small { color:#64748b; font-size:11px; font-weight:400; }.app-mock-heading button { padding:8px 12px; background:#fff; border:1px solid #dbe3ea; color:#64748b; border-radius:10px; font-size:10px; }
+.app-mock-card { margin:0 30px 30px; padding:22px; background:#fff; border:1px solid #e2e8f0; border-radius:12px; box-shadow:0 4px 12px rgba(15,23,42,.04); display:grid; gap:13px; }.app-mock-card-heading { display:grid; gap:5px; }.app-mock-card-heading b { font-size:16px; }.app-mock-card-heading small { color:#64748b; font-size:11px; }.app-mock-label { color:#64748b; font-size:10px; font-weight:700; }.app-mock-profile-chip { width:max-content; padding:7px 10px; border:1px solid #93c5fd; background:#eff6ff; color:#1d4ed8; border-radius:10px; font-size:11px; font-weight:700; }.app-mock-profile-chip em { margin-left:8px; color:#0e8f79; font-style:normal; font-size:9px; }.app-mock-dropzone { min-height:92px; border:1px dashed #93c5fd; background:#f8fbff; border-radius:10px; display:grid; place-content:center; text-align:center; gap:5px; color:#475569; font-size:11px; }.app-mock-dropzone span { color:#2563eb; font-size:20px; }.app-mock-dropzone small { color:#94a3b8; font-size:9px; }.app-mock-path { color:#64748b; font-size:10px; font-family: ui-monospace, "SFMono-Regular", monospace; display:flex; align-items:center; gap:5px; }.app-mock-path svg { flex-shrink:0; }.app-mock-primary { padding:10px; color:#fff; background:#2563eb; border:0; border-radius:10px; font-size:11px; font-weight:700; }.app-mock-primary b { float:right; font-size:15px; }
+
+@media (max-width: 640px) {
+  .app-mock-window { grid-template-columns: 1fr; min-height: 330px; }
+  .app-mock-sidebar { display: none; }
+  .app-mock-heading { padding:18px; }.app-mock-heading b { font-size:16px; }.app-mock-card { margin:0 18px 18px; padding:16px; }
+}
+
 .corner-mark {
   position: absolute;
   width: 15px;
@@ -115,6 +142,25 @@ body {
   pointer-events: none;
 }
 
+/* ── Navbar: el fondo pasa de transparente (sobre el hero navy) a blanco
+   translúcido al hacer scroll — el wordmark y los enlaces deben invertir su
+   color a la vez o quedan casi invisibles sobre el fondo claro. ─────────── */
+#navbar-wordmark { color: #ffffff; transition: color 0.2s ease; }
+#navbar.scrolled #navbar-wordmark { color: var(--color-penke-dark); }
+
+.navbar-link { color: #cbd5e1; }
+.navbar-link:hover { color: #ffffff; }
+#navbar.scrolled .navbar-link { color: #475569; }
+#navbar.scrolled .navbar-link:hover { color: var(--color-penke-blue); }
+
+.navbar-ghost-btn { color: #e2e8f0; border-color: rgba(255, 255, 255, 0.4); }
+.navbar-ghost-btn:hover { background: rgba(255, 255, 255, 0.1); }
+#navbar.scrolled .navbar-ghost-btn { color: #334155; border-color: #cbd5e1; }
+#navbar.scrolled .navbar-ghost-btn:hover { background: #f1f5f9; }
+
+.navbar-menu-btn { color: #e2e8f0; }
+#navbar.scrolled .navbar-menu-btn { color: #334155; }
+
 /* ── Ledger-tab controls (capturas section) ────────────────────────────── */
 .ledger-tab {
   font-family: var(--font-sans);
@@ -126,6 +172,78 @@ body {
 .ledger-tab[aria-selected="true"] {
   color: #ffffff;
   border-bottom-color: var(--color-penke-teal);
+}
+
+/* ── Cert-state toggle (réplica de ValidarPage) — mismo patrón visual que
+   el chip de perfil seleccionado en HomePage.tsx ─────────────────────── */
+.cert-state-btn {
+  border-color: #e2e8f0;
+  color: #64748b;
+  background: #ffffff;
+}
+.cert-state-btn.active {
+  border-color: #60a5fa;
+  background: #eff6ff;
+  color: #1d4ed8;
+}
+
+/* ── Firma rápida animada — réplica del flujo arrastrar/soltar/firmar de
+   HomePage.tsx dentro de la sección "Así se ve firmar con Penké". Un cursor
+   agarra el PDF, lo arrastra hasta la dropzone y hace clic en el botón,
+   para que se lea como una interacción real y no como un simple fundido. */
+@keyframes sign-demo-chip-drag {
+  0%   { opacity: 0; transform: translate(0, 0) rotate(-4deg); }
+  12%  { opacity: 1; transform: translate(0, 0) rotate(-4deg); }
+  100% { opacity: 0; transform: translate(96px, 58px) rotate(3deg); }
+}
+.sign-demo-flying-file {
+  opacity: 0;
+  pointer-events: none;
+}
+.sign-demo-flying-file.play {
+  animation: sign-demo-chip-drag 1.3s cubic-bezier(.32,.72,.35,1) both;
+}
+
+.sign-demo-cursor {
+  top: 4%;
+  left: 12%;
+  opacity: 0;
+  pointer-events: none;
+  filter: drop-shadow(0 2px 3px rgba(15, 23, 42, .35));
+}
+@keyframes sign-demo-cursor-path {
+  0%   { opacity: 0; top: 4%;  left: 12%; transform: scale(1); }
+  8%   { opacity: 1; top: 4%;  left: 12%; transform: scale(1); }
+  16%  { opacity: 1; top: 4%;  left: 12%; transform: scale(0.85); }
+  48%  { opacity: 1; top: 48%; left: 50%; transform: scale(0.85); }
+  56%  { opacity: 1; top: 48%; left: 50%; transform: scale(1); }
+  82%  { opacity: 1; top: 76%; left: 50%; transform: scale(1); }
+  88%  { opacity: 1; top: 76%; left: 50%; transform: scale(0.78); }
+  95%  { opacity: 1; top: 76%; left: 50%; transform: scale(1); }
+  100% { opacity: 0; top: 76%; left: 50%; transform: scale(1); }
+}
+.sign-demo-cursor.play {
+  animation: sign-demo-cursor-path 2.8s cubic-bezier(.4,.1,.2,1) both;
+}
+
+.sign-demo-btn {
+  transition: transform 0.15s ease;
+}
+.sign-demo-btn.press {
+  transform: scale(0.97);
+}
+.sign-demo-toast {
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+.sign-demo-toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+@media (prefers-reduced-motion: reduce) {
+  .sign-demo-flying-file, .sign-demo-cursor { display: none; }
+  .sign-demo-btn, .sign-demo-toast { transition: none; }
 }
 
 /* ── Clause numeral: ghost figure marking each numbered item ──────────── */

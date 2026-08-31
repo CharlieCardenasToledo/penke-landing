@@ -65,15 +65,26 @@ components:
     backgroundColor: "{colors.penke-teal-dark}"
 ---
 
-# Design System: Penké — Certificado de autenticidad
+# Design System: Penké
+
+## ⚠️ Regla de dos capas (leer primero)
+
+El `CLAUDE.md` raíz del proyecto exige que la landing sea una **réplica fiel** de la interfaz real de `penke-desktop` (Sidebar, HomePage, FirmarPage, VerificarPage, ValidarPage), no una reinterpretación genérica. Este documento describía originalmente un mundo visual ("Certificado de autenticidad": Alegreya, JetBrains Mono, cert-frame con marcas de esquina, ledger tabs) que se aplicaba a **toda** la página, incluyendo los mocks de pantalla — eso entraba en conflicto directo con esa exigencia y fue corregido.
+
+La regla vigente separa dos capas:
+
+1. **Copy de marketing propio** (hero, títulos de sección, CTA de descarga, caja de comparación "Privacidad", FAQ) — puede seguir usando el sistema "Certificado de autenticidad" descrito abajo: Alegreya, guilloché, sello, marcas de esquina, clause numerals, teal como color de sus propios CTA. Es expresión de marca, no finge ser una pantalla de la app.
+2. **Cualquier elemento que sea o represente una réplica visual de una pantalla real** (el mock del sidebar en el hero, la sección "Así se ve firmar con Penké") — debe usar exactamente lo que usa la app real: tipografía `var(--font-app)` (`"Segoe UI Variable", system-ui`, nunca serif/mono decorativa), iconos lucide reales, radios/bordes/colores de Tailwind tal como aparecen en `Sidebar.tsx`/`HomePage.tsx`/`FirmarPage.tsx`/`VerificarPage.tsx`/`ValidarPage.tsx`, y **azul como color de acción primario** (`bg-blue-600`) — en la app real el teal nunca es color de botón.
+
+Todo lo que sigue en este documento describe la capa 1 (marketing propio) salvo que se indique lo contrario.
 
 ## Overview
 
-**Creative North Star: "Certificado de autenticidad"**
+**Creative North Star: "Certificado de autenticidad" (solo para marketing propio)**
 
-Penké's world treats every screen as if it were the certificate it produces: a document worth trusting, not a SaaS dashboard asking to be trusted. The system is built on fine engraved-line ornament (a guilloché pattern borrowed from security paper and currency), a circular seal carrying the isotipo, and print-registration corner marks framing every screenshot — all rendered in solid committed color fields (deep navy, teal), never on cream or parchment. This is a deliberate rejection of the "diploma cliché" (warm cream ground, gold foil, serif-on-parchment): authenticity here is expressed through precision and engraving, not nostalgia.
+Penké's world treats every screen as if it were the certificate it produces: a document worth trusting, not a SaaS dashboard asking to be trusted. The system is built on fine engraved-line ornament (a guilloché pattern borrowed from security paper and currency), a circular seal carrying the isotipo, and print-registration corner marks framing marketing content — all rendered in solid committed color fields (deep navy, teal), never on cream or parchment. This is a deliberate rejection of the "diploma cliché" (warm cream ground, gold foil, serif-on-parchment): authenticity here is expressed through precision and engraving, not nostalgia.
 
-This world replaced an earlier version of the page built from default Tailwind conventions (slate/blue palette, Inter, rounded-2xl shadow cards, bento grid) that a design critique identified as "specific content, generic form" — the copy was authentically Ecuadorian but the visual language was interchangeable with any dev-tool landing. The redesign keeps the fixed brand marks (the penke-blue/penke-teal isotipo) and product truth, and replaces everything else.
+This world replaced an earlier version of the page built from default Tailwind conventions (slate/blue palette, Inter, rounded-2xl shadow cards, bento grid) that a design critique identified as "specific content, generic form". The redesign kept the fixed brand marks (the penke-blue/penke-teal isotipo) and product truth for marketing sections — but it had also been applied, incorrectly, to the screen-replica mockups. Those now follow the real app's own design system instead (see the rule above).
 
 **Key Characteristics:**
 - Committed color fields (deep navy, full-bleed) alternate with light "document" fields, never a wash of white cards on light gray.
@@ -143,10 +154,11 @@ Two corner languages, assigned by role: sharp/near-square (`rounded-sm`, 2–4px
 
 ## Components
 
-### Buttons
+### Buttons (marketing propio — nav, hero, CTA de descarga)
 - **Shape:** fully rounded (`rounded-full`).
 - **Primary:** solid teal (`#0E8F79`) background, white text, bold, `hover:` darkens to `#0B6F5E` and lifts 2px (`hover:-translate-y-0.5`).
-- **Secondary:** none in the current build — every call to action is the single teal primary button; the former dual-CTA (Windows / macOS-Linux) pattern was removed because it split attention on a promise the download page couldn't yet keep.
+- **Secondary:** none in the current build — every call to action *of the landing page itself* is the single teal primary button; the former dual-CTA (Windows / macOS-Linux) pattern was removed because it split attention on a promise the download page couldn't yet keep.
+- **Excepción:** dentro de cualquier mock que replica una pantalla real (sidebar del hero, sección "Así se ve firmar con Penké"), los botones son `bg-blue-600`/`rounded-xl`, exactamente como en la app — esa capa no sigue este sistema, ver la regla de dos capas al inicio del documento.
 
 ### Certificate Frame (signature component)
 - The system's core custom component (`.cert-frame` / `.cert-frame-dark`), used for every app-screenshot mockup. A double-ruled border (outer 1px near-black/white-10%, inner 1px teal inset 7px), four corner registration marks, and a header strip with the wordmark in tracked small caps plus a small mono readout on the right (e.g. "100% local", the active screen name). Replaces the earlier generic macOS-traffic-light browser-chrome mockup.
