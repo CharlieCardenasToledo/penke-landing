@@ -50,6 +50,18 @@ const bentoFeatures = [
     desc: "Autocomplete nativo con la división política oficial (provincias, cantones y parroquias) para la razón de firma.",
     colSpan: "md:col-span-1",
   },
+  {
+    num: "06",
+    title: "Actividad reciente sin salir de Inicio",
+    desc: "Revisa los últimos documentos firmados, ábrelos con un clic, muéstralos en su carpeta o copia la ruta — todo desde la misma pantalla.",
+    colSpan: "md:col-span-2",
+  },
+  {
+    num: "07",
+    title: "Contraseña recordada, cifrada en tu equipo",
+    desc: "Guárdala una sola vez por perfil y no vuelvas a escribirla cada vez que firmas.",
+    colSpan: "md:col-span-1",
+  },
 ];
 
 const faqs = [
@@ -116,7 +128,7 @@ const faqs = [
     description: "Aplicación gratuita y de código abierto para firmar electrónicamente, verificar y validar PDFs con certificados digitales ecuatorianos (.p12 o Token USB).",
     keywords: "firma electrónica Ecuador, firma digital Ecuador, descargar firma electrónica, firmar PDF Ecuador, certificado digital Ecuador, Token USB firma, FirmaEC",
     offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-    downloadUrl: "https://github.com/CharlieCardenasToledo/penke-ec/releases",
+    downloadUrl: "https://github.com/CharlieCardenasToledo/penke-ec/releases/latest",
     softwareHelp: "https://github.com/CharlieCardenasToledo/penke-ec",
     author: { "@type": "Person", name: "Charlie Cárdenas Toledo" },
     license: "https://opensource.org/license/mit/"
@@ -147,8 +159,7 @@ const faqs = [
         <circle cx="46" cy="0" r="20" fill="none" stroke="currentColor" stroke-width="0.6" opacity="0.35"/>
         <circle cx="0" cy="46" r="20" fill="none" stroke="currentColor" stroke-width="0.6" opacity="0.35"/>
       </pattern>
-      <symbol id="penke-seal" viewBox="0 0 200 200">
-        <circle cx="100" cy="100" r="94" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="1.5 7"/>
+      <symbol id="penke-seal" viewBox="8 8 184 184">
         <circle cx="100" cy="100" r="82" fill="none" stroke="currentColor" stroke-width="1.2"/>
         <circle cx="100" cy="100" r="72" fill="#ffffff"/>
         <g transform="translate(16,24) scale(0.3)">
@@ -237,7 +248,7 @@ const faqs = [
         </p>
 
         <div class="flex flex-col items-center gap-3 mb-10">
-          <a href="https://github.com/CharlieCardenasToledo/penke-ec/releases" target="_blank" rel="noopener"
+          <a data-download-link href="https://github.com/CharlieCardenasToledo/penke-ec/releases/latest" target="_blank" rel="noopener"
             class="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-7 py-3.5 rounded-full bg-penke-teal hover:bg-penke-teal-dark text-white font-bold text-sm shadow-xl shadow-black/20 transition-all hover:-translate-y-0.5">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
@@ -599,7 +610,7 @@ const faqs = [
       </p>
 
       <div class="flex flex-col items-center gap-3">
-        <a href="https://github.com/CharlieCardenasToledo/penke-ec/releases" target="_blank" rel="noopener"
+        <a data-download-link href="https://github.com/CharlieCardenasToledo/penke-ec/releases/latest" target="_blank" rel="noopener"
           class="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-7 py-3.5 rounded-full bg-penke-teal hover:bg-penke-teal-dark text-white font-bold text-sm shadow-xl shadow-black/20 transition-all hover:-translate-y-0.5">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
@@ -781,6 +792,35 @@ const faqs = [
         playCycle();
         setInterval(playCycle, cycleMs);
       });
+    }
+
+    // Descarga directa: el .exe en GitHub Releases incluye el número de
+    // versión en el nombre (p. ej. Penke.EC_1.0.1_x64-setup.exe), así que no
+    // se puede apuntar a un archivo fijo — se resuelve la última versión vía
+    // API y se reemplaza el href para que el clic baje el instalador
+    // directo, sin pasar por la página de releases de GitHub.
+    const downloadLinks = document.querySelectorAll("[data-download-link]");
+    if (downloadLinks.length) {
+      const CACHE_KEY = "penke-latest-exe-url";
+      const CACHE_TTL_MS = 60 * 60 * 1000;
+      const applyUrl = (url: string) => downloadLinks.forEach((a) => a.setAttribute("href", url));
+
+      let cached: { url: string; ts: number } | null = null;
+      try { cached = JSON.parse(sessionStorage.getItem(CACHE_KEY) || "null"); } catch {}
+
+      if (cached && Date.now() - cached.ts < CACHE_TTL_MS) {
+        applyUrl(cached.url);
+      } else {
+        fetch("https://api.github.com/repos/CharlieCardenasToledo/penke-ec/releases/latest")
+          .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
+          .then((data) => {
+            const asset = data.assets?.find((a: { name: string }) => a.name.endsWith("-setup.exe"));
+            if (!asset) return;
+            applyUrl(asset.browser_download_url);
+            try { sessionStorage.setItem(CACHE_KEY, JSON.stringify({ url: asset.browser_download_url, ts: Date.now() })); } catch {}
+          })
+          .catch(() => {}); // sin conexión a la API: queda el fallback a /releases/latest
+      }
     }
 
     // Reveal elements on scroll

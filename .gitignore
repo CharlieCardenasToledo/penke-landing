@@ -5,6 +5,9 @@ node_modules
 dist
 .astro
 
+# Firebase CLI local deploy cache
+.firebase/
+
 # Logs
 *.log
 npm-debug.log*
