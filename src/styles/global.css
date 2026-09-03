@@ -187,63 +187,61 @@ body {
   color: #1d4ed8;
 }
 
-/* ── Firma rápida animada — réplica del flujo arrastrar/soltar/firmar de
-   HomePage.tsx dentro de la sección "Así se ve firmar con Penké". Un cursor
-   agarra el PDF, lo arrastra hasta la dropzone y hace clic en el botón,
-   para que se lea como una interacción real y no como un simple fundido. */
+/* ── Demostración del flujo real de firma ─────────────────────────────── */
+.app-demo-frame { aspect-ratio: 4 / 5; }
+@media (min-width: 640px) { .app-demo-frame { aspect-ratio: 1376 / 768; } }
+.sign-demo-control { border: 1px solid #e2e8f0; border-radius: .5rem; padding: .25rem .45rem; color: #64748b; background: #fff; font-size: 9px; font-weight: 600; line-height: 1; }
+.sign-demo-control:hover { border-color: #93c5fd; color: #2563eb; }
+.sign-demo-viewport { position: relative; height: 318px; background: #f8fafc; }
+.sign-demo-scene { position: absolute; inset: 0; opacity: 0; visibility: hidden; transform: translateX(14px); transition: opacity .32s ease, transform .42s cubic-bezier(.2,.75,.3,1), visibility .32s; }
+.sign-demo-scene.is-active { opacity: 1; visibility: visible; transform: translateX(0); }
 @keyframes sign-demo-chip-drag {
-  0%   { opacity: 0; transform: translate(0, 0) rotate(-4deg); }
-  12%  { opacity: 1; transform: translate(0, 0) rotate(-4deg); }
-  100% { opacity: 0; transform: translate(96px, 58px) rotate(3deg); }
+  0% { opacity: 0; transform: translate(-4px, -5px) rotate(-3deg); }
+  12% { opacity: 1; transform: translate(-4px, -5px) rotate(-3deg); }
+  88% { opacity: 1; transform: translate(112px, 72px) rotate(1deg); }
+  100% { opacity: 0; transform: translate(112px, 72px) rotate(1deg); }
 }
-.sign-demo-flying-file {
-  opacity: 0;
-  pointer-events: none;
-}
-.sign-demo-flying-file.play {
-  animation: sign-demo-chip-drag 1.3s cubic-bezier(.32,.72,.35,1) both;
-}
-
-.sign-demo-cursor {
-  top: 4%;
-  left: 12%;
-  opacity: 0;
-  pointer-events: none;
-  filter: drop-shadow(0 2px 3px rgba(15, 23, 42, .35));
-}
+.sign-demo-flying-file { opacity: 0; pointer-events: none; }
+.sign-demo-flying-file.play { animation: sign-demo-chip-drag 1.45s cubic-bezier(.32,.72,.35,1) both; }
+.sign-demo-cursor { opacity: 0; pointer-events: none; filter: drop-shadow(0 2px 3px rgba(15,23,42,.35)); }
 @keyframes sign-demo-cursor-path {
-  0%   { opacity: 0; top: 4%;  left: 12%; transform: scale(1); }
-  8%   { opacity: 1; top: 4%;  left: 12%; transform: scale(1); }
-  16%  { opacity: 1; top: 4%;  left: 12%; transform: scale(0.85); }
-  48%  { opacity: 1; top: 48%; left: 50%; transform: scale(0.85); }
-  56%  { opacity: 1; top: 48%; left: 50%; transform: scale(1); }
-  82%  { opacity: 1; top: 76%; left: 50%; transform: scale(1); }
-  88%  { opacity: 1; top: 76%; left: 50%; transform: scale(0.78); }
-  95%  { opacity: 1; top: 76%; left: 50%; transform: scale(1); }
-  100% { opacity: 0; top: 76%; left: 50%; transform: scale(1); }
+  0% { opacity: 0; top: 24%; left: 12%; transform: scale(1); }
+  10% { opacity: 1; top: 24%; left: 12%; transform: scale(1); }
+  18% { opacity: 1; top: 24%; left: 12%; transform: scale(.82); }
+  78% { opacity: 1; top: 58%; left: 55%; transform: scale(.82); }
+  90% { opacity: 1; top: 58%; left: 55%; transform: scale(1); }
+  100% { opacity: 0; top: 58%; left: 55%; transform: scale(1); }
 }
-.sign-demo-cursor.play {
-  animation: sign-demo-cursor-path 2.8s cubic-bezier(.4,.1,.2,1) both;
-}
-
-.sign-demo-btn {
-  transition: transform 0.15s ease;
-}
-.sign-demo-btn.press {
-  transform: scale(0.97);
-}
-.sign-demo-toast {
-  opacity: 0;
-  transform: translateY(8px);
-  transition: opacity 0.25s ease, transform 0.25s ease;
-}
-.sign-demo-toast.show {
-  opacity: 1;
-  transform: translateY(0);
-}
+.sign-demo-cursor-upload.play { animation: sign-demo-cursor-path 1.55s cubic-bezier(.4,.1,.2,1) both; }
+.sign-demo-btn, .sign-demo-review-btn { transition: transform .15s ease, filter .15s ease; }
+.sign-demo-btn.press, .sign-demo-review-btn.press { transform: scale(.975); filter: brightness(.94); }
+.sign-demo-paper { height: 210px; }
+.sign-demo-stamp { width: 98px; }
+@keyframes sign-demo-stamp-place { 0% { transform: translate(0,0) rotate(-2deg); box-shadow: 0 4px 12px rgba(15,23,42,.16); } 70%,100% { transform: translate(102px,102px) rotate(0); box-shadow: 0 2px 7px rgba(37,99,235,.18); } }
+.sign-demo-stamp.play { animation: sign-demo-stamp-place 1.35s cubic-bezier(.2,.8,.25,1) both; }
+@keyframes sign-demo-cursor-position { 0% { opacity:0; top:33%; left:19%; transform:scale(1); } 12% { opacity:1; top:33%; left:19%; transform:scale(.82); } 70% { opacity:1; top:66%; left:47%; transform:scale(.82); } 86% { opacity:1; top:66%; left:47%; transform:scale(1); } 100% { opacity:0; top:66%; left:47%; transform:scale(1); } }
+.sign-demo-cursor-position.play { animation: sign-demo-cursor-position 1.45s cubic-bezier(.3,.7,.25,1) both; }
+.sign-demo-corner { display:flex; align-items:center; justify-content:center; height:28px; border:1px solid #e2e8f0; border-radius:7px; color:#64748b; background:#fff; }
+.sign-demo-corner.is-selected { border-color:#60a5fa; color:#2563eb; background:#eff6ff; }
+@keyframes sign-demo-cursor-review { 0% { opacity:0; top:54%; left:72%; transform:scale(1); } 25% { opacity:1; top:84%; left:52%; transform:scale(1); } 55% { opacity:1; top:84%; left:52%; transform:scale(.78); } 75% { opacity:1; top:84%; left:52%; transform:scale(1); } 100% { opacity:0; top:84%; left:52%; transform:scale(1); } }
+.sign-demo-cursor-review.play { animation: sign-demo-cursor-review 1.15s ease-in-out both; }
+.sign-demo-spinner { width:38px; height:38px; border:3px solid #dbeafe; border-top-color:#2563eb; border-radius:50%; animation:sign-demo-spin .8s linear infinite; }
+@keyframes sign-demo-spin { to { transform:rotate(360deg); } }
+.sign-demo-progress { width:0; animation:sign-demo-progress 1.65s ease-out forwards; }
+@keyframes sign-demo-progress { to { width:100%; } }
 @media (prefers-reduced-motion: reduce) {
   .sign-demo-flying-file, .sign-demo-cursor { display: none; }
-  .sign-demo-btn, .sign-demo-toast { transition: none; }
+  .sign-demo-scene, .sign-demo-btn, .sign-demo-review-btn { transition: none; }
+  .sign-demo-spinner, .sign-demo-progress, .sign-demo-stamp { animation: none !important; }
+}
+@media (max-width: 639px) {
+  .sign-demo-control:first-child { display: none; }
+  .sign-demo-position-grid { grid-template-columns: 1fr; }
+  .sign-demo-position-controls { display: none; }
+  .sign-demo-paper { height: 214px; }
+  @keyframes sign-demo-stamp-place { 0% { transform:translate(0,0) rotate(-2deg); } 70%,100% { transform:translate(50px,105px) rotate(0); } }
+  .sign-demo-review-grid { grid-template-columns: 1fr; gap: .3rem; }
+  .sign-demo-review-grid > div:nth-child(4), .sign-demo-review-grid > div:nth-child(5) { display: none; }
 }
 
 /* ── Clause numeral: ghost figure marking each numbered item ──────────── */

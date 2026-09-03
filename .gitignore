@@ -24,6 +24,10 @@ npm-debug.log*
 .impeccable/config.local.json
 .impeccable/hook.cache.json
 
+# Generated media and local PDF working files
+tmp/
+output/pdf/*-signed.pdf
+
 # Editor
 .vscode/*
 !.vscode/extensions.json
