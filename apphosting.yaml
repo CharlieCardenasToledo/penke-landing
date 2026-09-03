@@ -1,0 +1,4 @@
+# Firebase App Hosting configuration for Astro SSR.
+# PORT is injected by App Hosting and must not be hard-coded here.
+scripts:
+  runCommand: npm run start
