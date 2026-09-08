@@ -1,6 +1,9 @@
 ---
 import "../styles/global.css";
 
+const currentVersion = "1.0.5";
+const releaseUrl = "https://github.com/CharlieCardenasToledo/penke-ec/releases/tag/v1.0.5";
+
 // Iconos lucide reales (mismos que Sidebar.tsx / FirmarPage.tsx / VerificarPage.tsx /
 // ValidarPage.tsx) — usados dentro de los mocks de pantalla, nunca glifos Unicode.
 const svgAttrs = 'xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"';
@@ -62,6 +65,12 @@ const bentoFeatures = [
     desc: "Guárdala una sola vez por perfil y no vuelvas a escribirla cada vez que firmas.",
     colSpan: "md:col-span-1",
   },
+  {
+    num: "08",
+    title: "Actualizaciones seguras desde la app",
+    desc: "Penké comprueba nuevas versiones, te muestra el changelog y descarga paquetes firmados para actualizar sin salir de la aplicación.",
+    colSpan: "md:col-span-2",
+  },
 ];
 
 const faqs = [
@@ -88,6 +97,10 @@ const faqs = [
   {
     q: "¿Cómo revisa Penké que mi certificado sea válido?",
     a: "Penké revisa la vigencia, la identidad del titular y la entidad emisora. Cuando corresponde, consulta el estado de revocación del certificado antes de dejarte firmar."
+  },
+  {
+    q: "¿Penké se actualiza automáticamente?",
+    a: "Sí. Al abrirse, Penké comprueba si hay una nueva versión. Si existe, muestra sus notas de cambios y te permite descargarla e instalarla desde la propia aplicación, con paquetes firmados para verificar su autenticidad."
   }
 ];
 ---
@@ -99,10 +112,14 @@ const faqs = [
   <title>Penké — Firma electrónica y digital de PDF en Ecuador, gratis</title>
   <meta name="description" content="Descarga Penké gratis: firma electrónica y digital de documentos PDF en Ecuador con tu certificado (.p12 o Token USB). Verifica firmas y valida certificados sin instalar Java. 100% gratuita y de código abierto." />
   <meta name="robots" content="index, follow" />
+  <meta name="keywords" content="firma electrónica Ecuador, firma digital Ecuador, firmar PDF, certificado digital Ecuador, Token USB, FirmaEC, validar firma PDF" />
+  <meta name="application-name" content="Penké" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
   <link rel="canonical" href="https://penke.ec/" />
   <meta property="og:title" content="Penké — Firma electrónica y digital de PDF en Ecuador, gratis" />
   <meta property="og:description" content="Adiós a las instalaciones complicadas. Firma, verifica y valida PDFs con tu certificado digital o firma electrónica ecuatoriana en segundos." />
   <meta property="og:image" content="https://penke.ec/screenshots/home.jpg" />
+  <meta property="og:image:alt" content="Interfaz de Penké para firmar documentos PDF" />
   <meta property="og:url" content="https://penke.ec/" />
   <meta property="og:site_name" content="Penké" />
   <meta property="og:type" content="website" />
@@ -111,6 +128,7 @@ const faqs = [
   <meta name="twitter:title" content="Penké — Firma electrónica y digital de PDF en Ecuador, gratis" />
   <meta name="twitter:description" content="Firma, verifica y valida PDFs con tu certificado digital ecuatoriano. Gratis, local y de código abierto." />
   <meta name="twitter:image" content="https://penke.ec/screenshots/home.jpg" />
+  <meta name="twitter:image:alt" content="Interfaz de Penké para firmar documentos PDF" />
   <meta name="theme-color" content="#0F172A" />
   <meta name="author" content="Charlie Cárdenas Toledo" />
   <link rel="icon" type="image/png" href="/brand/penke-app-icon.png" />
@@ -123,13 +141,16 @@ const faqs = [
     image: "https://penke.ec/screenshots/home.jpg",
     applicationCategory: "BusinessApplication",
     applicationSubCategory: "Firma electrónica y digital de documentos",
-    operatingSystem: "Windows",
+    softwareVersion: currentVersion,
+    operatingSystem: "Windows, macOS, Linux",
     inLanguage: "es-EC",
     description: "Aplicación gratuita y de código abierto para firmar electrónicamente, verificar y validar PDFs con certificados digitales ecuatorianos (.p12 o Token USB).",
+    featureList: ["Firma electrónica de PDF", "Firma en lote", "Verificación de firmas", "Validación de certificados", "Actualizaciones seguras integradas"],
     keywords: "firma electrónica Ecuador, firma digital Ecuador, descargar firma electrónica, firmar PDF Ecuador, certificado digital Ecuador, Token USB firma, FirmaEC",
     offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
     downloadUrl: "https://github.com/CharlieCardenasToledo/penke-ec/releases/latest",
     softwareHelp: "https://github.com/CharlieCardenasToledo/penke-ec",
+    releaseNotes: releaseUrl,
     author: { "@type": "Person", name: "Charlie Cárdenas Toledo" },
     license: "https://opensource.org/license/mit/"
   })}></script>
@@ -257,7 +278,8 @@ const faqs = [
             </svg>
             Descargar Penké gratis
           </a>
-          <p class="text-xs text-slate-400 font-medium">Disponible para Windows — macOS y Linux, muy pronto.</p>
+          <p class="text-xs text-slate-400 font-medium">v{currentVersion} · Disponible para Windows, macOS y Linux</p>
+          <a href={releaseUrl} target="_blank" rel="noopener" class="text-xs text-penke-teal hover:text-white transition-colors">Ver todos los instaladores y notas de la versión →</a>
         </div>
 
         <div class="pt-4 border-t border-white/10 max-w-lg mx-auto flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-[11px] text-slate-400 font-semibold uppercase tracking-wide">
@@ -283,7 +305,7 @@ const faqs = [
           </div>
           <div class="app-mock-window" aria-label="Pantalla de inicio de Penké">
             <aside class="app-mock-sidebar">
-              <div class="app-mock-brand"><img src="/brand/penke-imagotipo-white.svg" alt="Penké" /><small>v1.0.0</small></div>
+              <div class="app-mock-brand"><img src="/brand/penke-imagotipo-white.svg" alt="Penké" /><small>v{currentVersion}</small></div>
               <div class="app-mock-side-item active"><span set:html={iconHome} /><span>Inicio</span></div>
               <div class="app-mock-side-item"><span set:html={iconPenLine} /><span>Firmar documento</span></div>
               <div class="app-mock-side-item"><span set:html={iconShieldCheck} /><span>Comprobar firma</span></div>
@@ -673,7 +695,8 @@ const faqs = [
           </svg>
           Descargar Penké gratis
         </a>
-        <p class="text-xs text-slate-400">Disponible para Windows — macOS y Linux, muy pronto.</p>
+        <p class="text-xs text-slate-400">v{currentVersion} · Disponible para Windows, macOS y Linux</p>
+        <a href={releaseUrl} target="_blank" rel="noopener" class="text-xs text-penke-teal hover:text-white transition-colors">Ver todos los instaladores y notas de la versión →</a>
       </div>
 
     </div>
@@ -883,7 +906,7 @@ const faqs = [
       });
 
     // Descarga directa: el .exe en GitHub Releases incluye el número de
-    // versión en el nombre (p. ej. Penke.EC_1.0.1_x64-setup.exe), así que no
+    // versión en el nombre (p. ej. Penke.EC_1.0.5_x64-setup.exe), así que no
     // se puede apuntar a un archivo fijo — se resuelve la última versión vía
     // API y se reemplaza el href para que el clic baje el instalador
     // directo, sin pasar por la página de releases de GitHub.
