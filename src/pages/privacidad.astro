@@ -1,0 +1,43 @@
+---
+import "../styles/global.css";
+
+const title = "Política de privacidad — Penké EC";
+const description = "Conoce cómo Penké EC protege tus documentos, certificados y contraseñas mediante procesamiento local.";
+---
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://penke.ec/privacidad" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content="https://penke.ec/privacidad" />
+    <meta property="og:type" content="website" />
+    <link rel="icon" type="image/png" href="/brand/penke-app-icon.png" />
+  </head>
+  <body class="min-h-screen bg-slate-50 text-slate-800 antialiased">
+    <header class="border-b border-slate-200 bg-white">
+      <div class="mx-auto flex max-w-4xl items-center justify-between px-6 py-5">
+        <a href="/" class="font-serif text-xl font-bold text-slate-900">Penké</a>
+        <a href="/" class="text-sm font-semibold text-blue-600 hover:text-blue-800">Volver al inicio</a>
+      </div>
+    </header>
+    <main class="mx-auto max-w-3xl px-6 py-14 sm:py-20">
+      <article class="rounded-2xl border border-slate-200 bg-white p-7 shadow-sm sm:p-10">
+        <p class="mb-3 text-xs font-bold uppercase tracking-widest text-blue-600">Penké EC</p>
+        <h1 class="font-serif text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">Política de privacidad</h1>
+        <p class="mt-3 text-sm text-slate-500">Última actualización: 8 de septiembre de 2026</p>
+        <div class="mt-10 space-y-8 text-sm leading-7 text-slate-600">
+          <section><h2 class="mb-2 text-lg font-bold text-slate-900">Tratamiento local</h2><p>Los documentos PDF, certificados <code>.p12</code>/<code>.pfx</code>, contraseñas y datos introducidos para la firma se procesan localmente en tu equipo. Penké no sube esos archivos ni las claves privadas a servidores propios.</p><p class="mt-3">El backend funciona únicamente en <code>127.0.0.1</code> y la clave maestra se guarda en el almacén seguro del sistema operativo.</p></section>
+          <section><h2 class="mb-2 text-lg font-bold text-slate-900">Comunicaciones externas</h2><p>Penké puede consultar servicios oficiales para comprobar la vigencia o revocación de un certificado y GitHub Releases para detectar actualizaciones. Estas actualizaciones se verifican criptográficamente antes de instalarse.</p></section>
+          <section><h2 class="mb-2 text-lg font-bold text-slate-900">Almacenamiento</h2><p>Los perfiles, preferencias e historial se almacenan localmente. Penké no utiliza publicidad, perfiles de seguimiento ni vende datos personales.</p></section>
+          <section><h2 class="mb-2 text-lg font-bold text-slate-900">Independencia y contacto</h2><p>Penké es software independiente; no es un producto oficial ni está afiliado a MINTEL Ecuador. Para consultas, abre un <a class="font-semibold text-blue-600 hover:text-blue-800" href="https://github.com/CharlieCardenasToledo/penke-ec/issues" target="_blank" rel="noopener">issue en GitHub</a>.</p></section>
+        </div>
+      </article>
+    </main>
+  </body>
+</html>
