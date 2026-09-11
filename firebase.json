@@ -18,7 +18,8 @@
         "dist/**",
         "tmp/**",
         "output/**",
-        "artifacts/**"
+        "artifacts/**",
+        "public/downloads/**"
       ]
     }
   ]
