@@ -48,8 +48,11 @@ export function pemToCertificates(pem: string): pkijs.Certificate[] {
   });
 }
 
-const ROOTS = pemToCertificates(rootsPem);
 const INTERMEDIATES = pemToCertificates(intermediatesPem);
+// Las subordinadas conocidas también son anclas: algunas entidades emiten bajo
+// raíces que no están en el listado (p. ej. la SubCA-2 de Security Data cuelga
+// de "RAIZ CA-2"). Es el mismo criterio que la validación de la app de escritorio.
+const ROOTS = [...pemToCertificates(rootsPem), ...INTERMEDIATES];
 
 function commonName(name: pkijs.RelativeDistinguishedNames): string {
   const cn = name.typesAndValues.find((tv) => tv.type === "2.5.4.3");

@@ -75,7 +75,7 @@ const bentoFeatures = [
 const faqs = [
   {
     q: "¿Penké es lo mismo que la firma electrónica (FirmaEC) del MINTEL?",
-    a: "No exactamente. Penké es una aplicación independiente que usa por dentro la librería oficial FirmaDigital del MINTEL para el proceso criptográfico, pero con una interfaz más simple y sin pasos técnicos aparte. Tu certificado de firma electrónica ecuatoriana (.p12 o Token USB) funciona igual que en la app oficial — Penké solo cambia cómo se usa, no quién lo emite ni lo valida."
+    a: "No exactamente. Penké es una aplicación independiente con su propio motor de firma: genera firmas PAdES estándar que se validan en el validador oficial FirmaEC, con una interfaz más simple y sin pasos técnicos aparte. Tu certificado de firma electrónica ecuatoriana (.p12 o Token USB) funciona igual que en la app oficial — Penké solo cambia cómo se usa, no quién lo emite ni lo valida."
   },
   {
     q: "¿Por qué no tengo que instalar Java por mi cuenta?",
@@ -697,7 +697,7 @@ const faqs = [
         <strong class="text-slate-300">Nota de independencia:</strong> Penké es un proyecto de software independiente y no es un producto oficial del Ministerio de Telecomunicaciones y de la Sociedad de la Información (MINTEL) de Ecuador.
       </p>
       <p class="text-[12px] text-slate-500 max-w-[68ch] mx-auto">
-        Utiliza la librería FirmaDigital, distribuida bajo licencia GPL v3 por el MINTEL Ecuador, para el proceso criptográfico de firma.
+        Las firmas se generan con un motor propio (PAdES) y se validan en el validador oficial FirmaEC.
       </p>
     </div>
   </div>
