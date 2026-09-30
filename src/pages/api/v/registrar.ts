@@ -71,5 +71,6 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     return json(503, { code: "STORAGE_UNAVAILABLE", error: "No se pudo guardar el registro" });
   }
 
-  return json(201, { id: registro.id, url: new URL(`/v/${registro.id}`, request.url).toString() });
+  // request.url es interna detrás del proxy de App Hosting; se usa el dominio del sitio
+  return json(201, { id: registro.id, url: new URL(`/v/${registro.id}`, import.meta.env.SITE).toString() });
 };

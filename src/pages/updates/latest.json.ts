@@ -5,7 +5,11 @@ import { fetchAssetText, getRelease } from "../../lib/githubReleases";
 // URLs de GitHub que no son públicas; se reescriben a /downloads/<archivo> en
 // este mismo sitio. Las firmas del manifiesto no cambian: cubren el archivo,
 // no la URL.
-export const GET: APIRoute = async ({ url }) => {
+// Detrás del proxy de App Hosting la URL de la petición es interna
+// (https://localhost); los enlaces públicos se arman con el dominio del sitio.
+const SITE = import.meta.env.SITE;
+
+export const GET: APIRoute = async () => {
   try {
     const release = await getRelease("latest");
     const asset = release?.assets.find((a) => a.name === "latest.json");
@@ -16,7 +20,7 @@ export const GET: APIRoute = async ({ url }) => {
       if (!platform.url) continue;
       const filename = decodeURIComponent(platform.url.split("/").pop() ?? "");
       // El tag va explícito: algunos assets (p. ej. el .app.tar.gz de macOS) no llevan la versión en el nombre
-      const target = new URL(`/downloads/${encodeURIComponent(filename)}`, url.origin);
+      const target = new URL(`/downloads/${encodeURIComponent(filename)}`, SITE);
       target.searchParams.set("tag", release!.tag_name);
       platform.url = target.toString();
     }
