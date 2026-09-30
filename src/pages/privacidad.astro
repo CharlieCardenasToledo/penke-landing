@@ -1,43 +1,201 @@
 ---
 import "../styles/global.css";
 
-const title = "Política de privacidad — Penké EC";
-const description = "Conoce cómo Penké EC protege tus documentos, certificados y contraseñas mediante procesamiento local.";
+const title = "Política de privacidad | Penké Firma Digital EC";
+const description = "Conoce cómo Penké Firma Digital EC procesa y protege documentos, certificados, claves y preferencias en tu equipo.";
+const canonical = "https://penke.nekateklabs.com/privacidad";
+const updatedAt = "30 de septiembre de 2026";
+
+Astro.response.headers.set("Content-Type", "text/html; charset=utf-8");
+Astro.response.headers.set("X-Robots-Tag", "index, follow");
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  name: title,
+  description,
+  url: canonical,
+  inLanguage: "es-EC",
+  dateModified: "2026-09-30",
+  isPartOf: { "@type": "WebSite", name: "Penké Firma Digital EC", url: "https://penke.nekateklabs.com/" },
+};
 ---
 <!doctype html>
-<html lang="es">
+<html lang="es-EC" class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    <meta name="author" content="Charlie Cárdenas Toledo" />
     <meta name="robots" content="index, follow" />
-    <link rel="canonical" href="https://penke.ec/privacidad" />
+    <link rel="canonical" href={canonical} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:url" content="https://penke.ec/privacidad" />
+    <meta property="og:url" content={canonical} />
     <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_EC" />
+    <meta property="og:image" content="https://penke.nekateklabs.com/screenshots/home.jpg" />
+    <meta property="og:image:alt" content="Interfaz de Penké Firma Digital EC" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://penke.nekateklabs.com/screenshots/home.jpg" />
     <link rel="icon" type="image/png" href="/brand/penke-app-icon.png" />
+    <script type="application/ld+json" set:html={JSON.stringify(structuredData)}></script>
   </head>
-  <body class="min-h-screen bg-slate-50 text-slate-800 antialiased">
-    <header class="border-b border-slate-200 bg-white">
-      <div class="mx-auto flex max-w-4xl items-center justify-between px-6 py-5">
-        <a href="/" class="font-serif text-xl font-bold text-slate-900">Penké</a>
-        <a href="/" class="text-sm font-semibold text-blue-600 hover:text-blue-800">Volver al inicio</a>
+  <body class="min-h-screen bg-[#f5f7fb] text-slate-700 antialiased selection:bg-blue-100 selection:text-blue-950">
+    <header class="border-b border-slate-200/90 bg-white/95 backdrop-blur">
+      <div class="mx-auto flex max-w-6xl items-center justify-between px-5 py-4 sm:px-8">
+        <a href="/" class="flex items-center gap-3 text-slate-950" aria-label="Ir al inicio de Penké">
+          <img src="/brand/penke-app-icon.png" alt="" class="h-9 w-9 rounded-xl" />
+          <span class="font-serif text-xl font-bold tracking-tight">Penké</span>
+        </a>
+        <a href="/" class="rounded-lg px-3 py-2 text-sm font-semibold text-blue-700 transition hover:bg-blue-50 hover:text-blue-900">Volver al inicio</a>
       </div>
     </header>
-    <main class="mx-auto max-w-3xl px-6 py-14 sm:py-20">
-      <article class="rounded-2xl border border-slate-200 bg-white p-7 shadow-sm sm:p-10">
-        <p class="mb-3 text-xs font-bold uppercase tracking-widest text-blue-600">Penké EC</p>
-        <h1 class="font-serif text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">Política de privacidad</h1>
-        <p class="mt-3 text-sm text-slate-500">Última actualización: 8 de septiembre de 2026</p>
-        <div class="mt-10 space-y-8 text-sm leading-7 text-slate-600">
-          <section><h2 class="mb-2 text-lg font-bold text-slate-900">Tratamiento local</h2><p>Los documentos PDF, certificados <code>.p12</code>/<code>.pfx</code>, contraseñas y datos introducidos para la firma se procesan localmente en tu equipo. Penké no sube esos archivos ni las claves privadas a servidores propios.</p><p class="mt-3">El backend funciona únicamente en <code>127.0.0.1</code> y la clave maestra se guarda en el almacén seguro del sistema operativo.</p></section>
-          <section><h2 class="mb-2 text-lg font-bold text-slate-900">Comunicaciones externas</h2><p>Penké puede consultar servicios oficiales para comprobar la vigencia o revocación de un certificado y GitHub Releases para detectar actualizaciones. Estas actualizaciones se verifican criptográficamente antes de instalarse.</p></section>
-          <section><h2 class="mb-2 text-lg font-bold text-slate-900">Almacenamiento</h2><p>Los perfiles, preferencias e historial se almacenan localmente. Penké no utiliza publicidad, perfiles de seguimiento ni vende datos personales.</p></section>
-          <section><h2 class="mb-2 text-lg font-bold text-slate-900">Independencia y contacto</h2><p>Penké es software independiente; no es un producto oficial ni está afiliado a MINTEL Ecuador. Para consultas, abre un <a class="font-semibold text-blue-600 hover:text-blue-800" href="https://github.com/CharlieCardenasToledo/penke-ec/issues" target="_blank" rel="noopener">issue en GitHub</a>.</p></section>
+
+    <main>
+      <section class="border-b border-slate-200 bg-[#0f2747] text-white">
+        <div class="mx-auto max-w-6xl px-5 py-12 sm:px-8 sm:py-16">
+          <p class="text-xs font-bold uppercase tracking-[0.2em] text-blue-200">Privacidad y transparencia</p>
+          <h1 class="mt-4 max-w-3xl font-serif text-4xl font-bold tracking-tight sm:text-5xl">Tus documentos permanecen bajo tu control</h1>
+          <p class="mt-5 max-w-3xl text-base leading-7 text-slate-200 sm:text-lg">Penké procesa la firma electrónica en tu equipo. Esta política explica, sin letra pequeña, qué información utiliza la aplicación, dónde se almacena y qué decisiones puedes tomar.</p>
+          <div class="mt-8 flex flex-wrap gap-2.5" aria-label="Principios de privacidad de Penké">
+            <span class="rounded-full border border-white/15 bg-white/10 px-3.5 py-1.5 text-sm font-semibold text-blue-50">Procesamiento local</span>
+            <span class="rounded-full border border-white/15 bg-white/10 px-3.5 py-1.5 text-sm font-semibold text-blue-50">Sin publicidad</span>
+            <span class="rounded-full border border-white/15 bg-white/10 px-3.5 py-1.5 text-sm font-semibold text-blue-50">Sin venta de datos</span>
+          </div>
         </div>
-      </article>
+      </section>
+
+      <div class="mx-auto grid max-w-6xl gap-10 px-5 py-10 sm:px-8 lg:grid-cols-[240px_minmax(0,1fr)] lg:py-14">
+        <aside class="lg:sticky lg:top-6 lg:self-start">
+          <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+            <p class="text-xs font-bold uppercase tracking-widest text-slate-500">Contenido</p>
+            <nav class="mt-4" aria-label="Índice de la política de privacidad">
+              <ol class="space-y-2 text-sm font-medium">
+                <li><a class="block rounded-md px-2 py-1.5 hover:bg-slate-50 hover:text-blue-700" href="#alcance">1. Alcance y responsable</a></li>
+                <li><a class="block rounded-md px-2 py-1.5 hover:bg-slate-50 hover:text-blue-700" href="#datos">2. Datos procesados</a></li>
+                <li><a class="block rounded-md px-2 py-1.5 hover:bg-slate-50 hover:text-blue-700" href="#finalidades">3. Finalidades</a></li>
+                <li><a class="block rounded-md px-2 py-1.5 hover:bg-slate-50 hover:text-blue-700" href="#seguridad">4. Almacenamiento y seguridad</a></li>
+                <li><a class="block rounded-md px-2 py-1.5 hover:bg-slate-50 hover:text-blue-700" href="#terceros">5. Servicios externos</a></li>
+                <li><a class="block rounded-md px-2 py-1.5 hover:bg-slate-50 hover:text-blue-700" href="#qr-verificable">6. QR verificable (opcional)</a></li>
+                <li><a class="block rounded-md px-2 py-1.5 hover:bg-slate-50 hover:text-blue-700" href="#controles">7. Tus controles</a></li>
+                <li><a class="block rounded-md px-2 py-1.5 hover:bg-slate-50 hover:text-blue-700" href="#menores">8. Menores de edad</a></li>
+                <li><a class="block rounded-md px-2 py-1.5 hover:bg-slate-50 hover:text-blue-700" href="#cambios">9. Cambios</a></li>
+                <li><a class="block rounded-md px-2 py-1.5 hover:bg-slate-50 hover:text-blue-700" href="#contacto">10. Contacto</a></li>
+              </ol>
+            </nav>
+            <div class="mt-5 border-t border-slate-200 pt-4 text-xs leading-5 text-slate-500">Última actualización<br /><strong class="font-semibold text-slate-700">{updatedAt}</strong></div>
+          </div>
+        </aside>
+
+        <article class="min-w-0 rounded-2xl border border-slate-200 bg-white px-6 py-8 shadow-sm sm:px-10 sm:py-10">
+          <div class="rounded-xl border border-emerald-200 bg-emerald-50 px-5 py-4 text-sm leading-6 text-emerald-950"><strong>Resumen:</strong> Penké no opera una nube para almacenar tus documentos. Los PDF, certificados, claves privadas y contraseñas utilizados para firmar no se envían a servidores de Penké. Solo si activas el <a class="font-semibold underline underline-offset-4" href="#qr-verificable">QR verificable</a>, se publican los datos del sello de cada firma.</div>
+
+          <div class="mt-10 space-y-12 text-[15px] leading-7">
+            <section id="alcance" class="scroll-mt-8">
+              <p class="text-xs font-bold uppercase tracking-widest text-blue-700">01</p>
+              <h2 class="mt-2 font-serif text-2xl font-bold text-slate-950">Alcance y responsable</h2>
+              <div class="mt-4 space-y-3">
+                <p>Esta política se aplica a Penké Firma Digital EC para Windows y a su sitio web oficial. Describe el tratamiento de información realizado al firmar, verificar y validar documentos, administrar perfiles de firma o buscar actualizaciones.</p>
+                <p>El responsable del proyecto es <strong class="font-semibold text-slate-900">Charlie Cárdenas Toledo</strong>, desarrollador independiente de Penké. Penké no es un producto oficial ni está afiliado al Ministerio de Telecomunicaciones y de la Sociedad de la Información del Ecuador.</p>
+              </div>
+            </section>
+
+            <section id="datos" class="scroll-mt-8">
+              <p class="text-xs font-bold uppercase tracking-widest text-blue-700">02</p>
+              <h2 class="mt-2 font-serif text-2xl font-bold text-slate-950">Datos que procesa Penké</h2>
+              <p class="mt-4">La aplicación solo accede a la información necesaria para ejecutar las funciones que solicitas. La siguiente tabla resume ese tratamiento.</p>
+              <div class="mt-5 overflow-x-auto rounded-xl border border-slate-200">
+                <table class="w-full min-w-[650px] border-collapse text-left text-sm">
+                  <thead class="bg-slate-50 text-xs uppercase tracking-wider text-slate-600"><tr><th class="px-4 py-3 font-bold">Información</th><th class="px-4 py-3 font-bold">Dónde</th><th class="px-4 py-3 font-bold">Para qué</th><th class="px-4 py-3 font-bold">Transmisión</th></tr></thead>
+                  <tbody class="divide-y divide-slate-200 align-top">
+                    <tr><td class="px-4 py-4 font-semibold text-slate-900">PDF y datos de firma</td><td class="px-4 py-4">Tu equipo</td><td class="px-4 py-4">Firmar y verificar</td><td class="px-4 py-4">No se envían a Penké</td></tr>
+                    <tr><td class="px-4 py-4 font-semibold text-slate-900">Certificados, claves y contraseñas</td><td class="px-4 py-4">Tu equipo o dispositivo criptográfico</td><td class="px-4 py-4">Autenticar y firmar</td><td class="px-4 py-4">No se comparten</td></tr>
+                    <tr><td class="px-4 py-4 font-semibold text-slate-900">Perfiles, preferencias e historial</td><td class="px-4 py-4">Almacenamiento local</td><td class="px-4 py-4">Facilitar el uso y conservar tus ajustes</td><td class="px-4 py-4">No se sincronizan</td></tr>
+                    <tr><td class="px-4 py-4 font-semibold text-slate-900">Consultas técnicas</td><td class="px-4 py-4">Servicios externos indicados abajo</td><td class="px-4 py-4">Validar certificados y buscar versiones</td><td class="px-4 py-4">Sin PDF ni claves privadas</td></tr>
+                    <tr><td class="px-4 py-4 font-semibold text-slate-900">Datos del sello (solo con QR verificable)</td><td class="px-4 py-4">Servidor de Penké</td><td class="px-4 py-4">Que quien escanee el QR confirme la firma</td><td class="px-4 py-4">Se publican; nunca el PDF</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </section>
+
+            <section id="finalidades" class="scroll-mt-8">
+              <p class="text-xs font-bold uppercase tracking-widest text-blue-700">03</p>
+              <h2 class="mt-2 font-serif text-2xl font-bold text-slate-950">Finalidades del tratamiento</h2>
+              <ul class="mt-4 list-disc space-y-2 pl-5 marker:text-blue-600">
+                <li>Crear firmas electrónicas sobre los documentos seleccionados por el usuario.</li>
+                <li>Inspeccionar firmas existentes y mostrar sus resultados de verificación.</li>
+                <li>Consultar el estado o revocación de certificados cuando la función lo requiera.</li>
+                <li>Guardar localmente configuraciones, perfiles e historial para mejorar la continuidad de uso.</li>
+                <li>Comprobar si existe una versión nueva y permitir que el usuario decida si desea instalarla.</li>
+                <li>Si el usuario lo activa, publicar los datos del sello para que el QR del documento pueda verificarse en línea.</li>
+              </ul>
+              <p class="mt-4">Penké no utiliza esta información para publicidad, seguimiento entre aplicaciones, elaboración de perfiles comerciales ni venta de datos.</p>
+            </section>
+
+            <section id="seguridad" class="scroll-mt-8">
+              <p class="text-xs font-bold uppercase tracking-widest text-blue-700">04</p>
+              <h2 class="mt-2 font-serif text-2xl font-bold text-slate-950">Almacenamiento, conservación y seguridad</h2>
+              <div class="mt-4 space-y-3">
+                <p>El procesamiento principal ocurre localmente. El servicio interno de Penké escucha únicamente en <code class="rounded bg-slate-100 px-1.5 py-0.5 text-sm text-slate-900">127.0.0.1</code>, por lo que no se expone como servicio público de red. La clave maestra se conserva en el almacén seguro del sistema operativo.</p>
+                <p>Los perfiles, preferencias e historial permanecen en el dispositivo hasta que los elimines o desinstales la aplicación. Penké no establece un periodo de conservación en servidores propios para documentos o credenciales porque esos elementos no se cargan a infraestructura de Penké.</p>
+                <p>Ningún sistema puede garantizar seguridad absoluta. Por eso recomendamos mantener Windows actualizado, proteger tu sesión de usuario y custodiar adecuadamente los certificados y dispositivos criptográficos.</p>
+              </div>
+            </section>
+
+            <section id="terceros" class="scroll-mt-8">
+              <p class="text-xs font-bold uppercase tracking-widest text-blue-700">05</p>
+              <h2 class="mt-2 font-serif text-2xl font-bold text-slate-950">Comunicaciones externas y terceros</h2>
+              <div class="mt-4 space-y-3">
+                <p>Penké puede consultar servicios de validación asociados a la infraestructura del certificado para comprobar su vigencia o revocación. El proveedor de esa infraestructura puede recibir datos técnicos habituales de una conexión de red, como la dirección IP y la fecha de la consulta.</p>
+                <p>Para detectar actualizaciones, la aplicación consulta el sitio de Penké (<code class="rounded bg-slate-100 px-1.5 py-0.5 text-sm text-slate-900">penke.nekateklabs.com</code>). Los instaladores se descargan desde GitHub mediante enlaces temporales, por lo que GitHub puede procesar datos técnicos de la descarga conforme a sus propias políticas. Estas consultas no incluyen el contenido de tus PDF, claves privadas ni contraseñas.</p>
+                <p>Las actualizaciones ofrecidas por Penké se verifican antes de su instalación. Tú conservas la decisión de iniciar o rechazar la actualización.</p>
+              </div>
+            </section>
+
+            <section id="qr-verificable" class="scroll-mt-8">
+              <p class="text-xs font-bold uppercase tracking-widest text-blue-700">06</p>
+              <h2 class="mt-2 font-serif text-2xl font-bold text-slate-950">QR verificable (opcional)</h2>
+              <div class="mt-4 space-y-3">
+                <p>Esta función está desactivada por defecto y se activa por perfil de firma. Cuando está activa, el QR del sello enlaza a una página pública en <code class="rounded bg-slate-100 px-1.5 py-0.5 text-sm text-slate-900">penke.nekateklabs.com/v/…</code> y, justo después de firmar, la aplicación envía un registro con:</p>
+                <ul class="list-disc space-y-1 pl-5 marker:text-blue-600">
+                  <li>tu nombre, y tu cargo, razón social y RUC si el certificado es de empresa, o los 4 últimos dígitos de tu cédula si es de persona natural;</li>
+                  <li>la fecha y hora de la firma, la entidad que emitió tu certificado y su número de serie;</li>
+                  <li>la huella SHA-256 del documento firmado, que permite comprobar que no fue modificado pero no permite reconstruirlo.</li>
+                </ul>
+                <p>El registro va firmado con tu propio certificado para que nadie pueda publicar uno a tu nombre. <strong class="font-semibold text-slate-900">El PDF, tu certificado, tu clave privada y tu contraseña nunca se envían.</strong> Quien abra el enlace del QR puede ver esos datos; por eso solo se publican los que ya aparecen impresos en el sello.</p>
+                <p>Cualquier persona puede comprobar un PDF en esa página: la comparación se hace en su navegador y el archivo no se sube. Los registros se guardan en Google Cloud (Firestore, región us-east4) mientras el servicio esté disponible, para que los QR de documentos antiguos sigan funcionando. Puedes pedir que se elimine un registro escribiendo al contacto de esta política; en ese caso su QR dejará de mostrar los datos.</p>
+              </div>
+            </section>
+
+            <section id="controles" class="scroll-mt-8">
+              <p class="text-xs font-bold uppercase tracking-widest text-blue-700">07</p>
+              <h2 class="mt-2 font-serif text-2xl font-bold text-slate-950">Tus controles y opciones</h2>
+              <ul class="mt-4 list-disc space-y-2 pl-5 marker:text-blue-600">
+                <li>Tú seleccionas qué documentos y certificados abrir y cuándo ejecutar una firma.</li>
+                <li>Puedes revisar y eliminar perfiles, preferencias e historial guardados localmente.</li>
+                <li>Puedes activar o desactivar el QR verificable en cada perfil de firma y pedir la eliminación de registros ya publicados.</li>
+                <li>Puedes rechazar una actualización o desinstalar Penké desde la configuración de aplicaciones de Windows.</li>
+                <li>Puedes solicitar aclaraciones, reportar un problema de privacidad o pedir orientación para eliminar datos locales mediante el canal de contacto indicado al final.</li>
+              </ul>
+            </section>
+
+            <section id="menores" class="scroll-mt-8"><p class="text-xs font-bold uppercase tracking-widest text-blue-700">08</p><h2 class="mt-2 font-serif text-2xl font-bold text-slate-950">Menores de edad</h2><p class="mt-4">Penké es una herramienta de firma electrónica y no está dirigida específicamente a menores de edad. El proyecto no recopila intencionalmente información personal de menores ni ofrece publicidad o funciones sociales.</p></section>
+
+            <section id="cambios" class="scroll-mt-8"><p class="text-xs font-bold uppercase tracking-widest text-blue-700">09</p><h2 class="mt-2 font-serif text-2xl font-bold text-slate-950">Cambios en esta política</h2><p class="mt-4">Podemos actualizar esta política cuando cambien las funciones de la aplicación, los servicios externos utilizados o los requisitos aplicables. La versión vigente siempre estará publicada en esta dirección y mostrará su fecha de última actualización.</p></section>
+
+            <section id="contacto" class="scroll-mt-8">
+              <p class="text-xs font-bold uppercase tracking-widest text-blue-700">10</p>
+              <h2 class="mt-2 font-serif text-2xl font-bold text-slate-950">Contacto</h2>
+              <p class="mt-4">Para consultas de privacidad, solicitudes relacionadas con tus datos (incluida la eliminación de un registro de QR verificable) o soporte, escríbenos por correo. No adjuntes documentos, certificados, contraseñas u otra información sensible.</p>
+              <a class="mt-5 inline-flex rounded-lg bg-blue-700 px-4 py-2.5 text-sm font-bold text-white transition hover:bg-blue-800" href="mailto:hola@nekateklabs.com">hola@nekateklabs.com</a>
+            </section>
+          </div>
+
+          <footer class="mt-12 border-t border-slate-200 pt-6 text-sm text-slate-500">© {new Date().getFullYear()} Charlie Cárdenas Toledo · Penké, software independiente.</footer>
+        </article>
+      </div>
     </main>
   </body>
 </html>
