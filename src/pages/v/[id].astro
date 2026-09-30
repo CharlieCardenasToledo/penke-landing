@@ -1,0 +1,158 @@
+---
+import "../../styles/global.css";
+import { firestore, VERIFICACIONES } from "../../lib/firestore";
+import { ID_PATTERN } from "../../lib/verification";
+
+// Página a la que apunta el QR del sello de Penké. Muestra los datos del
+// registro firmado por el titular y permite comprobar, en el navegador y sin
+// subir el archivo, que un PDF contiene exactamente la revisión firmada.
+
+const { id = "" } = Astro.params;
+
+interface Doc {
+  sha256: string; fecha: string; tipo: string; nombre: string; cargo: string;
+  razonSocial: string; ruc: string; cedula: string;
+  firmanteCertificado: string; emisorCertificado: string;
+}
+
+let doc: Doc | null = null;
+let error = false;
+if (ID_PATTERN.test(id)) {
+  try {
+    const snap = await firestore().collection(VERIFICACIONES).doc(id).get();
+    if (snap.exists) doc = snap.data() as Doc;
+  } catch (e) {
+    console.error("No se pudo leer el registro", id, e);
+    error = true;
+  }
+}
+if (!doc && !error) Astro.response.status = 404;
+if (error) Astro.response.status = 503;
+
+const fecha = doc
+  ? new Intl.DateTimeFormat("es-EC", { dateStyle: "long", timeStyle: "medium", timeZone: "America/Guayaquil" })
+      .format(new Date(doc.fecha))
+  : "";
+const title = doc ? `Firma de ${doc.nombre} — Penké` : "Verificación de firma — Penké";
+---
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content="Verificación del sello de firma electrónica emitido con Penké." />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="referrer" content="no-referrer" />
+    <link rel="icon" type="image/png" href="/brand/penke-app-icon.png" />
+  </head>
+  <body class="min-h-screen bg-slate-50 text-slate-800 antialiased">
+    <header class="border-b border-slate-200 bg-white">
+      <div class="mx-auto flex max-w-4xl items-center justify-between px-6 py-5">
+        <a href="/" class="font-serif text-xl font-bold text-slate-900">Penké</a>
+        <a href="/" class="text-sm font-semibold text-blue-600 hover:text-blue-800">Conoce Penké</a>
+      </div>
+    </header>
+
+    <main class="mx-auto max-w-3xl px-6 py-12 sm:py-16">
+      {doc ? (
+        <article class="rounded-2xl border border-slate-200 bg-white p-7 shadow-sm sm:p-10">
+          <p class="mb-3 inline-flex items-center gap-2 rounded-full bg-emerald-50 px-3 py-1 text-xs font-bold uppercase tracking-widest text-penke-teal">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+            Registro de firma verificado
+          </p>
+          <h1 class="font-serif text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">{doc.nombre}</h1>
+          {doc.razonSocial && (
+            <p class="mt-2 text-base text-slate-600">
+              {doc.cargo && <span>{doc.cargo} · </span>}<span class="font-semibold text-slate-800">{doc.razonSocial}</span>
+            </p>
+          )}
+
+          <dl class="mt-8 grid gap-x-8 gap-y-5 text-sm sm:grid-cols-2">
+            {doc.ruc && <div><dt class="text-xs font-bold uppercase tracking-wider text-slate-400">RUC</dt><dd class="mt-1 font-mono text-slate-800">{doc.ruc}</dd></div>}
+            {doc.cedula && <div><dt class="text-xs font-bold uppercase tracking-wider text-slate-400">Cédula</dt><dd class="mt-1 font-mono text-slate-800">{doc.cedula}</dd></div>}
+            <div><dt class="text-xs font-bold uppercase tracking-wider text-slate-400">Fecha de firma</dt><dd class="mt-1 text-slate-800">{fecha}</dd></div>
+            <div><dt class="text-xs font-bold uppercase tracking-wider text-slate-400">Certificado emitido por</dt><dd class="mt-1 text-slate-800">{doc.emisorCertificado}</dd></div>
+            <div class="sm:col-span-2"><dt class="text-xs font-bold uppercase tracking-wider text-slate-400">Huella del documento (SHA-256)</dt><dd class="mt-1 break-all font-mono text-xs text-slate-600">{doc.sha256}</dd></div>
+          </dl>
+
+          <section class="mt-10 rounded-xl border border-slate-200 bg-slate-50 p-6" data-sha256={doc.sha256} id="comprobar">
+            <h2 class="text-base font-bold text-slate-900">¿Es este el mismo documento?</h2>
+            <p class="mt-1 text-sm text-slate-600">Selecciona el PDF que recibiste. Se revisa en tu navegador: el archivo no se sube a ningún servidor.</p>
+            <label class="mt-4 inline-flex cursor-pointer items-center gap-2 rounded-full bg-penke-teal px-5 py-2.5 text-sm font-bold text-white hover:bg-penke-teal-dark">
+              Elegir PDF
+              <input type="file" accept="application/pdf,.pdf" class="sr-only" id="pdf" />
+            </label>
+            <p class="mt-4 text-sm font-semibold" id="resultado" role="status" aria-live="polite"></p>
+          </section>
+
+          <p class="mt-8 text-xs leading-6 text-slate-500">
+            Este registro fue firmado por el titular con el mismo certificado del documento. La validez legal
+            de la firma electrónica se confirma en el
+            <a class="font-semibold text-blue-600 hover:text-blue-800" href="https://www.firmadigital.gob.ec/" target="_blank" rel="noopener">validador oficial FirmaEC</a>.
+          </p>
+        </article>
+      ) : (
+        <article class="rounded-2xl border border-slate-200 bg-white p-7 shadow-sm sm:p-10">
+          <p class="mb-3 text-xs font-bold uppercase tracking-widest text-slate-500">Verificación de firma</p>
+          <h1 class="font-serif text-3xl font-bold tracking-tight text-slate-900">
+            {error ? "No pudimos consultar el registro" : "Registro no encontrado"}
+          </h1>
+          <p class="mt-4 text-sm leading-7 text-slate-600">
+            {error
+              ? "Intenta de nuevo en unos minutos."
+              : "Puede que el documento se haya firmado sin conexión y el registro aún no se haya sincronizado, o que el código no sea válido."}
+            {" "}Siempre puedes validar la firma del PDF en el
+            <a class="font-semibold text-blue-600 hover:text-blue-800" href="https://www.firmadigital.gob.ec/" target="_blank" rel="noopener">validador oficial FirmaEC</a>.
+          </p>
+        </article>
+      )}
+    </main>
+
+    <script>
+      // Un PDF firmado y luego vuelto a firmar crece por el final (guardado
+      // incremental). Cada revisión termina en %%EOF, así que se compara la
+      // huella de cada prefijo que termina en %%EOF con la del registro.
+      const section = document.getElementById("comprobar");
+      const input = document.getElementById("pdf") as HTMLInputElement | null;
+      const out = document.getElementById("resultado");
+
+      const hex = (buf: ArrayBuffer) => [...new Uint8Array(buf)].map((b) => b.toString(16).padStart(2, "0")).join("");
+
+      function revisionEnds(bytes: Uint8Array): number[] {
+        const ends: number[] = [];
+        const eof = [0x25, 0x25, 0x45, 0x4f, 0x46]; // %%EOF
+        for (let i = 0; i + eof.length <= bytes.length; i++) {
+          if (bytes[i] !== 0x25 || bytes[i + 1] !== 0x25 || bytes[i + 2] !== 0x45 || bytes[i + 3] !== 0x4f || bytes[i + 4] !== 0x46) continue;
+          let end = i + eof.length;
+          ends.push(end);
+          if (bytes[end] === 0x0d) ends.push(++end);
+          if (bytes[end] === 0x0a) ends.push(end + 1);
+        }
+        return ends;
+      }
+
+      input?.addEventListener("change", async () => {
+        const file = input.files?.[0];
+        if (!file || !section || !out) return;
+        const expected = section.dataset.sha256;
+        out.className = "mt-4 text-sm font-semibold text-slate-600";
+        out.textContent = "Revisando…";
+        const bytes = new Uint8Array(await file.arrayBuffer());
+        const candidates = new Set([...revisionEnds(bytes), bytes.length]);
+        for (const end of candidates) {
+          if (hex(await crypto.subtle.digest("SHA-256", bytes.subarray(0, end))) === expected) {
+            const later = end < bytes.length;
+            out.className = "mt-4 text-sm font-semibold text-penke-teal";
+            out.textContent = later
+              ? "Coincide: el PDF contiene la versión firmada, con cambios o firmas añadidos después."
+              : "Coincide: es exactamente el documento firmado.";
+            return;
+          }
+        }
+        out.className = "mt-4 text-sm font-semibold text-red-600";
+        out.textContent = "No coincide: este PDF no contiene la versión que se firmó.";
+      });
+    </script>
+  </body>
+</html>
