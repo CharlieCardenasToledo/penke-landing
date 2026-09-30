@@ -33,3 +33,6 @@ output/pdf/*-signed.pdf
 !.vscode/extensions.json
 .idea
 .DS_Store
+
+# Instaladores antiguos: las descargas se sirven desde GitHub Releases
+public/downloads/
