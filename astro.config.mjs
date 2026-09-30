@@ -3,7 +3,7 @@ import tailwindcss from "@tailwindcss/vite";
 import node from "@astrojs/node";
 
 export default defineConfig({
-  site: "https://penke.ec",
+  site: "https://penke.nekateklabs.com",
   output: "server",
   adapter: node({ mode: "standalone" }),
   vite: {

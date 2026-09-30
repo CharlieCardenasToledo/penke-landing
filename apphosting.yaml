@@ -9,3 +9,12 @@ runConfig:
   concurrency: 80
   cpu: 1
   memoryMiB: 512
+
+env:
+  # Token fine-grained de solo lectura (Contents) sobre penke-ec, que es privado.
+  # Lo usan el build (fetch-installer.mjs) y el servidor (descargas y actualizador).
+  - variable: GITHUB_TOKEN
+    secret: penke-github-token
+    availability:
+      - BUILD
+      - RUNTIME

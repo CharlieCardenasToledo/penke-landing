@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://penke.ec/sitemap.xml
+Sitemap: https://penke.nekateklabs.com/sitemap.xml

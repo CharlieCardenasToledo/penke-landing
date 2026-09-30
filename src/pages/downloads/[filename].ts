@@ -1,57 +1,27 @@
 import type { APIRoute } from "astro";
+import { getRelease, signedAssetUrl, tagForAsset } from "../../lib/githubReleases";
 
-const assets: Record<string, string> = {
-  "Penke.EC_1.0.9_x64_en-US.msi":
-    "https://github.com/CharlieCardenasToledo/penke-ec/releases/download/v1.0.9/Penke.EC_1.0.9_x64_en-US.msi",
-};
-const sizes: Record<string, number> = {
-  "Penke.EC_1.0.9_x64_en-US.msi": 108392712,
-};
+// Los instaladores copiados en public/downloads (p. ej. el MSI que referencia
+// Microsoft Store) se sirven como estáticos y nunca llegan aquí. El resto se
+// resuelve en las Releases de penke-ec y se redirige a una URL firmada temporal.
+export const GET: APIRoute = async ({ params, url }) => {
+  const filename = params.filename ?? "";
+  const tag = url.searchParams.get("tag") ?? tagForAsset(filename);
+  if (!tag || !/^v\d+\.\d+\.\d+$/.test(tag)) return new Response("Not found", { status: 404 });
 
-export const GET: APIRoute = async ({ params, request }) => {
-  const upstreamUrl = params.filename ? assets[params.filename] : undefined;
-  if (!upstreamUrl) return new Response("Not found", { status: 404 });
+  try {
+    const release = await getRelease(tag);
+    const asset = release?.assets.find((a) => a.name === filename);
+    if (!asset) return new Response("Not found", { status: 404 });
 
-  const headers = new Headers({
-    "Content-Type": "application/octet-stream",
-    "Content-Disposition": `attachment; filename="${params.filename}"`,
-    "Cache-Control": "public, max-age=300",
-  });
-  headers.set("Content-Length", String(sizes[params.filename!]));
-
-  if (request.method === "HEAD") return new Response(null, { status: 200, headers });
-
-  const chunkSize = 8 * 1024 * 1024;
-  const total = sizes[params.filename!];
-  const body = new ReadableStream<Uint8Array>({
-    async start(controller) {
-      try {
-        for (let start = 0; start < total; start += chunkSize) {
-          const end = Math.min(start + chunkSize, total) - 1;
-          const upstream = await fetch(upstreamUrl, {
-            headers: {
-              "User-Agent": "Penke-landing-download-proxy/1.0",
-              Range: `bytes=${start}-${end}`,
-            },
-          });
-          if ((!upstream.ok && upstream.status !== 206) || !upstream.body) {
-            throw new Error(`upstream status ${upstream.status}`);
-          }
-          const reader = upstream.body.getReader();
-          while (true) {
-            const part = await reader.read();
-            if (part.done) break;
-            controller.enqueue(part.value);
-          }
-        }
-        controller.close();
-      } catch (error) {
-        controller.error(error);
-      }
-    },
-  });
-
-  return new Response(body, { status: 200, headers });
+    return new Response(null, {
+      status: 302,
+      headers: { Location: await signedAssetUrl(asset), "Cache-Control": "no-store" },
+    });
+  } catch (error) {
+    console.error("Descarga fallida", filename, error);
+    return new Response("Descarga no disponible temporalmente", { status: 502 });
+  }
 };
 
 export const HEAD: APIRoute = GET;
