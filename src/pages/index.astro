@@ -300,7 +300,12 @@ const structuredData = [
           <a href="/descargar?os=mac" class="mt-6 inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-brand px-5 font-semibold text-white hover:bg-brand-dark">
             <Icon name="download" size={18} /> Descargar para macOS
           </a>
-          <p class="mt-4 text-xs leading-5 text-ink-muted">La primera vez que lo abras, haz clic derecho sobre Penké y elige <strong class="font-semibold text-ink-soft">Abrir</strong>.</p>
+          <p class="mt-4 flex gap-2 rounded-xl bg-mist p-3 text-xs leading-5 text-ink-muted">
+            <Icon name="info" size={15} class="mt-0.5 shrink-0 text-ink-muted" />
+            <span>
+              macOS puede avisar que no verificó al desarrollador — pasa porque Penké es gratuita y de código abierto, sin la firma paga de Apple (99 USD/año). No es malware: haz clic derecho sobre Penké y elige <strong class="font-semibold text-ink-soft">Abrir</strong> para confirmarlo una sola vez.
+            </span>
+          </p>
         </div>
 
         <div class="flex flex-col rounded-2xl bg-white p-7 text-ink-soft" data-os="linux">
