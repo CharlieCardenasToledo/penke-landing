@@ -1,324 +1,88 @@
-@import url("https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400..900;1,400..900&family=Public+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,400..800;1,400&display=swap");
 
 @import "tailwindcss";
 
+/*
+ * Penké — sistema visual de la landing.
+ * Producto terminado y limpio: fondo blanco, un solo color de acción (el azul
+ * de los botones de la app), Public Sans en todo, capturas reales de la app
+ * como protagonistas. Sin adornos: la interfaz es la prueba.
+ */
 @theme {
-  --font-sans: "Public Sans", system-ui, -apple-system, sans-serif;
-  --font-serif: "Alegreya", "Iowan Old Style", serif;
-  --font-mono: "JetBrains Mono", ui-monospace, monospace;
-  /* Fuente real del producto — SOLO para texto dentro de mocks que replican
-     una pantalla real de Penké. Alegreya/JetBrains Mono son exclusivos del
-     copy de marketing propio (hero, CTA, comparación); nunca aparecen
-     dentro de una "réplica visual" de la app. */
-  --font-app: "Segoe UI Variable", "Segoe UI", system-ui, sans-serif;
-  --color-penke-blue:      #2563EB;
-  --color-penke-blue-dark: #1D4ED8;
-  --color-penke-teal:      #0E8F79;
-  --color-penke-teal-dark: #0B6F5E;
-  --color-penke-dark:      #0F172A;
-  --color-penke-dark-2:    #1E293B;
+  --font-sans: "Public Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: ui-monospace, "Cascadia Mono", "SF Mono", Menlo, monospace;
+
+  --color-ink:        #0B1220;   /* titulares y texto fuerte */
+  --color-ink-soft:   #334155;   /* texto de lectura */
+  --color-ink-muted:  #5B6577;   /* texto secundario (≥ 4.5:1 sobre blanco) */
+  --color-line:       #E3E8EF;   /* bordes y divisores */
+  --color-mist:       #F5F7FA;   /* secciones alternas */
+  --color-brand:      #2563EB;   /* acción: mismo azul que la app */
+  --color-brand-dark: #1D4ED8;
+  --color-brand-deep: #1E3A8A;   /* banda de descarga */
+  --color-brand-tint: #EFF4FF;
+  --color-valid:      #0E8F79;   /* marca de verificación del isotipo */
 }
 
-html {
-  scroll-behavior: smooth;
-  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
-}
+/* En capa base: las utilidades de Tailwind (p. ej. text-white) deben poder ganarles */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+    -webkit-text-size-adjust: 100%;
+  }
 
-body {
-  font-family: var(--font-sans);
-  background-color: #ffffff;
-  color: var(--color-penke-dark);
-}
+  body {
+    font-family: var(--font-sans);
+    background: #ffffff;
+    color: var(--color-ink-soft);
+    font-feature-settings: "kern", "liga";
+    text-rendering: optimizeLegibility;
+  }
 
-/* Primary color utilities from project tokens */
-.penke-blue { color: var(--color-penke-blue); }
-.penke-blue-dark { color: var(--color-penke-blue-dark); }
-.penke-teal { color: var(--color-penke-teal); }
-.penke-dark { color: var(--color-penke-dark); }
-.penke-light-100 { color: #F8FAFC; }
-.penke-light-50 { color: #F1F5F9; }
-.penke-light-10 { color: #E2E8F0; }
+  h1, h2, h3 { color: var(--color-ink); text-wrap: balance; }
+  p { text-wrap: pretty; }
 
-/* ── Certificate frame: replaces generic OS-window chrome ─────────────── */
-.cert-frame {
-  position: relative;
-  border-radius: 4px;
-  overflow: hidden;
-  background: #ffffff;
-  border: 1px solid rgba(15, 23, 42, 0.14);
-  box-shadow: 0 30px 60px -20px rgba(15, 23, 42, 0.35), 0 0 0 5px rgba(15, 23, 42, 0.04);
-}
-.cert-frame::before {
-  content: "";
-  position: absolute;
-  inset: 7px;
-  border: 1px solid rgba(14, 143, 121, 0.45);
-  pointer-events: none;
-  z-index: 20;
-}
-.cert-frame-dark {
-  position: relative;
-  border-radius: 4px;
-  overflow: hidden;
-  background: var(--color-penke-dark);
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  box-shadow: 0 30px 70px -20px rgba(15, 23, 42, 0.65);
-}
-.cert-frame-dark::before {
-  content: "";
-  position: absolute;
-  inset: 7px;
-  border: 1px solid rgba(14, 143, 121, 0.5);
-  pointer-events: none;
-  z-index: 20;
-}
-
-/* Réplica de pantalla: sidebar + tarjeta de Inicio, usando el layout real
-   de Sidebar.tsx/HomePage.tsx. Tipografía var(--font-app), nunca serif/mono
-   decorativa — esto no es marketing, es un mock de la interfaz real. */
-.app-mock-window { display: grid; grid-template-columns: 170px 1fr; min-height: 360px; background: #f8fafc; color: #0f172a; font-family: var(--font-app); }
-.app-mock-sidebar { padding: 24px 14px; background: #0f172a; color: #fff; border-right: 1px solid #1e293b; display: flex; flex-direction: column; gap: 8px; font-size: 11px; }
-.app-mock-brand { display: flex; align-items: baseline; gap: 8px; margin: 0 8px 22px; }
-.app-mock-brand img { height: 18px; width: auto; display: block; }
-.app-mock-brand small { color: #64748b; font-size: 10px; }
-.app-mock-dot { display: inline-block; width: 9px; height: 9px; margin-right: 7px; border-radius: 50%; background: var(--color-penke-teal); }
-.app-mock-side-item { padding: 10px; color: #cbd5e1; display:flex; gap:10px; align-items:center; border-radius:8px; font-weight: 500; }.app-mock-side-item svg { flex-shrink: 0; }.app-mock-side-item.active { color: #fff; background: #2563eb; box-shadow: 0 4px 10px rgba(37,99,235,.25); font-weight: 700; }
-.app-mock-side-bottom { margin-top: auto; padding: 14px 8px 0; color: #94a3b8; border-top: 1px solid rgba(255,255,255,.1); line-height:1.45; }
-.app-mock-main { display: flex; flex-direction: column; min-width: 0; }
-.app-mock-heading { display:flex; justify-content:space-between; align-items:flex-start; gap:16px; padding: 25px 30px 18px; }.app-mock-heading span { display:grid; gap:6px; }.app-mock-heading b { font-size:20px; }.app-mock-heading small { color:#64748b; font-size:11px; font-weight:400; }.app-mock-heading button { padding:8px 12px; background:#fff; border:1px solid #dbe3ea; color:#64748b; border-radius:10px; font-size:10px; }
-.app-mock-card { margin:0 30px 30px; padding:22px; background:#fff; border:1px solid #e2e8f0; border-radius:12px; box-shadow:0 4px 12px rgba(15,23,42,.04); display:grid; gap:13px; }.app-mock-card-heading { display:grid; gap:5px; }.app-mock-card-heading b { font-size:16px; }.app-mock-card-heading small { color:#64748b; font-size:11px; }.app-mock-label { color:#64748b; font-size:10px; font-weight:700; }.app-mock-profile-chip { width:max-content; padding:7px 10px; border:1px solid #93c5fd; background:#eff6ff; color:#1d4ed8; border-radius:10px; font-size:11px; font-weight:700; }.app-mock-profile-chip em { margin-left:8px; color:#0e8f79; font-style:normal; font-size:9px; }.app-mock-dropzone { min-height:92px; border:1px dashed #93c5fd; background:#f8fbff; border-radius:10px; display:grid; place-content:center; text-align:center; gap:5px; color:#475569; font-size:11px; }.app-mock-dropzone span { color:#2563eb; font-size:20px; }.app-mock-dropzone small { color:#94a3b8; font-size:9px; }.app-mock-path { color:#64748b; font-size:10px; font-family: ui-monospace, "SFMono-Regular", monospace; display:flex; align-items:center; gap:5px; }.app-mock-path svg { flex-shrink:0; }.app-mock-primary { padding:10px; color:#fff; background:#2563eb; border:0; border-radius:10px; font-size:11px; font-weight:700; }.app-mock-primary b { float:right; font-size:15px; }
-
-@media (max-width: 640px) {
-  .app-mock-window { grid-template-columns: 1fr; min-height: 330px; }
-  .app-mock-sidebar { display: none; }
-  .app-mock-heading { padding:18px; }.app-mock-heading b { font-size:16px; }.app-mock-card { margin:0 18px 18px; padding:16px; }
-}
-
-.corner-mark {
-  position: absolute;
-  width: 15px;
-  height: 15px;
-  color: var(--color-penke-teal);
-  z-index: 21;
-  opacity: 0.85;
-}
-.corner-mark.tl { top: 12px; left: 12px; }
-.corner-mark.tr { top: 12px; right: 12px; transform: scaleX(-1); }
-.corner-mark.bl { bottom: 12px; left: 12px; transform: scaleY(-1); }
-.corner-mark.br { bottom: 12px; right: 12px; transform: scale(-1, -1); }
-
-/* ── Security ribbon: single authored corner accent, hero only ────────── */
-.security-ribbon {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 190px;
-  height: 190px;
-  overflow: hidden;
-  pointer-events: none;
-}
-.security-ribbon::before,
-.security-ribbon::after {
-  content: "";
-  position: absolute;
-  top: 26px;
-  right: -84px;
-  width: 280px;
-  height: 30px;
-  transform: rotate(45deg);
-}
-.security-ribbon::before {
-  background: var(--color-penke-teal);
-}
-.security-ribbon::after {
-  background: repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.4) 0 2px, transparent 2px 13px);
-}
-
-/* ── Guilloché engraved-line texture, used once as hero/CTA ground ────── */
-.guilloche-ground {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  pointer-events: none;
-}
-
-/* ── Navbar: el fondo pasa de transparente (sobre el hero navy) a blanco
-   translúcido al hacer scroll — el wordmark y los enlaces deben invertir su
-   color a la vez o quedan casi invisibles sobre el fondo claro. ─────────── */
-#navbar-wordmark { color: #ffffff; transition: color 0.2s ease; }
-#navbar.scrolled #navbar-wordmark { color: var(--color-penke-dark); }
-
-.navbar-link { color: #cbd5e1; }
-.navbar-link:hover { color: #ffffff; }
-#navbar.scrolled .navbar-link { color: #475569; }
-#navbar.scrolled .navbar-link:hover { color: var(--color-penke-blue); }
-
-.navbar-ghost-btn { color: #e2e8f0; border-color: rgba(255, 255, 255, 0.4); }
-.navbar-ghost-btn:hover { background: rgba(255, 255, 255, 0.1); }
-#navbar.scrolled .navbar-ghost-btn { color: #334155; border-color: #cbd5e1; }
-#navbar.scrolled .navbar-ghost-btn:hover { background: #f1f5f9; }
-
-.navbar-menu-btn { color: #e2e8f0; }
-#navbar.scrolled .navbar-menu-btn { color: #334155; }
-
-/* ── Ledger-tab controls (capturas section) ────────────────────────────── */
-.ledger-tab {
-  font-family: var(--font-sans);
-  letter-spacing: 0.06em;
-  border-bottom: 2px solid transparent;
-  color: #94a3b8;
-  transition: color 0.2s ease, border-color 0.2s ease;
-}
-.ledger-tab[aria-selected="true"] {
-  color: #ffffff;
-  border-bottom-color: var(--color-penke-teal);
-}
-
-/* ── Cert-state toggle (réplica de ValidarPage) — mismo patrón visual que
-   el chip de perfil seleccionado en HomePage.tsx ─────────────────────── */
-.cert-state-btn {
-  border-color: #e2e8f0;
-  color: #64748b;
-  background: #ffffff;
-}
-.cert-state-btn.active {
-  border-color: #60a5fa;
-  background: #eff6ff;
-  color: #1d4ed8;
-}
-
-/* ── Demostración del flujo real de firma ─────────────────────────────── */
-.app-demo-frame { aspect-ratio: 4 / 5; }
-@media (min-width: 640px) { .app-demo-frame { aspect-ratio: 1376 / 768; } }
-.sign-demo-control { border: 1px solid #e2e8f0; border-radius: .5rem; padding: .25rem .45rem; color: #64748b; background: #fff; font-size: 9px; font-weight: 600; line-height: 1; }
-.sign-demo-control:hover { border-color: #93c5fd; color: #2563eb; }
-.sign-demo-viewport { position: relative; height: 318px; background: #f8fafc; }
-.sign-demo-scene { position: absolute; inset: 0; opacity: 0; visibility: hidden; transform: translateX(14px); transition: opacity .32s ease, transform .42s cubic-bezier(.2,.75,.3,1), visibility .32s; }
-.sign-demo-scene.is-active { opacity: 1; visibility: visible; transform: translateX(0); }
-@keyframes sign-demo-chip-drag {
-  0% { opacity: 0; transform: translate(-4px, -5px) rotate(-3deg); }
-  12% { opacity: 1; transform: translate(-4px, -5px) rotate(-3deg); }
-  88% { opacity: 1; transform: translate(112px, 72px) rotate(1deg); }
-  100% { opacity: 0; transform: translate(112px, 72px) rotate(1deg); }
-}
-.sign-demo-flying-file { opacity: 0; pointer-events: none; }
-.sign-demo-flying-file.play { animation: sign-demo-chip-drag 1.45s cubic-bezier(.32,.72,.35,1) both; }
-.sign-demo-cursor { opacity: 0; pointer-events: none; filter: drop-shadow(0 2px 3px rgba(15,23,42,.35)); }
-@keyframes sign-demo-cursor-path {
-  0% { opacity: 0; top: 24%; left: 12%; transform: scale(1); }
-  10% { opacity: 1; top: 24%; left: 12%; transform: scale(1); }
-  18% { opacity: 1; top: 24%; left: 12%; transform: scale(.82); }
-  78% { opacity: 1; top: 58%; left: 55%; transform: scale(.82); }
-  90% { opacity: 1; top: 58%; left: 55%; transform: scale(1); }
-  100% { opacity: 0; top: 58%; left: 55%; transform: scale(1); }
-}
-.sign-demo-cursor-upload.play { animation: sign-demo-cursor-path 1.55s cubic-bezier(.4,.1,.2,1) both; }
-.sign-demo-btn, .sign-demo-review-btn { transition: transform .15s ease, filter .15s ease; }
-.sign-demo-btn.press, .sign-demo-review-btn.press { transform: scale(.975); filter: brightness(.94); }
-.sign-demo-paper { height: 210px; }
-.sign-demo-stamp { width: 98px; }
-@keyframes sign-demo-stamp-place { 0% { transform: translate(0,0) rotate(-2deg); box-shadow: 0 4px 12px rgba(15,23,42,.16); } 70%,100% { transform: translate(102px,102px) rotate(0); box-shadow: 0 2px 7px rgba(37,99,235,.18); } }
-.sign-demo-stamp.play { animation: sign-demo-stamp-place 1.35s cubic-bezier(.2,.8,.25,1) both; }
-@keyframes sign-demo-cursor-position { 0% { opacity:0; top:33%; left:19%; transform:scale(1); } 12% { opacity:1; top:33%; left:19%; transform:scale(.82); } 70% { opacity:1; top:66%; left:47%; transform:scale(.82); } 86% { opacity:1; top:66%; left:47%; transform:scale(1); } 100% { opacity:0; top:66%; left:47%; transform:scale(1); } }
-.sign-demo-cursor-position.play { animation: sign-demo-cursor-position 1.45s cubic-bezier(.3,.7,.25,1) both; }
-.sign-demo-corner { display:flex; align-items:center; justify-content:center; height:28px; border:1px solid #e2e8f0; border-radius:7px; color:#64748b; background:#fff; }
-.sign-demo-corner.is-selected { border-color:#60a5fa; color:#2563eb; background:#eff6ff; }
-@keyframes sign-demo-cursor-review { 0% { opacity:0; top:54%; left:72%; transform:scale(1); } 25% { opacity:1; top:84%; left:52%; transform:scale(1); } 55% { opacity:1; top:84%; left:52%; transform:scale(.78); } 75% { opacity:1; top:84%; left:52%; transform:scale(1); } 100% { opacity:0; top:84%; left:52%; transform:scale(1); } }
-.sign-demo-cursor-review.play { animation: sign-demo-cursor-review 1.15s ease-in-out both; }
-.sign-demo-spinner { width:38px; height:38px; border:3px solid #dbeafe; border-top-color:#2563eb; border-radius:50%; animation:sign-demo-spin .8s linear infinite; }
-@keyframes sign-demo-spin { to { transform:rotate(360deg); } }
-.sign-demo-progress { width:0; animation:sign-demo-progress 1.65s ease-out forwards; }
-@keyframes sign-demo-progress { to { width:100%; } }
-@media (prefers-reduced-motion: reduce) {
-  .sign-demo-flying-file, .sign-demo-cursor { display: none; }
-  .sign-demo-scene, .sign-demo-btn, .sign-demo-review-btn { transition: none; }
-  .sign-demo-spinner, .sign-demo-progress, .sign-demo-stamp { animation: none !important; }
-}
-@media (max-width: 639px) {
-  .sign-demo-control:first-child { display: none; }
-  .sign-demo-position-grid { grid-template-columns: 1fr; }
-  .sign-demo-position-controls { display: none; }
-  .sign-demo-paper { height: 214px; }
-  @keyframes sign-demo-stamp-place { 0% { transform:translate(0,0) rotate(-2deg); } 70%,100% { transform:translate(50px,105px) rotate(0); } }
-  .sign-demo-review-grid { grid-template-columns: 1fr; gap: .3rem; }
-  .sign-demo-review-grid > div:nth-child(4), .sign-demo-review-grid > div:nth-child(5) { display: none; }
-}
-
-/* ── Clause numeral: ghost figure marking each numbered item ──────────── */
-.clause-numeral {
-  font-family: var(--font-serif);
-  font-weight: 600;
-  color: var(--color-penke-blue);
-  opacity: 0.35;
-  line-height: 1;
-}
-
-/* Focus ring for accessibility */
-.focus-visible {
-  outline: 2px solid var(--color-penke-teal);
-  outline-offset: 2px;
-}
-
-/* Skip link for keyboard navigation */
-.skip-link {
-  position: absolute;
-  left: -999px;
-  top: auto;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  transition: none;
-}
-
-.skip-link:focus {
-  position: absolute;
-  left: 1rem;
-  top: 1rem;
-  width: auto;
-  height: auto;
-  padding: 0.5rem 1rem;
-  background: var(--color-penke-blue);
-  color: #ffffff;
-  z-index: 100;
-}
-
-/* Scroll reveal class */
-.reveal {
-  opacity: 0;
-  transform: translateY(16px);
-  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
-}
-.reveal.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .reveal {
-    opacity: 1;
-    transform: none;
-    transition: none;
+  :focus-visible {
+    outline: 2px solid var(--color-brand);
+    outline-offset: 3px;
+    border-radius: 6px;
   }
 }
 
-/* Focus states for interactive elements */
-.btn:focus-visible, a:focus-visible, button:focus-visible {
-  outline: 2px solid var(--color-penke-teal);
-  outline-offset: 2px;
+/* Marco de captura de la app: la ventana real, sin cromo inventado */
+.app-shot {
+  border-radius: 14px;
+  overflow: hidden;
+  background: #0f172a;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  box-shadow:
+    0 1px 2px rgba(15, 23, 42, 0.06),
+    0 24px 60px -28px rgba(15, 23, 42, 0.35);
+}
+.app-shot img { display: block; width: 100%; height: auto; }
+
+/* Preguntas frecuentes con <details> nativo */
+.faq summary { list-style: none; cursor: pointer; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary .faq-plus { transition: transform 200ms ease; }
+.faq details[open] summary .faq-plus { transform: rotate(45deg); }
+
+/* Encabezado: aparece el borde al desplazarse */
+.site-header { transition: box-shadow 200ms ease, border-color 200ms ease; }
+.site-header[data-scrolled="true"] {
+  border-color: var(--color-line);
+  box-shadow: 0 1px 12px -6px rgba(15, 23, 42, 0.12);
 }
 
-/* Disabled state */
-button:disabled, [role="button"]:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-/* Input styles */
-.input-field {
-  @apply w-full px-3 py-2 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-penke-blue focus:border-transparent transition-colors;
-}
-
-/* Badge style */
-.badge {
-  @apply inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold;
+/* Entrada del hero: la captura sube una vez al cargar */
+@media (prefers-reduced-motion: no-preference) {
+  .rise {
+    animation: rise 700ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  .rise-delay { animation-delay: 120ms; }
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: none; }
+  }
 }

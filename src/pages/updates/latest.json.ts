@@ -16,6 +16,9 @@ export const GET: APIRoute = async () => {
     if (!asset) return new Response("Not found", { status: 404 });
 
     const manifest = JSON.parse(await fetchAssetText(asset));
+    // Las notas se leen del texto actual de la release: corregirlo en GitHub
+    // corrige lo que muestra el actualizador, sin volver a compilar.
+    if (release!.body?.trim()) manifest.notes = release!.body.trim();
     for (const platform of Object.values<{ url?: string }>(manifest.platforms ?? {})) {
       if (!platform.url) continue;
       const filename = decodeURIComponent(platform.url.split("/").pop() ?? "");

@@ -14,6 +14,8 @@ export interface ReleaseAsset {
 
 export interface Release {
   tag_name: string;
+  /** Texto de la release: las notas de la versión tomadas del CHANGELOG. */
+  body?: string | null;
   assets: ReleaseAsset[];
 }
 

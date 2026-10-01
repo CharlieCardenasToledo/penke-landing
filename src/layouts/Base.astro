@@ -1,0 +1,81 @@
+---
+import "../styles/global.css";
+import SiteHeader from "../components/SiteHeader.astro";
+import SiteFooter from "../components/SiteFooter.astro";
+
+interface Props {
+  title: string;
+  description: string;
+  canonical?: string;
+  image?: string;
+  imageAlt?: string;
+  robots?: string;
+  referrer?: string;
+  structuredData?: object[];
+  home?: boolean;
+  /** Sin encabezado ni pie del sitio (p. ej. páginas de verificación). */
+  bare?: boolean;
+}
+
+const {
+  title, description, canonical,
+  image = "https://penke.nekateklabs.com/screenshots/og-penke.jpg",
+  imageAlt = "Penké: ubicar la firma en un contrato PDF",
+  robots = "index, follow",
+  referrer = "strict-origin-when-cross-origin",
+  structuredData = [],
+  home = false,
+  bare = false,
+} = Astro.props;
+---
+<!doctype html>
+<html lang="es-EC">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <meta name="robots" content={robots} />
+  <meta name="application-name" content="Penké" />
+  <meta name="author" content="Charlie Cárdenas Toledo" />
+  <meta name="theme-color" content="#ffffff" />
+  <meta name="referrer" content={referrer} />
+  {canonical && <link rel="canonical" href={canonical} />}
+  <link rel="icon" type="image/png" href="/brand/penke-app-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  {canonical && <meta property="og:url" content={canonical} />}
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Penké" />
+  <meta property="og:locale" content="es_EC" />
+  <meta property="og:image" content={image} />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content={imageAlt} />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={title} />
+  <meta name="twitter:description" content={description} />
+  <meta name="twitter:image" content={image} />
+  {structuredData.map((d) => <script type="application/ld+json" set:html={JSON.stringify(d)} />)}
+  <slot name="head" />
+</head>
+<body class="bg-white antialiased selection:bg-blue-100 selection:text-blue-950">
+  <Fragment set:html={`<!--
+PENKÉ · CONTRATO DE DISEÑO DE LA LANDING
+THESIS: la app se demuestra sola. Capturas reales de Penké con datos de demostración ocupan el lugar que en la categoría ocupan ilustraciones, sellos y promesas; se rechaza el "certificado ornamental" de la versión anterior.
+OWN-WORLD: blanco, niebla #F5F7FA, tinta #0B1220, un único azul de acción #2563EB (el de los botones de la app), banda de descarga azul profundo #1E3A8A; Public Sans en todo; tarjetas planas con borde #E3E8EF; ventanas de la app con radio 14 px y sombra larga suave.
+STORY: el visitante entiende en una pantalla que firma un PDF arrastrándolo y ubicando su firma, cree que es válido en Ecuador (FirmaEC, entidades acreditadas) y privado, y descarga para su sistema.
+FIRST VIEWPORT: titular centrado de dos líneas, subtítulo, botón azul "Descargar para <tu sistema>" y enlace a otros sistemas, línea de confianza; debajo la captura grande del visor con la firma sobre la línea de firma de un contrato.
+FORM: estándar de producto (canon) elegido por el usuario, a la altura de landings como Raycast o 1Password.
+FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
+-->`} />
+  <a href="#contenido" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:bg-white focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-brand focus:shadow">Saltar al contenido</a>
+  {!bare && <SiteHeader home={home} />}
+  <main id="contenido">
+    <slot />
+  </main>
+  {!bare && <SiteFooter />}
+</body>
+</html>

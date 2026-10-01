@@ -1,190 +1,130 @@
 ---
 name: Penké
-description: Firma digital de PDFs en Ecuador, sin instalar nada extra
+description: Firma electrónica de PDF en Ecuador — landing de producto
 colors:
-  penke-blue: "#2563EB"
-  penke-blue-dark: "#1D4ED8"
-  penke-teal: "#0E8F79"
-  penke-teal-dark: "#0B6F5E"
-  penke-dark: "#0F172A"
-  penke-dark-2: "#1E293B"
-  neutral-white: "#ffffff"
-  neutral-mist: "#F8FAFC"
-  neutral-fog: "#F1F5F9"
-  neutral-vellum: "#E2E8F0"
-  neutral-idle: "#94a3b8"
+  ink: "#0B1220"
+  ink-soft: "#334155"
+  ink-muted: "#5B6577"
+  line: "#E3E8EF"
+  mist: "#F5F7FA"
+  white: "#FFFFFF"
+  brand: "#2563EB"
+  brand-dark: "#1D4ED8"
+  brand-deep: "#1E3A8A"
+  brand-tint: "#EFF4FF"
+  valid: "#0E8F79"
 typography:
   display:
-    fontFamily: "Alegreya, 'Iowan Old Style', serif"
+    fontFamily: "Public Sans, system-ui, sans-serif"
     fontSize: "clamp(2.25rem, 5vw, 3.75rem)"
-    fontWeight: 700
+    fontWeight: 800
     lineHeight: 1.08
-    letterSpacing: "-0.01em"
+    letterSpacing: "-0.025em"
   headline:
-    fontFamily: "Alegreya, 'Iowan Old Style', serif"
-    fontSize: "1.875rem"
-    fontWeight: 600
-    lineHeight: 1.25
-  body:
-    fontFamily: "Public Sans, system-ui, -apple-system, sans-serif"
-    fontSize: "0.9375rem"
-    fontWeight: 400
-    lineHeight: 1.6
-  label:
-    fontFamily: "Public Sans, system-ui, -apple-system, sans-serif"
-    fontSize: "0.6875rem"
+    fontFamily: "Public Sans, system-ui, sans-serif"
+    fontSize: "1.875rem–2.25rem"
     fontWeight: 700
-    letterSpacing: "0.06em"
-  nav-label:
-    fontFamily: "Public Sans, system-ui, -apple-system, sans-serif"
-    fontSize: "0.8125rem"
+    lineHeight: 1.2
+    letterSpacing: "-0.02em"
+  title:
+    fontFamily: "Public Sans, system-ui, sans-serif"
+    fontSize: "1rem–1.125rem"
     fontWeight: 600
-    letterSpacing: "0.02em"
-  caption:
-    fontFamily: "Public Sans, system-ui, -apple-system, sans-serif"
-    fontSize: "0.75rem"
+  body:
+    fontFamily: "Public Sans, system-ui, sans-serif"
+    fontSize: "1rem (1.125rem en introducciones)"
     fontWeight: 400
-    lineHeight: 1.5
-  data:
-    fontFamily: "JetBrains Mono, ui-monospace, monospace"
-    fontSize: "0.625rem"
+    lineHeight: 1.75
+  caption:
+    fontFamily: "Public Sans, system-ui, sans-serif"
+    fontSize: "0.75rem–0.875rem"
+    fontWeight: 400
 rounded:
-  frame: "4px"
+  focus: "6px"
+  control: "12px"
+  card: "16px"
+  app-window: "14px"
   chip: "9999px"
-  field: "2px"
 spacing:
-  section-y: "5rem"
-  card-p: "1.75rem"
+  section-y: "5rem (6rem desde sm)"
+  gutter: "1.25rem (2rem desde sm)"
+  container: "72rem (max-w-6xl)"
 components:
   button-primary:
-    backgroundColor: "{colors.penke-teal}"
+    backgroundColor: "{colors.brand}"
     textColor: "#ffffff"
-    rounded: "{rounded.chip}"
-    padding: "14px 28px"
+    rounded: "{rounded.control}"
+    height: "48px en el hero, 40–44px en el resto"
   button-primary-hover:
-    backgroundColor: "{colors.penke-teal-dark}"
+    backgroundColor: "{colors.brand-dark}"
+  button-secondary:
+    backgroundColor: "#ffffff"
+    textColor: "{colors.ink}"
+    border: "1px {colors.line}"
+    rounded: "{rounded.control}"
 ---
 
-# Design System: Penké
+# Design System: Penké (landing)
 
-## ⚠️ Regla de dos capas (leer primero)
+## Idea
 
-El `CLAUDE.md` raíz del proyecto exige que la landing sea una **réplica fiel** de la interfaz real de `penke-desktop` (Sidebar, HomePage, FirmarPage, VerificarPage, ValidarPage), no una reinterpretación genérica. Este documento describía originalmente un mundo visual ("Certificado de autenticidad": Alegreya, JetBrains Mono, cert-frame con marcas de esquina, ledger tabs) que se aplicaba a **toda** la página, incluyendo los mocks de pantalla — eso entraba en conflicto directo con esa exigencia y fue corregido.
+**La app se demuestra sola.** La landing es la de un producto terminado: fondo blanco, un solo color de acción y capturas reales de Penké (con datos de demostración) donde otras páginas de la categoría ponen ilustraciones, sellos o promesas. Reemplaza al sistema anterior ("Certificado de autenticidad": guilloché, sellos, marcas de esquina, numerales serif), que se leía como MVP ornamental.
 
-La regla vigente separa dos capas:
+Escena: profesionales en una oficina con luz de día, en un portátil o un monitor. Por eso el tema es claro.
 
-1. **Copy de marketing propio** (hero, títulos de sección, CTA de descarga, caja de comparación "Privacidad", FAQ) — puede seguir usando el sistema "Certificado de autenticidad" descrito abajo: Alegreya, guilloché, sello, marcas de esquina, clause numerals, teal como color de sus propios CTA. Es expresión de marca, no finge ser una pantalla de la app.
-2. **Cualquier elemento que sea o represente una réplica visual de una pantalla real** (el mock del sidebar en el hero, la sección "Así se ve firmar con Penké") — debe usar exactamente lo que usa la app real: tipografía `var(--font-app)` (`"Segoe UI Variable", system-ui`, nunca serif/mono decorativa), iconos lucide reales, radios/bordes/colores de Tailwind tal como aparecen en `Sidebar.tsx`/`HomePage.tsx`/`FirmarPage.tsx`/`VerificarPage.tsx`/`ValidarPage.tsx`, y **azul como color de acción primario** (`bg-blue-600`) — en la app real el teal nunca es color de botón.
+## Color
 
-Todo lo que sigue en este documento describe la capa 1 (marketing propio) salvo que se indique lo contrario.
+Estrategia **contenida**: neutros más un acento, con un único campo comprometido.
 
-## Overview
+- **Tinta** `#0B1220` para titulares; **tinta suave** `#334155` para lectura; **tinta atenuada** `#5B6577` para texto secundario (≥ 4.5:1 sobre blanco y sobre niebla).
+- **Niebla** `#F5F7FA` alterna secciones; **línea** `#E3E8EF` para todos los bordes y divisores.
+- **Azul de acción** `#2563EB` (hover `#1D4ED8`): el mismo `bg-blue-600` de los botones de la app. Es el único color de acción de la página.
+- **Azul profundo** `#1E3A8A`: el único campo de color a toda anchura, la banda de descarga que cierra la página.
+- **Verde de validez** `#0E8F79`: el check del isotipo. Solo para marcas de verificación ("Validadas en FirmaEC", "Con Penké", "Se queda en tu equipo"), nunca para botones.
 
-**Creative North Star: "Certificado de autenticidad" (solo para marketing propio)**
+### Regla del azul único
+Todo lo que se pulsa es azul `#2563EB` o un botón blanco con borde. El verde nunca es acción.
 
-Penké's world treats every screen as if it were the certificate it produces: a document worth trusting, not a SaaS dashboard asking to be trusted. The system is built on fine engraved-line ornament (a guilloché pattern borrowed from security paper and currency), a circular seal carrying the isotipo, and print-registration corner marks framing marketing content — all rendered in solid committed color fields (deep navy, teal), never on cream or parchment. This is a deliberate rejection of the "diploma cliché" (warm cream ground, gold foil, serif-on-parchment): authenticity here is expressed through precision and engraving, not nostalgia.
+## Tipografía
 
-This world replaced an earlier version of the page built from default Tailwind conventions (slate/blue palette, Inter, rounded-2xl shadow cards, bento grid) that a design critique identified as "specific content, generic form". The redesign kept the fixed brand marks (the penke-blue/penke-teal isotipo) and product truth for marketing sections — but it had also been applied, incorrectly, to the screen-replica mockups. Those now follow the real app's own design system instead (see the rule above).
+**Public Sans** en toda la página (la sans del sistema de servicios digitales del gobierno de EE. UU.: registro oficial pero moderno, acorde a un producto que convive con un certificado). Sin serif ni mono decorativa.
 
-**Key Characteristics:**
-- Committed color fields (deep navy, full-bleed) alternate with light "document" fields, never a wash of white cards on light gray.
-- One recurring device — the guilloché engraving + seal + corner registration marks — appears at every trust-critical moment (hero, screenshots, download CTA), never diluted into a second motif.
-- Serif display type (Alegreya) carries the certificate's gravity; a plain, government-service-grade sans (Public Sans) carries everything a visitor must read quickly.
-- Numbered "clauses" (ghost serif numerals) replace icon-in-colored-square cards as the system's way of presenting a list.
+- **Display** (H1): 800, `clamp(2.25rem, 5vw, 3.75rem)`, interlineado 1.08, tracking −0.025em. Solo en el hero y en el título de páginas internas.
+- **Titular** (H2): 700, 1.875–2.25rem, tracking −0.02em.
+- **Título** (H3 de tarjetas): 600, 1–1.125rem.
+- **Cuerpo**: 400, 1rem, interlineado 1.75; introducciones de sección en 1.125rem. Medida máxima ~65 caracteres.
+- **Pie/leyendas**: 0.75–0.875rem, nunca más pequeño.
+- Las cifras y códigos (RUC, huella SHA-256) usan la mono del sistema.
 
-## Colors
+## Composición
 
-The palette is the fixed Penké brand mark (blue + teal) plus the existing near-black navy token, now used at page scale rather than as small accents.
+- Contenedor `max-w-6xl` con márgenes de 20 px (32 px desde `sm`). Ritmo vertical de sección `py-20`/`sm:py-24`, con más aire sobre un titular que debajo.
+- **Primera pantalla**: titular centrado de dos líneas, subtítulo, botón azul "Descargar para <tu sistema>" (detectado; en teléfonos, "Ver descargas") y botón secundario "Otros sistemas"; debajo, la captura grande del visor de firma, que sube una vez al cargar (respeta `prefers-reduced-motion`). Una franja de niebla detrás de la mitad inferior de la captura la ancla.
+- Orden de la página: hero → confianza (entidades + tres checks) → tres pasos → filas alternas con capturas (Inicio, Verificar) → cuadrícula de seis funciones → comparación con la app oficial → privacidad (qué se queda / qué usa internet) → preguntas → banda de descarga.
+- Las listas de funciones son una cuadrícula con líneas de 1 px (`gap-px` sobre el color de línea), no tarjetas con sombra.
 
-### Primary
-- **Penké Teal** (`#0E8F79` / hover `#0B6F5E`): the action color. Every primary CTA, the active tab underline, the seal's ring, and the guilloché engraving line all use this single hue. It never competes with itself — no gradient, no second accent tint.
+## Superficies
 
-### Secondary
-- **Penké Blue** (`#2563EB`): brand-identity color, not action color. Used for the logo mark's "P" stroke, the headline's default ink is navy/white rather than blue, and blue appears again only in the corner marks of the light-background "Privacidad" attestation box, distinguishing it from the dark sections' teal corner marks.
+- Plano por defecto: tarjetas blancas con borde `#E3E8EF`, radio 16 px, sin sombra.
+- **Ventana de la app** (`.app-shot`): la única superficie con sombra, porque representa un objeto real. Radio 14 px, borde oscuro al 12 %, sombra `0 24px 60px -28px rgba(15,23,42,.35)`.
+- Controles con radio 12 px (como los botones de la app); chips y pastillas en radio completo.
 
-### Neutral
-- **Penké Dark** (`#0F172A`): the committed full-bleed ground for the hero, the screenshot-viewer section, and the download CTA. This is the "document" field, not a footer-only dark mode.
-- **Neutral White** (`#ffffff`): the light document field's ground — page background, certificate-frame background, active-tab text on dark grounds.
-- **Neutral Mist** (`#F8FAFC`) / **Neutral Fog** (`#F1F5F9`) / **Neutral Vellum** (`#E2E8F0`): the near-white step scale reserved for subtle field separation (bento grid gap lines, chip backgrounds) — never used as a "paper" texture, only as a flat tint.
-- **Neutral Idle** (`#94a3b8`): the resting-state color for the ledger tabs before selection; the only place a mid-gray appears, since selection turns the label white against teal.
+## Componentes
 
-### Named Rules
-**The One Motif Rule.** The guilloché engraving, the seal, and the corner registration marks are the system's only ornament. No other decorative pattern, gradient, or illustration style may appear alongside them.
+- **Encabezado**: fijo, blanco translúcido con desenfoque; el borde y una sombra suave aparecen al desplazarse. Logo, cuatro anclas (ocultas en móvil) y botón "Descargar".
+- **Botón primario**: azul, texto blanco, 600, icono de descarga a la izquierda.
+- **Botón secundario**: blanco con borde de línea; hover a niebla.
+- **Tarjeta de sistema** (descarga): blanca sobre el azul profundo; la del sistema del visitante se resalta con un anillo azul claro. macOS lleva la nota de primera apertura (clic derecho → Abrir), porque el instalador no está notarizado.
+- **Preguntas**: `<details>` nativo, divisores de línea, un "+" que gira 45° al abrir.
+- **Iconos**: lucide (el mismo set de la app), trazo 2 px, en cuadrados de 36–40 px con fondo `#EFF4FF` cuando acompañan una función.
 
-## Typography
+## Imágenes
 
-**Display Font:** Alegreya (serif, with `italic` used for the single emphasized phrase per headline)
-**Body Font:** Public Sans (the USWDS government-service sans — chosen deliberately for its official-but-modern register, matching a product that stands next to a government certificate)
-**Label/Mono Font:** JetBrains Mono, reserved for small verification-style data (screenshot title bars, tab-title readout)
+Capturas reales de la app en `public/screenshots/`, tomadas de la interfaz actual con datos ficticios (María José Peña Villavicencio, Andina Logística S.A., contrato ADM-2026-0147). WebP 2000×1250 para la página y `og-penke.jpg` 1200×630 para compartir. Al cambiar la interfaz de la app, se vuelven a capturar; nunca se sustituyen por maquetas dibujadas.
 
-**Character:** A literary/legal-adjacent serif (Alegreya was designed with academic and literary Latin American typesetting in mind) paired with a sans built for official digital services. The pairing reads as "this matters" without reading as antique.
+## Lo que no se hace
 
-### Hierarchy
-- **Display** (700, `clamp(2.25rem, 5vw, 3.75rem)`, 1.08): hero H1 only. One phrase per headline is set in teal italic for emphasis — never the whole line.
-- **Headline** (600, 1.875rem–2rem, 1.25): section headings ("Sin configuraciones complejas...", "Preguntas frecuentes"). No eyebrow/kicker label is ever placed above these; the heading carries its own weight.
-- **Body** (400, 0.9375rem, 1.6, max ~62–68ch): all paragraph copy.
-- **Label** (700, 0.6875rem, tracked +0.06em, uppercase): badges, "La app oficial" / "Penké" column headers in the comparison block.
-- **Nav Label** (600, 0.8125rem, tracked +0.02em, uppercase): the header's primary navigation links — slightly larger than Label for click-target legibility.
-- **Caption** (400, 0.75rem, 1.5): legal fine print (the independence-notice second line) — the smallest body-adjacent text on the page; never go smaller than this.
-- **Data** (JetBrains Mono, 0.625rem): screenshot title-bar readouts only ("100% local", the active tab name).
-
-### Named Rules
-**The Serif-Is-Rare Rule.** Alegreya appears only in H1/H2-level headings, never in body copy, buttons, or labels — its gravity would be diluted if it were used everywhere.
-
-## Layout
-
-Full-bleed alternating "document fields": dark navy sections (hero, screenshot viewer, download CTA) bookend and punctuate light sections (features, privacy attestation, FAQ) at `max-w-6xl`/`max-w-5xl`/`max-w-3xl` per section, `py-20` rhythm throughout. Mobile collapses the header nav behind a hamburger (`#mobile-menu-btn`) rather than hiding it outright. The bento feature grid is a single-pixel-gap 3-column grid (`gap-px bg-slate-200`) rather than spaced shadow cards, so the grid lines themselves read as a ruled ledger sheet.
-
-## Elevation & Depth
-
-Flat by design. No drop shadows on cards or buttons at rest; the "certificate frame" components (`.cert-frame`, `.cert-frame-dark`) carry the only real elevation (`box-shadow` on the outer frame) because they represent a physical object — the app window — being presented, not a UI card floating for no reason.
-
-### Shadow & Border Vocabulary
-Outside Stitch's 8-prop component schema, so recorded here rather than in the frontmatter:
-- **Frame lift** (`0 30px 60px -20px rgba(15, 23, 42, 0.35)` light / `0 30px 70px -20px rgba(15, 23, 42, 0.65)` dark): the certificate-frame's only shadow, simulating the mockup floating slightly off the page. Both use Penké Dark's RGB rather than pure black, so even the shadow stays on-palette.
-- **Frame hairline** (`1px solid rgba(15,23,42,0.14)` light / `1px solid rgba(255,255,255,0.14)` dark): the frame's outer edge.
-- **Security-thread white** (`rgba(255,255,255,0.4)`): the dashed line texture inside the corner ribbon, at 40% so it reads as a thread over teal rather than a solid stripe.
-
-### Named Rules
-**The Frame-Only Shadow Rule.** Shadows exist solely on the certificate-frame screenshot mockups. Every other surface (cards, buttons, the FAQ list) is flat, separated by hairline borders or single-pixel grid gaps instead.
-
-## Shapes
-
-Two corner languages, assigned by role: sharp/near-square (`rounded-sm`, 2–4px) for anything that represents a document, field, or frame (feature clause cells, the cert-frame mockups, the privacy attestation box); fully rounded pill (`rounded-full`) for anything that is an action or a status chip (buttons, nav badges, ledger tabs' underline-only active state has no fill so this doesn't apply to tabs themselves). Corner registration marks (`.corner-mark`, a small tick-and-circle SVG) mark the four corners of every framed element as a signature detail unique to this system.
-
-## Components
-
-### Buttons (marketing propio — nav, hero, CTA de descarga)
-- **Shape:** fully rounded (`rounded-full`).
-- **Primary:** solid teal (`#0E8F79`) background, white text, bold, `hover:` darkens to `#0B6F5E` and lifts 2px (`hover:-translate-y-0.5`).
-- **Secondary:** none in the current build — every call to action *of the landing page itself* is the single teal primary button; the former dual-CTA (Windows / macOS-Linux) pattern was removed because it split attention on a promise the download page couldn't yet keep.
-- **Excepción:** dentro de cualquier mock que replica una pantalla real (sidebar del hero, sección "Así se ve firmar con Penké"), los botones son `bg-blue-600`/`rounded-xl`, exactamente como en la app — esa capa no sigue este sistema, ver la regla de dos capas al inicio del documento.
-
-### Certificate Frame (signature component)
-- The system's core custom component (`.cert-frame` / `.cert-frame-dark`), used for every app-screenshot mockup. A double-ruled border (outer 1px near-black/white-10%, inner 1px teal inset 7px), four corner registration marks, and a header strip with the wordmark in tracked small caps plus a small mono readout on the right (e.g. "100% local", the active screen name). Replaces the earlier generic macOS-traffic-light browser-chrome mockup.
-
-### Seal (signature component)
-- `<symbol id="penke-seal">`: a dashed outer ring, a solid inner ring, a white disc, and the two-tone isotipo centered inside at reduced scale. Used above the hero H1 and above the download-CTA heading — exactly twice, at the two highest-trust moments, never as decoration elsewhere.
-
-### Clause Numeral (signature component)
-- `.clause-numeral`: a large, low-opacity Alegreya serif numeral (01, 02, 1, 2...) marking each feature card, FAQ question, and comparison row. Replaces icon-in-colored-square cards as the system's list-item marker.
-
-### Navigation
-- Desktop: text nav in tracked-caps Public Sans, no active-state underline (single page, anchor links only). Mobile: hamburger toggles a full-width dropdown panel with the same four links, each row separated by a hairline.
-
-### Ledger Tab (signature component)
-- `.ledger-tab`: the screenshot-viewer's tab control. No pill background; `aria-selected="true"` turns text white and draws a 2px teal bottom border. Modeled on a ledger/folder index tab rather than a segmented control.
-
-## Do's and Don'ts
-
-### Do:
-- **Do** keep the guilloché engraving, seal, and corner marks confined to trust-critical moments (hero, screenshots, privacy section, download CTA) — their power depends on not being everywhere.
-- **Do** use Alegreya only at heading scale; Public Sans carries every other word on the page.
-- **Do** keep every primary action as the single teal pill button; never reintroduce a second same-weight competing CTA.
-- **Do** match the certificate-frame's aspect ratio to the actual screenshot assets (`1376/768`) rather than a generic `16/10` — cropping a real product screenshot breaks the "this is proof" premise the whole world depends on.
-
-### Don't:
-- **Don't** put an eyebrow/kicker label above a heading. The heading carries its own weight; this was a deliberate removal from the prior version.
-- **Don't** use gradient text for emphasis. Emphasis is teal italic Alegreya, full weight, never a gradient fill.
-- **Don't** reach for cream, parchment, or gold-foil textures to signal "official" — that is the diploma cliché this world was built to avoid. Authenticity here is engraved line work on solid color, not aged paper.
-- **Don't** add a second decorative motif alongside the guilloché/seal/corner-mark system, even a subtle one.
+- Nada de guilloché, sellos, marcas de esquina, numerales decorativos ni serif.
+- Nada de degradados, vidrio ni ilustraciones genéricas.
+- No se afirma que Penké sea de código abierto ni se enlaza a GitHub.
+- No se usa el verde como color de botón.

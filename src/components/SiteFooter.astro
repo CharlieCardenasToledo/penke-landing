@@ -1,0 +1,24 @@
+---
+const year = new Date().getFullYear();
+---
+<footer class="border-t border-line bg-white">
+  <div class="mx-auto flex max-w-6xl flex-col gap-8 px-5 py-12 sm:px-8 md:flex-row md:items-start md:justify-between">
+    <div class="max-w-md">
+      <img src="/brand/penke-imagotipo.svg" alt="Penké" width="102" height="29" class="h-7 w-auto" />
+      <p class="mt-4 text-sm leading-6 text-ink-muted">
+        Penké es software independiente. No es un producto oficial del Ministerio de Telecomunicaciones
+        y de la Sociedad de la Información (MINTEL). Las firmas se generan con un motor propio (PAdES)
+        y se validan en el validador oficial FirmaEC.
+      </p>
+    </div>
+    <nav aria-label="Enlaces del pie" class="flex flex-wrap gap-x-8 gap-y-3 text-sm">
+      <a href="/#descargar" class="font-medium text-ink-soft hover:text-brand">Descargar</a>
+      <a href="/#preguntas" class="font-medium text-ink-soft hover:text-brand">Preguntas frecuentes</a>
+      <a href="/privacidad" class="font-medium text-ink-soft hover:text-brand">Privacidad</a>
+      <a href="mailto:hola@nekateklabs.com" class="font-medium text-ink-soft hover:text-brand">hola@nekateklabs.com</a>
+    </nav>
+  </div>
+  <div class="border-t border-line">
+    <p class="mx-auto max-w-6xl px-5 py-5 text-xs text-ink-muted sm:px-8">© {year} Charlie Cárdenas Toledo · Penké</p>
+  </div>
+</footer>
