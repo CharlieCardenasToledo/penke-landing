@@ -39,3 +39,6 @@ public/downloads/
 
 # Variables locales (motor de Penké Web en desarrollo)
 .env*.local
+
+# Capturas que genera la revisión de diseño (impeccable)
+.impeccable/review/
