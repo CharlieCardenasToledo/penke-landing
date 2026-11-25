@@ -22,6 +22,9 @@
   --color-brand-deep: #1E3A8A;   /* banda de descarga */
   --color-brand-tint: #EFF4FF;
   --color-valid:      #0E8F79;   /* marca de verificación del isotipo */
+  --color-error:      #B91C1C;   /* mensajes de error (Penké Web); nunca botones */
+  --color-error-tint: #FEF2F2;
+  --color-error-line: #FECACA;
 }
 
 /* En capa base: las utilidades de Tailwind (p. ej. text-white) deben poder ganarles */

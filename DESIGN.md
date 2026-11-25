@@ -13,6 +13,9 @@ colors:
   brand-deep: "#1E3A8A"
   brand-tint: "#EFF4FF"
   valid: "#0E8F79"
+  error: "#B91C1C"
+  error-tint: "#FEF2F2"
+  error-line: "#FECACA"
 typography:
   display:
     fontFamily: "Public Sans, system-ui, sans-serif"

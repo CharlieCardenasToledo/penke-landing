@@ -4,7 +4,7 @@ import Base from "../layouts/Base.astro";
 const title = "Política de privacidad | Penké Firma Digital EC";
 const description = "Conoce cómo Penké Firma Digital EC procesa y protege documentos, certificados, claves y preferencias en tu equipo.";
 const canonical = "https://penke.nekateklabs.com/privacidad";
-const updatedAt = "30 de septiembre de 2026";
+const updatedAt = "25 de noviembre de 2026";
 
 Astro.response.headers.set("X-Robots-Tag", "index, follow");
 
@@ -46,10 +46,11 @@ const structuredData = {
                 <li><a class="block rounded-md px-2 py-1.5 hover:bg-slate-50 hover:text-blue-700" href="#seguridad">4. Almacenamiento y seguridad</a></li>
                 <li><a class="block rounded-md px-2 py-1.5 hover:bg-slate-50 hover:text-blue-700" href="#terceros">5. Servicios externos</a></li>
                 <li><a class="block rounded-md px-2 py-1.5 hover:bg-slate-50 hover:text-blue-700" href="#qr-verificable">6. QR verificable (opcional)</a></li>
-                <li><a class="block rounded-md px-2 py-1.5 hover:bg-slate-50 hover:text-blue-700" href="#controles">7. Tus controles</a></li>
-                <li><a class="block rounded-md px-2 py-1.5 hover:bg-slate-50 hover:text-blue-700" href="#menores">8. Menores de edad</a></li>
-                <li><a class="block rounded-md px-2 py-1.5 hover:bg-slate-50 hover:text-blue-700" href="#cambios">9. Cambios</a></li>
-                <li><a class="block rounded-md px-2 py-1.5 hover:bg-slate-50 hover:text-blue-700" href="#contacto">10. Contacto</a></li>
+                <li><a class="block rounded-md px-2 py-1.5 hover:bg-slate-50 hover:text-blue-700" href="#penke-web">7. Penké Web (firmar en línea)</a></li>
+                <li><a class="block rounded-md px-2 py-1.5 hover:bg-slate-50 hover:text-blue-700" href="#controles">8. Tus controles</a></li>
+                <li><a class="block rounded-md px-2 py-1.5 hover:bg-slate-50 hover:text-blue-700" href="#menores">9. Menores de edad</a></li>
+                <li><a class="block rounded-md px-2 py-1.5 hover:bg-slate-50 hover:text-blue-700" href="#cambios">10. Cambios</a></li>
+                <li><a class="block rounded-md px-2 py-1.5 hover:bg-slate-50 hover:text-blue-700" href="#contacto">11. Contacto</a></li>
               </ol>
             </nav>
             <div class="mt-5 border-t border-slate-200 pt-4 text-xs leading-5 text-slate-500">Última actualización<br /><strong class="font-semibold text-slate-700">{updatedAt}</strong></div>
@@ -136,8 +137,23 @@ const structuredData = {
               </div>
             </section>
 
-            <section id="controles" class="scroll-mt-8">
+            <section id="penke-web" class="scroll-mt-8">
               <p class="text-xs font-bold uppercase tracking-widest text-blue-700">07</p>
+              <h2 class="mt-2 text-2xl font-bold tracking-[-0.015em] text-ink">Penké Web (firmar en línea)</h2>
+              <div class="mt-4 space-y-3">
+                <p>En <code class="rounded bg-slate-100 px-1.5 py-0.5 text-sm text-slate-900">penke.nekateklabs.com/firmar</code> puedes firmar un PDF desde el navegador. La firma se hace en dos partes para que tu clave privada no salga de tu equipo:</p>
+                <ul class="list-disc space-y-1 pl-5 marker:text-blue-600">
+                  <li>Tu archivo de firma (.p12 o .pfx) y su contraseña se abren en tu navegador. <strong class="font-semibold text-slate-900">Nunca se envían.</strong> La operación criptográfica con tu clave privada también se hace ahí.</li>
+                  <li>El PDF y la parte pública de tu certificado se envían cifrados (HTTPS) al motor de firma de Penké, que funciona en Google Cloud Run (región southamerica-west1). El motor consulta a tu entidad de certificación si el certificado está vigente, dibuja el sello y arma la firma.</li>
+                  <li>El motor no guarda el PDF, el certificado ni la firma: no tiene base de datos ni almacenamiento para documentos, y todo se descarta al terminar cada petición. No registra el contenido de los documentos.</li>
+                  <li>Para evitar abusos, el motor cuenta durante 10 minutos cuántas firmas llegan desde cada dirección IP. Ese conteo vive solo en memoria y no se guarda.</li>
+                </ul>
+                <p>Si prefieres que el documento tampoco salga de tu equipo, usa Penké de escritorio.</p>
+              </div>
+            </section>
+
+            <section id="controles" class="scroll-mt-8">
+              <p class="text-xs font-bold uppercase tracking-widest text-blue-700">08</p>
               <h2 class="mt-2 text-2xl font-bold tracking-[-0.015em] text-ink">Tus controles y opciones</h2>
               <ul class="mt-4 list-disc space-y-2 pl-5 marker:text-blue-600">
                 <li>Tú seleccionas qué documentos y certificados abrir y cuándo ejecutar una firma.</li>
@@ -148,12 +164,12 @@ const structuredData = {
               </ul>
             </section>
 
-            <section id="menores" class="scroll-mt-8"><p class="text-xs font-bold uppercase tracking-widest text-blue-700">08</p><h2 class="mt-2 text-2xl font-bold tracking-[-0.015em] text-ink">Menores de edad</h2><p class="mt-4">Penké es una herramienta de firma electrónica y no está dirigida específicamente a menores de edad. El proyecto no recopila intencionalmente información personal de menores ni ofrece publicidad o funciones sociales.</p></section>
+            <section id="menores" class="scroll-mt-8"><p class="text-xs font-bold uppercase tracking-widest text-blue-700">09</p><h2 class="mt-2 text-2xl font-bold tracking-[-0.015em] text-ink">Menores de edad</h2><p class="mt-4">Penké es una herramienta de firma electrónica y no está dirigida específicamente a menores de edad. El proyecto no recopila intencionalmente información personal de menores ni ofrece publicidad o funciones sociales.</p></section>
 
-            <section id="cambios" class="scroll-mt-8"><p class="text-xs font-bold uppercase tracking-widest text-blue-700">09</p><h2 class="mt-2 text-2xl font-bold tracking-[-0.015em] text-ink">Cambios en esta política</h2><p class="mt-4">Podemos actualizar esta política cuando cambien las funciones de la aplicación, los servicios externos utilizados o los requisitos aplicables. La versión vigente siempre estará publicada en esta dirección y mostrará su fecha de última actualización.</p></section>
+            <section id="cambios" class="scroll-mt-8"><p class="text-xs font-bold uppercase tracking-widest text-blue-700">10</p><h2 class="mt-2 text-2xl font-bold tracking-[-0.015em] text-ink">Cambios en esta política</h2><p class="mt-4">Podemos actualizar esta política cuando cambien las funciones de la aplicación, los servicios externos utilizados o los requisitos aplicables. La versión vigente siempre estará publicada en esta dirección y mostrará su fecha de última actualización.</p></section>
 
             <section id="contacto" class="scroll-mt-8">
-              <p class="text-xs font-bold uppercase tracking-widest text-blue-700">10</p>
+              <p class="text-xs font-bold uppercase tracking-widest text-blue-700">11</p>
               <h2 class="mt-2 text-2xl font-bold tracking-[-0.015em] text-ink">Contacto</h2>
               <p class="mt-4">Para consultas de privacidad, solicitudes relacionadas con tus datos (incluida la eliminación de un registro de QR verificable) o soporte, escríbenos por correo. No adjuntes documentos, certificados, contraseñas u otra información sensible.</p>
               <a class="mt-5 inline-flex rounded-lg bg-blue-700 px-4 py-2.5 text-sm font-bold text-white transition hover:bg-blue-800" href="mailto:hola@nekateklabs.com">hola@nekateklabs.com</a>

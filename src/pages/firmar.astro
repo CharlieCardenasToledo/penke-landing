@@ -1,0 +1,220 @@
+---
+import Base from "../layouts/Base.astro";
+import Icon from "../components/Icon.astro";
+
+// Motor de Penké Web (Cloud Run, proyecto penke-e6555). Se cambia sin
+// recompilar con la variable PENKE_MOTOR_URL de App Hosting.
+const MOTOR_POR_DEFECTO = "https://penke-motor-217485644640.southamerica-west1.run.app";
+const motor = (process.env.PENKE_MOTOR_URL || import.meta.env.PENKE_MOTOR_URL || MOTOR_POR_DEFECTO).replace(/\/+$/, "");
+
+const title = "Firmar un PDF en línea con tu firma electrónica | Penké";
+const description =
+  "Firma un PDF desde el navegador con tu firma electrónica de Ecuador (.p12 o .pfx). Es gratis y no tienes que instalar nada. Tu firma y tu clave se quedan en tu equipo.";
+---
+<Base title={title} description={description} canonical="https://penke.nekateklabs.com/firmar" referrer="no-referrer">
+  <div id="firmador" data-motor={motor} data-paso="documento" class="mx-auto max-w-2xl px-5 pb-16 pt-8 sm:px-8 sm:pt-12">
+    <header>
+      <h1 class="text-[1.875rem] font-extrabold leading-tight tracking-tight sm:text-4xl">Firma tu PDF en línea</h1>
+      <p class="mt-2 max-w-xl text-base leading-7 text-ink-soft sm:text-lg">Con tu firma electrónica (.p12 o .pfx). Es gratis y no tienes que instalar nada.</p>
+    </header>
+
+    <!-- Progreso -->
+    <ol class="progreso mt-8" aria-label="Pasos">
+      <li data-de="documento">1. Documento</li>
+      <li data-de="ubicar">2. Ubicación</li>
+      <li data-de="firmar">3. Firma</li>
+    </ol>
+
+    <!-- Paso 1: documento -->
+    <section data-paso="documento" class="paso mt-6" aria-labelledby="t-documento">
+      <h2 id="t-documento" class="titulo" tabindex="-1">¿Qué documento vas a firmar?</h2>
+      <label id="zona-pdf" for="pdf" class="zona mt-5">
+        <span class="zona-icono"><Icon name="files" size={28} /></span>
+        <span class="boton-falso">Elegir PDF</span>
+        <span class="text-sm text-ink-muted">o arrástralo aquí · hasta 20 MB</span>
+        <input id="pdf" type="file" accept="application/pdf,.pdf" class="sr-only" />
+      </label>
+      <p id="pdf-error" class="alerta" role="alert" hidden></p>
+      <p id="pdf-cargando" class="mt-4 text-center text-sm text-ink-muted" aria-live="polite" hidden>Abriendo el documento…</p>
+    </section>
+
+    <!-- Paso 2: ubicar -->
+    <section data-paso="ubicar" class="paso mt-6" aria-labelledby="t-ubicar" hidden>
+      <h2 id="t-ubicar" class="titulo" tabindex="-1">¿Dónde va tu firma?</h2>
+      <p class="mt-1 text-sm leading-6 text-ink-muted">Toca la hoja donde quieres el sello. También puedes arrastrarlo.</p>
+
+      <p class="mt-4 flex items-center justify-between gap-3 text-sm">
+        <span id="documento-nombre" class="min-w-0 truncate font-medium text-ink"></span>
+        <button id="cambiar-pdf" type="button" class="enlace shrink-0">Cambiar PDF</button>
+      </p>
+
+      <div id="navegacion" class="mt-2 flex items-center justify-between gap-2" hidden>
+        <button id="pagina-anterior" type="button" class="boton-icono" aria-label="Hoja anterior">‹</button>
+        <p id="pagina-texto" class="text-sm font-medium text-ink" aria-live="polite"></p>
+        <button id="pagina-siguiente" type="button" class="boton-icono" aria-label="Hoja siguiente">›</button>
+      </div>
+
+      <div id="visor" class="visor mt-2">
+        <canvas id="lienzo" class="block w-full" aria-label="Hoja del documento"></canvas>
+        <div id="sello" class="sello" tabindex="0" role="img" aria-label="Tu sello de firma. Usa las flechas para moverlo." hidden>
+          <span class="sello-qr" aria-hidden="true"></span>
+          <span class="sello-texto">
+            <span class="sello-rotulo">Firmado electrónicamente por:</span>
+            <span id="sello-nombre" class="sello-nombre">Tu nombre</span>
+          </span>
+        </div>
+      </div>
+      <p id="sello-otra-hoja" class="mt-2 text-sm text-ink-muted" hidden>
+        Tu sello está en la hoja <span id="sello-hoja"></span>. <button id="sello-aqui" type="button" class="enlace">Ponerlo en esta</button>
+      </p>
+
+      <div class="mt-4 flex items-center gap-4">
+        <label for="tamano" class="text-sm font-medium text-ink">Tamaño</label>
+        <input id="tamano" type="range" min="55" max="200" step="5" value="100" class="min-w-0 flex-1 accent-brand" />
+        <span id="tamano-texto" class="w-12 text-right text-sm tabular-nums text-ink-muted">100 %</span>
+      </div>
+      <p id="aviso-qr" class="ayuda" hidden>Así de pequeño, el código QR del sello puede costar leerlo al imprimir.</p>
+
+      <div class="acciones">
+        <button type="button" class="boton-atras" data-ir="documento">Atrás</button>
+        <button id="a-firmar" type="button" class="boton-principal">Continuar</button>
+      </div>
+    </section>
+
+    <!-- Paso 3: firmar -->
+    <section data-paso="firmar" class="paso mt-6" aria-labelledby="t-firmar" hidden>
+      <h2 id="t-firmar" class="titulo" tabindex="-1">Firma con tu certificado</h2>
+
+      <form id="form-firma" class="mt-5" autocomplete="off" novalidate>
+        <div id="firma-guardada" class="flex items-center justify-between gap-3 rounded-xl border border-line bg-mist p-4" hidden>
+          <p class="min-w-0 text-sm">
+            <span class="block text-ink-muted">Firmas como</span>
+            <span id="firma-titular" class="block break-words font-semibold text-ink"></span>
+          </p>
+          <button id="otra-firma" type="button" class="enlace shrink-0">Usar otra</button>
+        </div>
+
+        <div id="campos-firma" class="space-y-5">
+          <div>
+            <label for="p12" class="etiqueta">Archivo de tu firma</label>
+            <input id="p12" type="file" accept=".p12,.pfx,application/x-pkcs12" class="campo-archivo" aria-describedby="ayuda-p12" />
+            <p id="ayuda-p12" class="ayuda">Es el archivo .p12 o .pfx que te dio la entidad que emitió tu firma, como Security Data o el Banco Central.</p>
+          </div>
+          <div>
+            <label for="clave" class="etiqueta">Clave de tu firma</label>
+            <div class="relative">
+              <input id="clave" type="password" autocomplete="off" autocapitalize="off" spellcheck="false" class="campo pr-24" aria-describedby="clave-error" />
+              <button id="ver-clave" type="button" class="ver-clave" aria-pressed="false">Mostrar</button>
+            </div>
+            <p id="clave-error" class="error-campo" hidden></p>
+          </div>
+        </div>
+
+        <p id="error-firmar" class="alerta" role="alert" hidden></p>
+
+        <div class="acciones">
+          <button type="button" class="boton-atras" data-ir="ubicar">Atrás</button>
+          <button id="firmar" type="submit" class="boton-principal">Firmar documento</button>
+        </div>
+      </form>
+
+      <p class="mt-5 flex items-start gap-2 text-sm leading-6 text-ink-soft">
+        <span class="mt-0.5 text-valid"><Icon name="lock" size={16} /></span>
+        <span>Tu firma y tu clave se usan solo en este navegador. No las enviamos a ningún servidor.</span>
+      </p>
+      <details class="detalle mt-3">
+        <summary>¿Qué pasa con mi documento?</summary>
+        <p>
+          Para poner el sello y armar la firma, el PDF viaja cifrado a nuestro servidor junto con la parte pública de tu
+          certificado. Ahí se consulta con tu entidad que el certificado siga vigente. El servidor no guarda el documento.
+        </p>
+        <p>
+          Si prefieres que el PDF no salga de tu computadora, o si firmas con token USB, usa
+          <a href="/#descargar" class="font-medium text-brand underline">Penké de escritorio</a>. También es gratis.
+        </p>
+      </details>
+    </section>
+
+    <!-- Listo -->
+    <section data-paso="listo" class="paso mt-6" aria-labelledby="t-listo" hidden>
+      <h2 id="t-listo" class="titulo flex items-center gap-2" tabindex="-1"><span class="text-valid"><Icon name="check-circle" size={24} /></span>Tu documento está firmado</h2>
+      <p id="listo-detalle" class="mt-1 break-words text-ink-soft"></p>
+      <p id="listo-aviso" class="mt-4 rounded-xl bg-mist p-3 text-sm leading-6 text-ink-soft" hidden></p>
+      <div class="mt-6 grid gap-3 sm:grid-cols-2">
+        <a id="descargar" class="boton-principal" href="#">Descargar PDF</a>
+        <button id="compartir" type="button" class="boton-secundario" hidden>Compartir</button>
+      </div>
+      <button id="firmar-otro" type="button" class="enlace mt-4">Firmar otro documento</button>
+      <p class="mt-6 text-sm text-ink-muted">
+        Puedes comprobar la firma en el
+        <a class="font-medium text-brand underline" href="https://www.firmadigital.gob.ec/validacion-de-documentos-firmados-electronicamente/" rel="noopener" target="_blank">validador oficial FirmaEC</a>.
+      </p>
+    </section>
+  </div>
+</Base>
+
+<style>
+  /* Después del primer paso la presentación estorba: la hoja tiene que caber en la pantalla del celular.
+     El h1 sigue ahí para los lectores de pantalla. */
+  #firmador:not([data-paso="documento"]) > header { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  #firmador:not([data-paso="documento"]) .progreso { margin-top: 0; }
+  .progreso { display: flex; flex-wrap: wrap; gap: .25rem 1.25rem; font-size: .875rem; font-weight: 600; color: var(--color-ink-muted); }
+  .progreso li[data-estado="hecho"] { color: var(--color-ink-soft); }
+  .progreso li[data-estado="actual"] { color: var(--color-brand-dark); text-decoration: underline; text-underline-offset: 6px; text-decoration-thickness: 2px; }
+  #firmador[data-paso="listo"] .progreso { display: none; }
+
+  .titulo { font-size: 1.375rem; font-weight: 700; line-height: 1.3; outline: none; }
+  .zona { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .625rem; min-height: 14rem; padding: 1.5rem; border: 2px dashed var(--color-line); border-radius: 16px; background: var(--color-mist); text-align: center; cursor: pointer; transition: border-color .15s, background-color .15s; }
+  .zona:hover, .zona[data-encima="true"] { border-color: var(--color-brand); background: var(--color-brand-tint); }
+  .zona:focus-within { outline: 2px solid var(--color-brand); outline-offset: 3px; }
+  .zona-icono { color: var(--color-brand); }
+  .boton-falso { display: inline-flex; min-height: 48px; align-items: center; border-radius: 12px; background: var(--color-brand); padding: 0 1.5rem; font-weight: 700; color: #fff; }
+  .zona:hover .boton-falso { background: var(--color-brand-dark); }
+
+  .etiqueta { display: block; margin-bottom: .375rem; font-weight: 600; color: var(--color-ink); }
+  .ayuda { margin-top: .375rem; font-size: .875rem; line-height: 1.5; color: var(--color-ink-muted); }
+  .campo, .campo-archivo { width: 100%; min-height: 52px; border: 1px solid var(--color-ink-muted); border-radius: 12px; background: #fff; padding: .75rem .875rem; font: inherit; font-size: 1rem; color: var(--color-ink); }
+  .campo-archivo { padding: .5rem; font-size: .9375rem; }
+  .campo-archivo::file-selector-button { margin-right: .75rem; min-height: 38px; border: 0; border-radius: 12px; background: var(--color-brand-tint); padding: .375rem 1rem; font: inherit; font-weight: 600; color: var(--color-brand-dark); cursor: pointer; }
+  .campo:focus, .campo-archivo:focus { outline: 2px solid var(--color-brand); outline-offset: 1px; border-color: transparent; }
+  .campo[aria-invalid="true"] { border-color: var(--color-error); }
+  .ver-clave { position: absolute; right: .375rem; top: 50%; transform: translateY(-50%); min-height: 44px; padding: 0 .75rem; border-radius: 12px; font-size: .875rem; font-weight: 600; color: var(--color-brand); }
+  .error-campo { margin-top: .375rem; font-size: .875rem; color: var(--color-error); }
+
+  /* En el celular la acción queda fija abajo, al alcance del pulgar */
+  .acciones { position: sticky; bottom: 0; z-index: 5; margin: 1.25rem -1.25rem 0; display: grid; grid-template-columns: auto 1fr; gap: .75rem; padding: .75rem 1.25rem calc(.75rem + env(safe-area-inset-bottom)); background: #fff; border-top: 1px solid var(--color-line); }
+  @media (min-width: 640px) { .acciones { position: static; margin: 1.5rem 0 0; padding: 0; border: 0; } }
+  .boton-atras { min-height: 52px; padding: 0 1.125rem; border: 1px solid var(--color-line); border-radius: 12px; background: #fff; font-weight: 600; color: var(--color-ink-soft); }
+  .boton-atras:hover { background: var(--color-mist); color: var(--color-ink); }
+  .boton-principal, .boton-secundario { display: inline-flex; width: 100%; min-height: 52px; align-items: center; justify-content: center; gap: .5rem; border-radius: 12px; padding: 0 1.25rem; font-weight: 700; text-align: center; transition: background-color .15s; }
+  .boton-principal { background: var(--color-brand); color: #fff; }
+  .boton-principal:hover { background: var(--color-brand-dark); }
+  .boton-principal:disabled { background: var(--color-brand-dark); cursor: progress; }
+  .boton-secundario { border: 1px solid var(--color-line); background: #fff; color: var(--color-ink); }
+  .boton-secundario:hover { background: var(--color-mist); }
+  .boton-texto { min-height: 44px; font-weight: 600; color: var(--color-ink-soft); }
+  .boton-texto:hover { color: var(--color-ink); text-decoration: underline; }
+  .boton-icono { display: inline-grid; place-items: center; width: 44px; height: 44px; border: 1px solid var(--color-line); border-radius: 12px; font-size: 1.5rem; line-height: 1; color: var(--color-ink); }
+  .boton-icono:disabled { opacity: .3; }
+  .enlace { min-height: 44px; font-size: .875rem; font-weight: 600; color: var(--color-brand); }
+  .enlace:hover { text-decoration: underline; }
+  .alerta { margin-top: 1rem; border-radius: 12px; border: 1px solid var(--color-error-line); background: var(--color-error-tint); padding: .75rem 1rem; font-size: .9375rem; line-height: 1.5; color: var(--color-error); }
+
+  .detalle { border-radius: 12px; border: 1px solid var(--color-line); }
+  .detalle summary { cursor: pointer; padding: .75rem 1rem; min-height: 44px; font-size: .875rem; font-weight: 600; color: var(--color-ink); }
+  .detalle p { padding: 0 1rem .75rem; font-size: .875rem; line-height: 1.6; color: var(--color-ink-soft); }
+
+  /* La hoja real del documento y, encima, el sello como saldrá: borde, QR y titular */
+  .visor { position: relative; overflow: hidden; border: 1px solid var(--color-line); border-radius: 12px; background: #fff; touch-action: none; cursor: crosshair; user-select: none; -webkit-user-select: none; }
+  .sello { position: absolute; display: flex; align-items: stretch; gap: 5%; padding: 2.5%; border: 2px solid var(--color-brand); background: var(--color-brand-tint); color: var(--color-ink); cursor: grab; line-height: 1.15; overflow: hidden; }
+  .sello[data-arrastrando="true"] { cursor: grabbing; border-color: var(--color-brand-dark); }
+  .sello:focus-visible { outline: 2px solid var(--color-brand-dark); outline-offset: 2px; }
+  .sello-qr { flex: none; aspect-ratio: 1; height: 100%; border: 2px solid var(--color-ink); }
+  .sello-texto { display: flex; min-width: 0; flex-direction: column; justify-content: center; gap: .3em; }
+  .sello-rotulo { color: var(--color-ink-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .sello-nombre { font-weight: 700; color: var(--color-ink); text-transform: uppercase; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+</style>
+
+<script>
+  import "../scripts/firmar";
+</script>

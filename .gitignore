@@ -36,3 +36,6 @@ output/pdf/*-signed.pdf
 
 # Instaladores antiguos: las descargas se sirven desde GitHub Releases
 public/downloads/
+
+# Variables locales (motor de Penké Web en desarrollo)
+.env*.local
