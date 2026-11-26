@@ -81,6 +81,7 @@ manda PDF preparado + firma            ──► verifica la firma con la clave 
 ## Segunda etapa (2026-11-25): todo lo que faltaba
 
 ### F6 — Chaski ↔ Penké de punta a punta · HECHA
+- [x] Probado por el usuario por WhatsApp real el 2026-11-25: «funciona a la perfección».
 - [x] Mandas el PDF al chat de Chaski → enlace de un solo uso a `/firmar?chaski=<token>`
       que abre Penké Web con ese documento (el token se borra de la barra de direcciones).
 - [x] Al firmar, Penké devuelve el PDF a Chaski (`POST /penke/entregar/<token>`) y Chaski
