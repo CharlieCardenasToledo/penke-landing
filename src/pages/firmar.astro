@@ -41,7 +41,7 @@ const description =
     <!-- Paso 2: ubicar -->
     <section data-paso="ubicar" class="paso mt-6" aria-labelledby="t-ubicar" hidden>
       <h2 id="t-ubicar" class="titulo" tabindex="-1">¿Dónde va tu firma?</h2>
-      <p class="mt-1 text-sm leading-6 text-ink-muted">Toca la hoja donde quieres el sello. También puedes arrastrarlo.</p>
+      <p class="mt-1 text-sm leading-6 text-ink-soft">Tu firma es el recuadro azul sobre la hoja. Arrástralo o toca el lugar donde la quieres.</p>
 
       <p class="mt-4 flex items-center justify-between gap-3 text-sm">
         <span id="documento-nombre" class="min-w-0 truncate font-medium text-ink"></span>
@@ -205,7 +205,7 @@ const description =
   .detalle p { padding: 0 1rem .75rem; font-size: .875rem; line-height: 1.6; color: var(--color-ink-soft); }
 
   /* La hoja real del documento y, encima, el sello como saldrá: borde, QR y titular */
-  .visor { position: relative; overflow: hidden; border: 1px solid var(--color-line); border-radius: 12px; background: #fff; touch-action: none; cursor: crosshair; user-select: none; -webkit-user-select: none; }
+  .visor { position: relative; margin-inline: auto; max-width: 100%; overflow: hidden; border: 1px solid var(--color-line); border-radius: 12px; background: #fff; touch-action: none; cursor: crosshair; user-select: none; -webkit-user-select: none; }
   .sello { position: absolute; display: flex; align-items: stretch; gap: 5%; padding: 2.5%; border: 2px solid var(--color-brand); background: var(--color-brand-tint); color: var(--color-ink); cursor: grab; line-height: 1.15; overflow: hidden; }
   .sello[data-arrastrando="true"] { cursor: grabbing; border-color: var(--color-brand-dark); }
   .sello:focus-visible { outline: 2px solid var(--color-brand-dark); outline-offset: 2px; }

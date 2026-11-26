@@ -144,12 +144,8 @@ async function cargarPdf(f: File) {
     ir("ubicar");
     await dibujar();
     if (!sello) ponerEnEsquina();
-    // Que se vea dónde quedó la firma propuesta (en el celular suele estar bajo el pliegue)
-    setTimeout(() => {
-      const r = selloEl.getBoundingClientRect();
-      const tope = (raiz.querySelector('section[data-paso="ubicar"] .acciones') as HTMLElement).getBoundingClientRect().top;
-      if (r.bottom > tope - 12) window.scrollBy({ top: r.bottom - tope + 24, behavior: "smooth" });
-    }, 650);
+    // Por si la pantalla es muy baja: que se vea dónde quedó la firma propuesta
+    setTimeout(selloALaVista, 650);
   } finally {
     mostrar(pdfCargando, false);
     inputPdf.value = "";
@@ -181,8 +177,16 @@ $("cambiar-pdf").addEventListener("click", () => {
 async function dibujar() {
   if (!doc || paso !== "ubicar") return;
   const p = await doc.getPage(pagina);
-  const anchoCss = visor.clientWidth || 340;
   const base = p.getViewport({ scale: 1 });
+  // En la computadora la hoja entera tiene que caber en la pantalla: si no, el sello (abajo a la
+  // derecha) queda fuera de la vista. Alto disponible = ventana − encabezado fijo (80 px) − lo que va
+  // sobre la hoja. En el celular la hoja usa todo el ancho y la vista baja sola hasta el sello.
+  const disponible = visor.parentElement?.clientWidth || 340;
+  const celular = window.matchMedia("(max-width: 639px)").matches;
+  const encima = visor.getBoundingClientRect().top - raiz.getBoundingClientRect().top;
+  const altoMax = Math.max(360, window.innerHeight - 80 - encima - 16);
+  const anchoCss = Math.floor(celular ? disponible : Math.min(disponible, (altoMax * base.width) / base.height));
+  visor.style.width = `${anchoCss}px`;
   vista = p.getViewport({ scale: anchoCss / base.width });
   caja = p.view;
   const dpr = Math.min(window.devicePixelRatio || 1, 2.5);
@@ -313,14 +317,36 @@ tamano.addEventListener("input", () => {
 
 anterior.addEventListener("click", () => { if (pagina > 1) { pagina--; void dibujar(); } });
 siguiente.addEventListener("click", () => { if (doc && pagina < doc.numPages) { pagina++; void dibujar(); } });
-aquiSello.addEventListener("click", ponerEnEsquina);
+aquiSello.addEventListener("click", () => {
+  ponerEnEsquina();
+  selloALaVista();
+});
 $("a-firmar").addEventListener("click", () => ir("firmar"));
 
+/** Si el sello quedó fuera de la vista (pantalla baja o barra fija del celular), la desplaza hasta él. */
+function selloALaVista() {
+  if (selloEl.hidden) return;
+  const r = selloEl.getBoundingClientRect();
+  const barra = raiz.querySelector<HTMLElement>('section[data-paso="ubicar"] .acciones')?.getBoundingClientRect();
+  const abajo = barra && barra.top < window.innerHeight ? barra.top : window.innerHeight;
+  if (r.bottom > abajo - 12) window.scrollBy({ top: r.bottom - abajo + 24, behavior: "smooth" });
+  else if (r.top < 76) window.scrollBy({ top: r.top - 88, behavior: "smooth" });
+}
+
+// Se observa el contenedor (no el visor, cuyo ancho fija dibujar()) para no entrar en un bucle
 let redimension = 0;
+let ultimaMedida = "";
 new ResizeObserver(() => {
+  const medida = `${visor.parentElement?.clientWidth}x${window.innerHeight}`;
+  if (medida === ultimaMedida) return;
+  ultimaMedida = medida;
   cancelAnimationFrame(redimension);
   redimension = requestAnimationFrame(() => void dibujar());
-}).observe(visor);
+}).observe(visor.parentElement!);
+window.addEventListener("resize", () => {
+  cancelAnimationFrame(redimension);
+  redimension = requestAnimationFrame(() => void dibujar());
+});
 
 // ── 3. Firma ───────────────────────────────────────────────────────────────
 function prepararPasoFirma() {
