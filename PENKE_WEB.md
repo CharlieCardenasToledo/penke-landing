@@ -78,8 +78,40 @@ manda PDF preparado + firma            ──► verifica la firma con la clave 
 - [x] «firmar pdf» o un PDF enviado al chat → mensaje con el enlace a `/firmar` (chaski 2336df2).
 - [x] Chaski desplegado en producción (revisión chaski-00056-f2b).
 
-## Después (no entra en esta versión)
-- Varias firmas en un paso y firma en lote desde la web.
-- QR verificable en la web (requiere firmar también el registro en el navegador).
-- Verificar firmas de un PDF desde la web (`/verificar`).
-- Recordar la firma en el navegador (IndexedDB cifrado) para no elegir el .p12 cada vez.
+## Segunda etapa (2026-11-25): todo lo que faltaba
+
+### F6 — Chaski ↔ Penké de punta a punta · HECHA
+- [x] Mandas el PDF al chat de Chaski → enlace de un solo uso a `/firmar?chaski=<token>`
+      que abre Penké Web con ese documento (el token se borra de la barra de direcciones).
+- [x] Al firmar, Penké devuelve el PDF a Chaski (`POST /penke/entregar/<token>`) y Chaski
+      lo manda al chat una sola vez; la descarga queda como respaldo.
+- [x] Chaski guarda el PDF como máximo 1 hora, borra el original al entregar, el barrido
+      borra lo vencido; en Firestore solo queda el hash del token; 20 por número y día.
+      Código: `chaski/src/penke/servicio.ts`, rutas en `chaski/src/app.ts`, pruebas en
+      `chaski/test/penke.test.ts`.
+
+### F7 — Varias firmas en un documento · HECHA
+- [x] «+ Otra firma», «En todas las hojas» (misma posición relativa en cada hoja),
+      «Quitar esta»; hasta 20. Cada firma es una firma incremental (como el escritorio).
+
+### F8 — Verificar firmas (`/verificar`) · HECHA
+- [x] Motor `POST /v1/verificar` (PdfSignatureVerifier en memoria) y página con el
+      veredicto y cada firma: quién, entidad, fecha, integridad y estado del certificado.
+
+### F9 — QR verificable · HECHA
+- [x] Casilla opcional: el navegador elige el id, el motor dibuja el QR con `/v/<id>` y
+      devuelve el perfil; el navegador firma el registro (CMS separado, node-forge) y lo
+      publica en `/api/v/registrar`. Compatibilidad forge ↔ pkijs probada en
+      `scripts/probar-registro-qr.ts`.
+
+### F10 — Recordar la firma · HECHA
+- [x] Opcional: el .p12 queda en IndexedDB del navegador; la clave nunca se guarda.
+      «Usar otra» lo olvida; si venció, se borra solo.
+
+### F11 — Varios PDF a la vez · HECHA
+- [x] Hasta 10 PDF; las firmas van en el mismo lugar relativo de cada documento (la
+      última hoja sigue siendo la última). Descarga uno por uno o todo en un .zip (fflate).
+
+## Ideas para después
+- Firma con token USB desde la web (necesitaría un componente local).
+- Plantillas de posición guardadas (como los perfiles del escritorio).

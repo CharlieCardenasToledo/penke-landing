@@ -1,0 +1,63 @@
+---
+import Base from "../layouts/Base.astro";
+import Icon from "../components/Icon.astro";
+
+const MOTOR_POR_DEFECTO = "https://penke-motor-217485644640.southamerica-west1.run.app";
+const motor = (process.env.PENKE_MOTOR_URL || import.meta.env.PENKE_MOTOR_URL || MOTOR_POR_DEFECTO).replace(/\/+$/, "");
+
+const title = "Verificar las firmas de un PDF | Penké";
+const description =
+  "Comprueba si las firmas electrónicas de un PDF son válidas: quién firmó, con qué entidad de Ecuador, si el certificado estaba vigente y si el documento cambió después.";
+---
+<Base title={title} description={description} canonical="https://penke.nekateklabs.com/verificar" referrer="no-referrer">
+  <div id="verificador" data-motor={motor} class="mx-auto max-w-2xl px-5 pb-16 pt-8 sm:px-8 sm:pt-12">
+    <h1 class="text-[1.875rem] font-extrabold leading-tight tracking-tight sm:text-4xl">Verifica las firmas de un PDF</h1>
+    <p class="mt-2 max-w-xl text-base leading-7 text-ink-soft sm:text-lg">Quién firmó, con qué entidad, si el certificado estaba vigente y si el documento cambió después de firmarse.</p>
+
+    <label id="zona" for="pdf" class="zona mt-8">
+      <span class="text-brand"><Icon name="files" size={28} /></span>
+      <span class="boton-falso">Elegir PDF firmado</span>
+      <span class="text-sm text-ink-muted">o arrástralo aquí · hasta 20 MB</span>
+      <input id="pdf" type="file" accept="application/pdf,.pdf" class="sr-only" />
+    </label>
+    <p id="estado" class="mt-4 text-center text-sm text-ink-muted" aria-live="polite" hidden></p>
+    <p id="error" class="alerta" role="alert" hidden></p>
+
+    <section id="resultado" class="mt-8" aria-labelledby="veredicto" hidden>
+      <h2 id="veredicto" class="flex items-center gap-2 text-xl font-bold" tabindex="-1"></h2>
+      <p id="archivo" class="mt-1 break-words text-sm text-ink-muted"></p>
+      <ol id="firmas" class="mt-5 space-y-4"></ol>
+      <button id="otro" type="button" class="enlace mt-4">Verificar otro PDF</button>
+    </section>
+
+    <p class="mt-10 flex items-start gap-2 text-sm leading-6 text-ink-muted">
+      <span class="mt-0.5"><Icon name="shield" size={16} /></span>
+      <span>Para revisarlo, el PDF viaja cifrado al motor de Penké, que consulta a la entidad de cada certificado. No se guarda.
+      Si prefieres que no salga de tu equipo, Penké de escritorio también verifica. ¿Quieres firmar? <a href="/firmar" class="font-medium text-brand underline">Firma en línea</a>.</span>
+    </p>
+  </div>
+</Base>
+
+<style>
+  .zona { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .625rem; min-height: 12rem; padding: 1.5rem; border: 2px dashed var(--color-line); border-radius: 16px; background: var(--color-mist); text-align: center; cursor: pointer; transition: border-color .15s, background-color .15s; }
+  .zona:hover, .zona[data-encima="true"] { border-color: var(--color-brand); background: var(--color-brand-tint); }
+  .zona:focus-within { outline: 2px solid var(--color-brand); outline-offset: 3px; }
+  .boton-falso { display: inline-flex; min-height: 48px; align-items: center; border-radius: 12px; background: var(--color-brand); padding: 0 1.5rem; font-weight: 700; color: #fff; }
+  .zona:hover .boton-falso { background: var(--color-brand-dark); }
+  .alerta { margin-top: 1rem; border-radius: 12px; border: 1px solid var(--color-error-line); background: var(--color-error-tint); padding: .75rem 1rem; font-size: .9375rem; line-height: 1.5; color: var(--color-error); }
+  .enlace { min-height: 44px; font-size: .875rem; font-weight: 600; color: var(--color-brand); }
+  .enlace:hover { text-decoration: underline; }
+  #veredicto { outline: none; }
+  #firmas :global(li) { border: 1px solid var(--color-line); border-radius: 16px; padding: 1rem 1.25rem; }
+  #firmas :global(.quien) { font-weight: 700; color: var(--color-ink); overflow-wrap: anywhere; }
+  #firmas :global(.dato) { margin-top: .125rem; font-size: .875rem; color: var(--color-ink-soft); }
+  #firmas :global(.marcas) { margin-top: .75rem; display: grid; gap: .375rem; font-size: .875rem; }
+  #firmas :global(.marca) { display: flex; align-items: flex-start; gap: .5rem; color: var(--color-ink-soft); }
+  #firmas :global(.marca::before) { content: ""; flex: none; width: .5rem; height: .5rem; margin-top: .45rem; border-radius: 9999px; background: var(--color-valid); }
+  #firmas :global(.marca[data-ok="false"]::before) { background: var(--color-error); }
+  #firmas :global(.marca[data-ok="false"]) { color: var(--color-error); }
+</style>
+
+<script>
+  import "../scripts/verificar";
+</script>
