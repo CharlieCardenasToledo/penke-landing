@@ -68,11 +68,11 @@ manda PDF preparado + firma            ──► verifica la firma con la clave 
       de impeccable (sin hallazgos en la página). Colores de error agregados a DESIGN.md.
 - [x] Enlaces en la portada y el encabezado, sitemap y `/privacidad` (sección 7).
 
-### F4 — Producción y verificación
+### F4 — Producción y verificación · HECHA 2026-11-25
 - [x] Web publicada (App Hosting publica sola con cada push a master).
 - [x] Primera firma real (2026-11-25, FirmaSegura de Charlie Cárdenas): el verificador de Penké da íntegra y certificado VÁLIDO (cadena de Ecuador + revocación en línea).
 - [x] Arreglado: en la computadora la hoja era más alta que la ventana y el sello quedaba fuera de la vista; ahora la hoja entera cabe (691f4d6).
-- [ ] **Pendiente:** validar ese PDF en el validador oficial FirmaEC y en Adobe Acrobat (lo hace el usuario: implica subir su documento).
+- [x] El usuario confirmó el 2026-11-25 que funciona de punta a punta con su firma real (ubicación del sello y validación).
 
 ### F5 — Chaski la recomienda · HECHA 2026-11-25
 - [x] «firmar pdf» o un PDF enviado al chat → mensaje con el enlace a `/firmar` (chaski 2336df2).
