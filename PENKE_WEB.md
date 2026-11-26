@@ -70,9 +70,9 @@ manda PDF preparado + firma            ──► verifica la firma con la clave 
 
 ### F4 — Producción y verificación
 - [x] Web publicada (App Hosting publica sola con cada push a master).
-- [ ] **Pendiente:** firmar con una firma real de Ecuador (Security Data, BCE, ANF…) en
-      https://penke.nekateklabs.com/firmar y validar el PDF en FirmaEC y en Adobe Acrobat.
-      Con la CA de prueba todo verifica íntegro con el verificador de Penké.
+- [x] Primera firma real (2026-11-25, FirmaSegura de Charlie Cárdenas): el verificador de Penké da íntegra y certificado VÁLIDO (cadena de Ecuador + revocación en línea).
+- [x] Arreglado: en la computadora la hoja era más alta que la ventana y el sello quedaba fuera de la vista; ahora la hoja entera cabe (691f4d6).
+- [ ] **Pendiente:** validar ese PDF en el validador oficial FirmaEC y en Adobe Acrobat (lo hace el usuario: implica subir su documento).
 
 ### F5 — Chaski la recomienda · HECHA 2026-11-25
 - [x] «firmar pdf» o un PDF enviado al chat → mensaje con el enlace a `/firmar` (chaski 2336df2).
